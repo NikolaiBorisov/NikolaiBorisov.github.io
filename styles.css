@@ -8,16 +8,17 @@ body {
 
 .button-container {
     position: absolute; /* Position buttons absolutely within the header */
-    top: 20px; /* Distance from the top */
-    right: 20px; /* Distance from the right */
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
     display: flex;
-    gap: 10px; /* Space between buttons */
+    gap: 5px; /* Space between buttons */
+    margin-bottom: 20px;
 }
 
 .language-button {
     display: flex;
     align-items: center; /* Align items vertically */
-    padding: 10px 15px; /* Padding for the button */
+    padding: 5px 10px; /* Padding for the button */
     border: none; /* Remove default border */
     background-color: #f0f0f0; /* Button background color */
     cursor: pointer; /* Change cursor on hover */
