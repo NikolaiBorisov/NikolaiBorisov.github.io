@@ -6,6 +6,28 @@ body {
     color: #333; /* Dark text color */
 }
 
+.button-container {
+    position: absolute; /* Position buttons absolutely within the header */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+.language-button {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    padding: 10px 15px; /* Padding for the button */
+    border: none; /* Remove default border */
+    background-color: #f0f0f0; /* Button background color */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+}
+
+.language-button:hover {
+    background-color: #e0e0e0; /* Change background on hover */
+}
+
 header {
     text-align: center;
     padding: 20px;
@@ -37,7 +59,13 @@ h1 {
 
 .info {
     margin-top: 15px;
+}
+
+.info-stack h2 {
     text-align: center;
+    margin-bottom: 10px;
+    font-size: 24px; /* Slightly smaller font size for subheadings */
+    font-weight: 500; /* Medium weight for subheadings */
 }
 
 .skills {
@@ -49,6 +77,7 @@ h1 {
 }
 
 .skills h2 {
+    text-align: center;
     margin-bottom: 10px;
     font-size: 24px; /* Slightly smaller font size for subheadings */
     font-weight: 500; /* Medium weight for subheadings */

@@ -8,37 +8,45 @@
 </head>
 <body>
     <header>
-        <h1>Nikolai Borisov</h1>
-        <p>iOS Developer &#xf8ff</p>
+        <div class="button-container">
+            <button class="language-button" id="russian-button">🇷🇺</button>
+            <button class="language-button" id="english-button">🇺🇸</button>
+        </div> 
+        <h1 id="name">Nikolai Borisov</h1>
+        <p id="role">iOS Developer &#xf8ff</p>
     </header>
 
     <section class="profile">
-        <img src="img/me.png">
-        <div class="info">
-            <p>Age: 36</p>
-            <p>Languages: Russian 🇷🇺, English 🇺🇸</p>
-            <p>Area of Expertise: Creating mobile apps for iOS Platform 📲</p>
-            <p>Experience: 5 years ⚒️</p>
-            <p>Remote, Office, Freelance 📍</p>
-        </div>
+        <img src="img/me.png" alt="Profile Image">
+    </section>
+
+    <section class="info-stack">
+        <h2 id="general_information">General information 📂</h2>
+        <ul class="info">
+            <li id="age">Age: 36</li>
+            <li id="language">Language: Russian 🇷🇺, English 🇺🇸</li>
+            <li id="category">Category: Mobile apps for iOS Platform 📲</li>
+            <li id="experience">Experience: 5 years ⚒️</li>
+            <li id="location">Location: Remote, Office, Freelance 📍</li>
+        </ul>
     </section>
 
     <section class="skills">
-        <h2>Skills & Stack 👨🏼‍💻</h2>
+        <h2 id="skills_stack">Skills & Stack 👨🏼‍💻</h2>
         <div class="skill-container">
             <div class="soft-skills">
-                <h3>Soft Skills 🌟</h3>
+                <h4 id="soft_skills">Soft Skills 🌟</h4>
                 <ul class="skill">
-                    <li>Teamwork</li>
-                    <li>Problem Solving</li>
-                    <li>Communication</li>
-                    <li>Adaptability</li>
-                    <li>Emotional Intelligence</li>
+                    <li id="teamwork">Teamwork</li>
+                    <li id="problem_solving">Problem Solving</li>
+                    <li id="communication">Communication</li>
+                    <li id="adaptability">Adaptability</li>
+                    <li id="emotional_intelligence">Emotional Intelligence</li>
                 </ul>
             </div>
 
             <div class="tech-stack">
-                <h3>Technical Stack 💻</h3>
+                <h4 id="technical_stack">Technical Stack 💻</h4>
                 <ul class="skill">
                     <li>Swift, JavaScript, HTML, CSS</li>
                     <li>Xcode & Interface Builder</li>
@@ -53,23 +61,99 @@
             </div>
         </div>
 
-       <h2>Projects 📱</h2>
-<ul class="apps">
-    <li><a href="https://apps.apple.com/app/id6472437414" target="_blank">EduNetwork</a></li>
-    <li><a href="https://apps.apple.com/app/id1501518919" target="_blank">Synergy Education</a></li>
-     <li>Space Walker*</li>
-</ul>
+        <h2 id="projects">Projects 📱</h2>
+        <ul class="apps">
+            <li><a href="https://apps.apple.com/app/id6472437414" target="_blank">EduNetwork</a></li>
+            <li><a href="https://apps.apple.com/app/id1501518919" target="_blank">Synergy Education</a></li>
+            <li>Space Walker*</li>
+        </ul>
     </section>
 
     <section class="contact">
-        <h2>Contact Me</h2>
-        <p>Email: <a href="mailto:borisovn588@gmail.com">borisovn588@gmail.com</a></p>
-        
+        <h2 id="contact_me">Contact Me 📧</h2>
+        <p><a href="mailto:borisovn588@gmail.com">borisovn588@gmail.com</a></p>
+
         <div class="social-media">
             <a href="https://t.me/NB_198" target="_blank">Telegram</a>
         </div>
         <p>&copy; 2024 Nikolai Borisov. All rights reserved.</p>
     </section>
+
+    <script>
+        // Default language is English
+                let currentLanguage = 'en';
+
+        const russianButton = document.getElementById('russian-button');
+        const englishButton = document.getElementById('english-button');
+
+        const languageText = {
+            en: {
+                title: "Nikolai Borisov",
+                role: "iOS Developer ",
+                age: "Age: 36",
+                language: "Language: Russian 🇷🇺, English 🇺🇸",
+                category: "Category: Mobile apps for iOS Platform 📲",
+                experience: "Experience: 5 years ⚒️",
+                location: "Location: Remote, Office, Freelance 📍",
+                skills_stack: "Skills & Stack 👨🏼‍💻",
+                soft_skills: "Soft Skills 🌟",
+                teamwork: "Teamwork",
+                problem_solving: "Problem Solving",
+                communication: "Communication",
+                adaptability: "Adaptability",
+                emotional_intelligence: "Emotional Intelligence",
+                technical_stack: "Technical Stack 💻",
+                projects: "Projects 📱",
+                contact_me: "Contact Me 📧",
+                general_information: "General information 📂"
+            },
+            ru: {
+                title: "Николай Борисов",
+                role: "iOS Разработчик ",
+                age: "Возраст: 36",
+                language: "Язык: Русский 🇷🇺, Английский 🇺🇸",
+                category: "Категория: Мобильные приложения для iOS 📲",
+                experience: "Опыт: 5 лет ⚒️",
+                location: "Местоположение: Удаленно, Офис, Фриланс 📍",
+                skills_stack: "Навыки и стэк 👨🏼‍💻",
+                soft_skills: "Навыки межличностного общения 🌟",
+                teamwork: "Работа в команде",
+                problem_solving: "Поиск решений",
+                communication: "Коммуникационные навыки",
+                adaptability: "Адаптивность",
+                emotional_intelligence: "Эмоциональный интеллект",
+                technical_stack: "Технический стэк 💻",
+                projects: "Проекты 📱",
+                contact_me: "Связаться 📧",
+                general_information: "Общие сведения 📂"
+            }
+        };
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            document.getElementById('name').innerText = languageText[lang].title;
+            document.getElementById('role').innerText = languageText[lang].role;
+            document.getElementById('age').innerText = languageText[lang].age;
+            document.getElementById('language').innerText = languageText[lang].language;
+            document.getElementById('category').innerText = languageText[lang].category;
+            document.getElementById('experience').innerText = languageText[lang].experience;
+            document.getElementById('location').innerText = languageText[lang].location;
+            document.getElementById('skills_stack').innerText = languageText[lang].skills_stack;
+            document.getElementById('soft_skills').innerText = languageText[lang].soft_skills;
+            document.getElementById('teamwork').innerText = languageText[lang].teamwork;
+            document.getElementById('problem_solving').innerText = languageText[lang].problem_solving;
+            document.getElementById('communication').innerText = languageText[lang].communication;
+            document.getElementById('adaptability').innerText = languageText[lang].adaptability;
+            document.getElementById('emotional_intelligence').innerText = languageText[lang].emotional_intelligence;
+            document.getElementById('technical_stack').innerText = languageText[lang].technical_stack;
+            document.getElementById('projects').innerText = languageText[lang].projects;
+            document.getElementById('contact_me').innerText = languageText[lang].contact_me;
+            document.getElementById('general_information').innerText = languageText[lang].general_information;
+        }
+
+        russianButton.addEventListener('click', () => switchLanguage('ru'));
+        englishButton.addEventListener('click', () => switchLanguage('en'));
+    </script>
 
 </body>
 </html>
