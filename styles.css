@@ -93,6 +93,37 @@ a:hover {
     color: #388E3C;
 }
 
+/* GitHub activity easter egg */
+.activity {
+    text-align: center;
+    margin: 60px 0;
+}
+
+.activity-trigger {
+    cursor: pointer;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.activity-trigger:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+.activity-preview {
+    margin-top: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s ease;
+}
+
+.activity-preview img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     h1 {

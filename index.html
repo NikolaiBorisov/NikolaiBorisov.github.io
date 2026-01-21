@@ -64,7 +64,16 @@
             <li>3 More Private Projects Available on Request*</li>
         </ul>
     </section>
+<section class="activity">
+    <div class="activity-trigger" onclick="toggleActivity()">
+        <div>Consistency & Productivity</div>
+        <div>Following the 🐇</div>
+    </div>
 
+    <div class="activity-preview" id="activityPreview">
+        <img src="img/github_activity.png" alt="GitHub activity screenshot">
+    </div>
+</section>
     <section class="contact">
         <h2 id="contact_me">📧</h2>
         <p><a href="mailto:andersonnikko1@gmail.com">andersonnikko1@gmail.com</a></p>
@@ -72,5 +81,18 @@
         <p>&copy; 2026 Mr. Anderson.</p>
         <p>All rights reserved.</p>
     </section>
+    
+    <script>
+function toggleActivity() {
+    const preview = document.getElementById("activityPreview");
+
+    if (preview.style.maxHeight) {
+        preview.style.maxHeight = null;
+    } else {
+        preview.style.maxHeight = preview.scrollHeight + "px";
+    }
+}
+</script>
+
 </body>
 </html>
