@@ -65,13 +65,23 @@
         </ul>
     </section>
 <section class="activity">
-    <div class="activity-trigger" onclick="toggleActivity()">
+    <div class="activity-trigger" onclick="toggleActivity('activityPreview')">
         <div>Consistency & Productivity</div>
         <div>Following the 🐇</div>
     </div>
 
     <div class="activity-preview" id="activityPreview">
         <img src="img/github_activity.png" alt="GitHub activity screenshot">
+    </div>
+</section>
+<section class="activity">
+    <div class="activity-trigger" onclick="toggleActivity('activityPreviewCircles')">
+        <div>Work in cubes 🟩</div>
+        <div>Rest in circles 🟠</div>
+    </div>
+
+    <div class="activity-preview" id="activityPreviewCircles">
+        <img src="img/github_run.jpeg" alt="Strava activity screenshot">
     </div>
 </section>
     <section class="contact">
@@ -82,14 +92,21 @@
         <p>All rights reserved.</p>
     </section>
     
-    <script>
-function toggleActivity() {
-    const preview = document.getElementById("activityPreview");
+<script>
+function toggleActivity(id) {
+    const previews = document.querySelectorAll('.activity-preview');
+    const target = document.getElementById(id);
 
-    if (preview.style.maxHeight) {
-        preview.style.maxHeight = null;
+    previews.forEach(preview => {
+        if (preview !== target) {
+            preview.style.maxHeight = null;
+        }
+    });
+
+    if (target.style.maxHeight) {
+        target.style.maxHeight = null;
     } else {
-        preview.style.maxHeight = preview.scrollHeight + "px";
+        target.style.maxHeight = target.scrollHeight + "px";
     }
 }
 </script>
