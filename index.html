@@ -6,16 +6,16 @@
     <title>Niko Anderson - iOS Developer</title>
 
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YG2JZ6CKH7"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG2JZ6CKH7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-  gtag('config', 'G-YG2JZ6CKH7');
-</script>
+      gtag('config', 'G-YG2JZ6CKH7');
+  </script>
 
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
 </head>
 <body>
     <header>
@@ -69,12 +69,20 @@
         <h2 id="projects">Projects 📱</h2>
         <ul class="apps">
            <li>
-          <a href="https://apps.apple.com/th/app/isolid/id6752113008" target="_blank" rel="noopener noreferrer">iSOLID 🎓</a>
-           </li>
-            <li>Space Walker* 🚀</li>
-            <li>3 More Private Projects Available on Request*</li>
-        </ul>
-    </section>
+              <a href="https://apps.apple.com/th/app/isolid/id6752113008"
+              target="_blank"
+              rel="noopener noreferrer"
+              onclick="trackEvent('project_click', {
+                 project_name: 'iSOLID',
+                 destination: 'app_store'
+             })">
+             iSOLID 🎓
+         </a>
+     </li>
+     <li>Space Walker* 🚀</li>
+     <li>3 More Private Projects Available on Request*</li>
+ </ul>
+</section>
 <section class="activity">
     <div class="activity-trigger" onclick="toggleActivity('activityPreview')">
         <div>Consistency & Productivity in cubes 🐇</div>
@@ -86,38 +94,58 @@
 </section>
 <section class="activity">
     <div class="activity-trigger" onclick="toggleActivity('activityPreviewCircles')">
-    <div>Focus in code & Balance in motion 🌀</div>
-</div>
+        <div>Focus in code & Balance in motion 🌀</div>
+    </div>
 
     <div class="activity-preview" id="activityPreviewCircles">
         <img src="img/github_run.jpeg" alt="Strava activity screenshot">
     </div>
 </section>
-    <section class="contact">
-        <h2 id="contact_me">📧</h2>
-        <p><a href="mailto:andersonnikko1@gmail.com">andersonnikko1@gmail.com</a></p>
+<section class="contact">
+    <h2 id="contact_me">📧</h2>
+    <p>
+        <a href="mailto:andersonnikko1@gmail.com"
+        onclick="trackEvent('email_click', { method: 'mailto' })">
+        andersonnikko1@gmail.com
+    </a>
+</p>
 
-        <p>&copy; 2026 Mr. Anderson.</p>
-        <p>All rights reserved.</p>
-    </section>
-    
+<p>&copy; 2026 Mr. Anderson.</p>
+<p>All rights reserved.</p>
+</section>
+
 <script>
-function toggleActivity(id) {
-    const previews = document.querySelectorAll('.activity-preview');
-    const target = document.getElementById(id);
-
-    previews.forEach(preview => {
-        if (preview !== target) {
-            preview.style.maxHeight = null;
-        }
-    });
-
-    if (target.style.maxHeight) {
-        target.style.maxHeight = null;
-    } else {
-        target.style.maxHeight = target.scrollHeight + "px";
+    function trackEvent(eventName, params = {}) {
+      if (typeof gtag === "function") {
+        gtag("event", eventName, params);
     }
 }
+</script>
+
+<script>
+    function toggleActivity(id) {
+        const previews = document.querySelectorAll('.activity-preview');
+        const target = document.getElementById(id);
+
+        previews.forEach(preview => {
+            if (preview !== target) {
+                preview.style.maxHeight = null;
+            }
+        });
+
+        const isOpening = !target.style.maxHeight;
+
+        if (isOpening) {
+            target.style.maxHeight = target.scrollHeight + "px";
+            trackEvent('activity_toggle', {
+              section: id === 'activityPreview'
+              ? 'github_activity'
+              : 'running_activity'
+          });
+        } else {
+            target.style.maxHeight = null;
+        }
+    }
 </script>
 
 </body>
