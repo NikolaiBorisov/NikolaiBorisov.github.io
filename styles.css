@@ -133,6 +133,59 @@ a:hover {
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
+ul.apps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px; /* space between items */
+}
+
+ul.apps li {
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 60px;
+}
+
+ul.apps li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+ul.apps li a {
+    color: #4CAF50;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; /* space between emoji/icon and text */
+    transition: color 0.3s ease;
+}
+
+ul.apps li a:hover {
+    color: #388E3C;
+}
+
+ul.apps li span {
+    font-weight: 400;
+    color: #555;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    ul.apps {
+        grid-template-columns: 1fr; /* single column on mobile */
+    }
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
     h1 {
