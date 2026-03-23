@@ -21,7 +21,7 @@
     <header>
         <h1 id="name">Niko Anderson</h1>
         <p id="role">iOS Developer </p>
-        <p>Open for full-time and freelance iOS development opportunities 👨🏼‍💻</p>
+        <p>Open for full-time iOS development positions/collaborations</p>
     </header>
 
     <section class="profile">
@@ -32,8 +32,8 @@
         <h2 id="general_information">General information 📂</h2>
         <ul class="info">
             <li id="category">Specialization: Mobile iOS Apps 📲</li>
-            <li id="experience">Experience: 5+ years in iOS Development ⚒️</li>
-            <li id="location">Work Setup: Remote, Office, Freelance 📍</li>
+            <li id="experience">Experience: 5+ years in iOS Development 🛠️</li>
+            <li id="location">Work Setup: Remote, On-site, Hybrid 📍</li>
         </ul>
     </section>
 
@@ -66,22 +66,27 @@
             </div>
         </div>
 
-        <h2 id="projects">Projects 📱</h2>
-        <ul class="apps">
-           <li>
-              <a href="https://apps.apple.com/th/app/isolid/id6752113008"
-              target="_blank"
-              rel="noopener noreferrer"
-              onclick="trackEvent('project_click', {
-                 project_name: 'iSOLID',
-                 destination: 'app_store'
-             })">
-             iSOLID 🎓
-         </a>
-     </li>
-     <li>Space Walker* 🚀</li>
-     <li>3 More Private Projects Available on Request*</li>
- </ul>
+  <h2 id="projects">Projects 📱</h2>
+<ul class="apps">
+  <li>
+    <a href="https://apps.apple.com/th/app/isolid/id6752113008"
+       target="_blank"
+       rel="noopener noreferrer"
+       onclick="trackEvent('project_click', { project_name: 'iSOLID', destination: 'app_store' })">
+       iSOLID 🎓
+    </a>
+  </li>
+  <li>
+    <a href="https://github.com/NikolaiBorisov/SolidDS"
+       target="_blank"
+       rel="noopener noreferrer"
+       onclick="trackEvent('project_click', { project_name: 'SolidDS', destination: 'git_hub' })">
+       SolidDS (SPM) 🎛️
+    </a>
+  </li>
+  <li><span>Space Walker 🚀</span></li>
+  <li><span>3 More Private Projects Available on Request*</span></li>
+</ul>
 </section>
 <section class="activity">
     <div class="activity-trigger" onclick="toggleActivity('activityPreview')">
@@ -102,16 +107,22 @@
     </div>
 </section>
 <section class="contact">
-    <h2 id="contact_me">📧</h2>
     <p>
         <a href="mailto:andersonnikko1@gmail.com"
         onclick="trackEvent('email_click', { method: 'mailto' })">
-        andersonnikko1@gmail.com
+        andersonnikko1@gmail.com 📧
     </a>
 </p>
+ <p>
+        <a href="https://github.com/NikolaiBorisov"
+           target="_blank"
+           rel="noopener noreferrer"
+           onclick="trackEvent('contact_click', { platform: 'github' })">
+           GitHub 🔗
+        </a>
+    </p>
 
 <p>&copy; 2026 Mr. Anderson.</p>
-<p>All rights reserved.</p>
 </section>
 
 <script>
