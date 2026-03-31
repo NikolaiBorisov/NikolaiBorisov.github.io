@@ -1,0 +1,339 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: #020617;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 20% 0%, rgba(30,41,59,0.8), transparent 50%),
+        radial-gradient(circle at 80% 0%, rgba(15,23,42,0.8), transparent 50%),
+        #020617;
+    color: white;
+    line-height: 1.6;
+}
+
+/* 🌐 Floating language switch */
+.lang-switch {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.lang-switch button,
+
+.contact-btn {
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 10px 14px;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.lang-switch button {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.lang-switch button:hover {
+    background: rgba(255,255,255,0.2);
+    box-shadow: 0 0 20px rgba(255,255,255,0.2);
+}
+
+/* 💬 Floating Contact Button */
+.contact-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-decoration: none;
+    font-size: 20px;
+
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.contact-btn:hover {
+    transform: scale(1.1);
+    background: rgba(255,255,255,0.2);
+}
+
+/* 👤 Hero */
+.role {
+    color: rgba(255,255,255,0.7);
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.work-setup {
+    color: rgba(255,255,255,0.7);
+    font-size: 18px;
+    margin-top: 4px;
+}
+
+.hero {
+    padding-top: clamp(80px, 15vw, 120px);
+}
+
+.hero {
+    text-align: center;
+    padding: 120px 20px 60px;
+}
+
+/* 👤 Avatar Wrapper */
+.avatar-wrapper {
+    position: relative; /* REQUIRED for glow */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar-wrapper::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(59,130,246,0.4), transparent 70%);
+    z-index: -1;
+    filter: blur(20px);
+}
+
+/* 👤 Avatar */
+.avatar {
+    width: 160px;
+    height: 160px;
+    min-width: 160px;
+    min-height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 3px solid rgba(255,255,255,0.15);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+
+/* 🟢 Status Badge */
+.status-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    margin: 6px 4px;  
+    font-size: 12px;
+    font-weight: 500;
+    color: #22c55e;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.4);
+    border-radius: 999px;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+#about p {
+    white-space: pre-line;
+}
+
+/* ✨ Sections with staged reveal */
+.section {
+    max-width: 800px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 60px 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.8s forwards;
+}
+
+.section:nth-of-type(1) { animation-delay: 0.2s; }
+.section:nth-of-type(2) { animation-delay: 0.3s; }
+.section:nth-of-type(3) { animation-delay: 0.4s; }
+.section:nth-of-type(4) { animation-delay: 0.5s; }
+.section:nth-of-type(5) { animation-delay: 0.6s; }
+.section:nth-of-type(6) { animation-delay: 0.7s; }
+.section:nth-of-type(7) { animation-delay: 0.8s; }
+.section:nth-of-type(8) { animation-delay: 0.9s; }
+
+/* 🧩 Cards */
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 16px;
+    margin-top: 10px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.08);
+}
+
+/* 🏷 Chips */
+.chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+/* 🏷 Chips with border */
+.chips span {
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+
+    /* ✨ Subtle border */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+/* Optional: hover effect to match card hover */
+.chips span:hover {
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 📮 Contact */
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+
+    align-items: flex-start;
+}
+
+/* Contact links */
+.contact-list a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 10px 16px;
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+
+    color: springgreen;
+    text-decoration: none;
+    font-size: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.2);
+
+    transition: 
+        transform 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+    
+    will-change: transform;
+}
+
+/* Hover */
+.contact-list a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* 🔗 Connect */
+.connect-section {
+    text-align: center;      /* centers children horizontally */
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;  /* stack h2 + links vertically */
+    align-items: center;     /* center horizontally */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.8s forwards;
+    animation-delay: 0.9s;
+}
+
+/* Optional: spacing for the heading */
+.connect-section h2 {
+    margin-bottom: 20px;
+}
+
+/* Center the links inside the container */
+.links {
+    display: flex;
+    gap: 20px;               /* spacing between links */
+    flex-wrap: wrap;          /* wrap links on small screens */
+    justify-content: center;  /* center horizontally */
+}
+
+/* Links styling */
+.links a {
+    display: inline-block;
+    color: #3b82f6;
+    text-decoration: none;
+    position: relative; /* for underline animation */
+    transition: color 0.3s ease;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+/* Hover effects */
+.links a:hover {
+    color: #60a5fa;
+}
+
+.links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: #60a5fa;
+    transition: width 0.3s ease;
+}
+
+.links a:hover::after {
+    width: 100%;
+}
+
+/* 📁 Projects Grid */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 5px 10px; /* row column */
+}
+
+/* Optional: keep existing card hover effect */
+.card {
+    background: rgba(255,255,255,0.05);
+    padding: 20px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+/* ✨ Animations */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

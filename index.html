@@ -1,163 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Niko Anderson - iOS Developer</title>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YG2JZ6CKH7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-YG2JZ6CKH7');
-  </script>
-
-  <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+<link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
-    <header>
-        <h1 id="name">Niko Anderson</h1>
-        <p id="role">iOS Developer </p>
-        <p>Open for full-time iOS development positions/collaborations</p>
-    </header>
 
-    <section class="profile">
-        <img src="img/me_red_cap.png" alt="Profile Image">
-    </section>
+<!-- 🌐 Language Picker -->
 
-    <section class="info-stack">
-        <h2 id="general_information">General information 📂</h2>
-        <ul class="info">
-            <li id="category">Specialization: Mobile iOS Apps 📲</li>
-            <li id="experience">Experience: 5+ years in iOS Development 🛠️</li>
-            <li id="location">Work Setup: Remote, On-site, Hybrid 📍</li>
-        </ul>
-    </section>
+<!-- 👤 Hero -->
+<section class="hero">
+    <div class="avatar-wrapper">
+        <img src="img/me.png" alt="avatar" class="avatar">
+        <span class="status-badge">Open to work</span>
+    </div>
 
-    <section class="skills">
-        <h2 id="skills_stack">Technical & Soft Skills 👨🏼‍💻</h2>
-        <div class="skill-container">
-            <div class="soft-skills">
-                <h4 id="soft_skills">Soft Skills 💼</h4>
-                <ul class="skill">
-                    <li id="teamwork">Teamwork – collaborative & cross-functional</li>
-                    <li id="problem_solving">Problem Solving – analytical & solution-oriented</li>
-                    <li id="communication">Communication – clear and concise</li>
-                    <li id="adaptability">Adaptability – flexible in dynamic environments</li>
-                    <li id="emotional_intelligence">Emotional Intelligence – empathy and self-awareness</li>
-                </ul>
-            </div>
-
-            <div class="tech-stack">
-                <h4 id="technical_stack">Technical Stack 💻</h4>
-                <ul class="skill">
-                    <li><strong>Languages:</strong> Swift, JavaScript, HTML, CSS</li>
-                    <li><strong>iOS Development:</strong> Xcode, Interface Builder, UIKit, SwiftUI, Foundation</li>
-                    <li><strong>Layout & UI:</strong> Storyboards, Auto Layout, SnapKit, PinLayout</li>
-                    <li><strong>Networking:</strong> REST APIs, JSON, URLSession, Alamofire, Moya, Combine</li>
-                    <li><strong>Persistence & Backend:</strong> Core Data, UserDefaults, Realm, Firebase</li>
-                    <li><strong>Architectures:</strong> MVC, MVP, MVVM, VIP, VIPER</li>
-                    <li><strong>Notifications & Analytics:</strong> Push Notifications, OneSignal, Crashlytics</li>
-                    <li><strong>Tools & Collaboration:</strong> CocoaPods, Swift Package Manager (SPM), Git, GitHub, GitLab, Jira, Trello, Fork, SourceTree, Postman, Charles, App Store Connect, Figma</li>
-                </ul>
-            </div>
-        </div>
-
-  <h2 id="projects">Projects 📱</h2>
-<ul class="apps">
-  <li>
-    <a href="https://apps.apple.com/th/app/isolid/id6752113008"
-       target="_blank"
-       rel="noopener noreferrer"
-       onclick="trackEvent('project_click', { project_name: 'iSOLID', destination: 'app_store' })">
-       iSOLID 🎓
-    </a>
-  </li>
-  <li>
-    <a href="https://github.com/NikolaiBorisov/SolidDS"
-       target="_blank"
-       rel="noopener noreferrer"
-       onclick="trackEvent('project_click', { project_name: 'SolidDS', destination: 'git_hub' })">
-       SolidDS (SPM) 🎛️
-    </a>
-  </li>
-  <li><span>Space Walker 🚀 - on Request*</span></li>
-  <li><span>3 Private Projects 🗃️ - on Request*</span></li>
-</ul>
+    <h1>Niko Anderson</h1>
+    <p class="role">iOS Developer </p>
+    <p class="work-setup">Remote • On-site • Hybrid</p>
 </section>
-<section class="activity">
-    <div class="activity-trigger" onclick="toggleActivity('activityPreview')">
-        <div>Consistency & Productivity in cubes 🐇</div>
-    </div>
 
-    <div class="activity-preview" id="activityPreview">
-        <img src="img/github_activity.png" alt="GitHub activity screenshot">
-    </div>
-</section>
-<section class="activity">
-    <div class="activity-trigger" onclick="toggleActivity('activityPreviewCircles')">
-        <div>Focus in code & Balance in motion 🌀</div>
-    </div>
-
-    <div class="activity-preview" id="activityPreviewCircles">
-        <img src="img/github_run.jpeg" alt="Strava activity screenshot">
-    </div>
-</section>
-<section class="contact">
+<section id="about" class="section">
+    <h2 id="about-title">About Me</h2>
     <p>
-        <a href="mailto:andersonnikko1@gmail.com"
-        onclick="trackEvent('email_click', { method: 'mailto' })">
-        andersonnikko1@gmail.com 📧
-    </a>
-</p>
- <p>
-        <a href="https://github.com/NikolaiBorisov"
-           target="_blank"
-           rel="noopener noreferrer"
-           onclick="trackEvent('contact_click', { platform: 'github' })">
-           GitHub 🔗
-        </a>
+        I’m an iOS developer with 5 years of commercial experience. 
+        I specialize in building educational, lead-generating, and corporate apps using Swift, SwiftUI, and UIKit. 
+        Creating modern, responsive websites using HTML, CSS, and JavaScript.
+        Closely working in a team with backend developers, designers, and QA engineers to deliver polished, user-friendly products.
     </p>
-
-<p>&copy; 2026 Mr. Anderson.</p>
 </section>
 
-<script>
-    function trackEvent(eventName, params = {}) {
-      if (typeof gtag === "function") {
-        gtag("event", eventName, params);
-    }
-}
-</script>
+<!-- 🌟 Soft Skills -->
+<section id="soft-skills" class="section">
+    <h2 id="soft-skills-title">🌟 Soft Skills</h2>
+    <div class="chips">
+        <span>Teamwork</span>
+        <span>Communication</span>
+        <span>Problem Solving</span>
+        <span>Adaptability</span>
+        <span>Emotional Intelligence</span>
+    </div>
+</section>
 
-<script>
-    function toggleActivity(id) {
-        const previews = document.querySelectorAll('.activity-preview');
-        const target = document.getElementById(id);
+<!-- ⚙️ Hard Skills -->
+<section id="hard-skills" class="section">
+    <h2 id="hard-skills-title">⚙️ Hard Skills</h2>
+    <div class="chips">
+        <span>Swift</span>
+        <span>SwiftUI</span>
+        <span>UIKit</span>
+        <span>JavaScript</span>
+        <span>HTML+CSS</span>
+        <span>Foundation</span>
+        <span>AutoLayout</span>
+        <span>SnapKit & PinLayout</span>
+        <span>Storyboards</span>
+        <span>InterfaceBuilder</span>
+        <span>Storyboards</span>
+        <span>Alamofire</span>
+        <span>Moya</span>
+        <span>Combine</span>
+        <span>URLSession</span>
+        <span>JSON</span>
+        <span>RestAPI</span>
+        <span>UserDefaults</span>
+        <span>Realm</span>
+        <span>Firebase</span>
+        <span>CoreData</span>
+        <span>MVC</span>
+        <span>MVP</span>
+        <span>MVVM</span>
+        <span>VIP</span>
+        <span>VIPER</span>
+        <span>OneSignal</span>
+        <span>Crashlytics</span>
+        <span>PushNotifications</span>
+        <span>CocoaPods</span>
+        <span>SPM</span>
+    </div>
+</section>
 
-        previews.forEach(preview => {
-            if (preview !== target) {
-                preview.style.maxHeight = null;
-            }
-        });
+<!-- 🧰 Tools -->
+<section id="tools" class="section">
+    <h2 id="tools-title">🧰 Tools</h2>
+    <div class="chips">
+        <span>Xcode</span>
+        <span>Figma</span>
+        <span>Postman</span>
+        <span>BitBucket</span>
+        <span>GitHub</span>
+        <span>GitLab</span>
+        <span>Jira</span>
+        <span>Trello</span>
+        <span>Fork</span>
+        <span>SourceTree</span>
+        <span>Charles</span>
+        <span>AppStoreConnect</span>
+        <span>Postman</span>
+    </div>
+</section>
 
-        const isOpening = !target.style.maxHeight;
+<!-- 💻 Experience -->
+<section id="experience" class="section">
+    <h2 id="experience-title">💻 Experience</h2>
+    <div class="card">
+        <strong>iOS Developer (Mid)</strong> @ EduOnline • 4 years • 2022 – Present
+    </div>
+    <div class="card">
+        <strong>iOS Developer (Mid)</strong> @ iSOLID • 1 year • 2025 – Present
+    </div>
+    <div class="card">
+        <strong>iOS Developer (Junior)</strong> @ White & Fluffy • 6 months • 2021
+    </div>
+    <div class="card">
+        <strong>iOS Trainee</strong> @ SimbirSoft • 3 months • 2021
+    </div>
+</section>
 
-        if (isOpening) {
-            target.style.maxHeight = target.scrollHeight + "px";
-            trackEvent('activity_toggle', {
-              section: id === 'activityPreview'
-              ? 'github_activity'
-              : 'running_activity'
-          });
-        } else {
-            target.style.maxHeight = null;
-        }
-    }
-</script>
+<!-- 📁 Projects -->
+<section id="projects" class="section">
+    <h2 id="projects-title">📁 Projects</h2>
+    <div class="projects-grid">
+        <a class="card" href="https://apps.apple.com/th/app/isolid/id6752113008" target="_blank">iSOLID 🎓</a>
+        <a class="card" href="https://github.com/NikolaiBorisov/SolidDS" target="_blank">SolidDS 🎛️</a>
+        <a class="card" href="https://github.com/NikolaiBorisov/SolidFolio">SolidFolio 💼</a>
+        <a class="card">3 Private Projecst by request*</a>
+    </div>
+</section>
 
+<!-- 📮 Contact -->
+<section id="contact" class="section">
+    <h2 id="contact-title">📮 Contact</h2>
+    <div class="contact-list">
+       <a href="mailto:andersonnikko1@gmail.com">📧 andersonnikko1@gmail.com</a>
+    </div>
+</section>
+
+<!-- 🔗 Connect-->
+<section class="connect-section">
+    <h2 id="connect-title">🔗 Connect</h2>
+    <div class="links">
+        <a href="https://github.com/NikolaiBorisov" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/niko-anderson-36269333b/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+</section>
+
+<!-- 💬 Floating Contact -->
+<a href="mailto:andersonnikko1@gmail.com" class="contact-btn">💬</a>
+
+<script src="js/script.js"></script>
 </body>
 </html>
