@@ -19,6 +19,11 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -57,10 +62,7 @@ a {
 
 /* 🎨 Theme Switch */
 .theme-switch {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    display: flex;
+    display: inline-flex;
     gap: 6px;
     padding: 4px;
     border-radius: 999px;
@@ -69,7 +71,8 @@ a {
     background: rgba(255,255,255,0.1);
     border: 1px solid rgba(255,255,255,0.2);
 
-    z-index: 9999;
+    margin: 16px 16px 0 0;
+    align-self: flex-end; /* 👈 NOW it will work */
 }
 
 .theme-switch button {
@@ -138,8 +141,8 @@ a {
 /* 💬 Floating Contact Button */
 .contact-btn {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
+    bottom: 16px;
+    right: 16px;
     text-decoration: none;
     font-size: 20px;
 
@@ -195,7 +198,7 @@ a {
 
 .hero {
     text-align: center;
-    padding: 80px 20px 60px;
+    padding: 80px 20px 30px;
 }
 
 /* 👤 Avatar Wrapper */
@@ -258,9 +261,9 @@ a {
 /* ✨ Sections with staged reveal */
 .section {
     max-width: 800px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 40px 20px;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 30px 20px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeIn 0.8s forwards;
@@ -411,11 +414,7 @@ a {
     transform: translateY(20px);
     animation: fadeIn 0.8s forwards;
     animation-delay: 0.9s;
-}
-
-/* Optional: spacing for the heading */
-.connect-section h2 {
-    margin-bottom: 20px;
+    gap: 6px;
 }
 
 /* Center the links inside the container */
@@ -462,13 +461,13 @@ a {
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    margin-top: 16px;
     gap: 10px;
 }
 
 /* 🧊 Project Card (standalone, no .card dependency) */
 .project-card {
     display: block;
-
     padding: 18px 20px;
     border-radius: 16px;
 
