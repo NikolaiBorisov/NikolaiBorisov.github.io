@@ -141,7 +141,7 @@ a {
 /* 💬 Floating Contact Button */
 .contact-btn {
     position: fixed;
-    bottom: 16px;
+    bottom: 60px;
     right: 16px;
     text-decoration: none;
     font-size: 20px;
@@ -406,7 +406,8 @@ a {
 /* 🔗 Connect */
 .connect-section {
     text-align: center;      /* centers children horizontally */
-    margin-bottom: 20px;
+    margin-top: 60px;
+    margin-bottom: 40px;
     display: flex;
     flex-direction: column;  /* stack h2 + links vertically */
     align-items: center;     /* center horizontally */
