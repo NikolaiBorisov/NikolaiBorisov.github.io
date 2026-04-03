@@ -63,26 +63,26 @@ a {
 /* 🎨 Theme Switch */
 .theme-switch {
     display: inline-flex;
-    gap: 6px;
-    padding: 4px;
+    gap: 4px;
+    padding: 3px;
     border-radius: 999px;
 
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
     background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
+    border: 1px solid rgba(59,130,246,0.18);
 
     margin: 16px 16px 0 0;
     align-self: flex-end; /* 👈 NOW it will work */
 }
 
 .theme-switch button {
-    padding: 6px 12px;
+    padding: 3px 6px;
     border-radius: 999px;
     border: none;
     background: transparent;
     color: #93c5fd;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 10px;
     transition: 0.3s;
 }
 
@@ -116,7 +116,7 @@ a {
 /* Light UI adjustments */
 :root[data-theme="light"] .theme-switch {
     background: rgba(0,0,0,0.05);
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(59, 130, 246, 0.18);
 }
 
 :root[data-theme="light"] .theme-switch button {
@@ -141,7 +141,7 @@ a {
 /* 💬 Floating Contact Button */
 .contact-btn {
     position: fixed;
-    bottom: 60px;
+    bottom: 40px;
     right: 16px;
     text-decoration: none;
     font-size: 20px;
@@ -231,7 +231,13 @@ a {
     object-fit: cover;
     object-position: center;
     border: 3px solid rgba(255,255,255,0.15);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+}
+
+/* 👤 Avatar - Dark Mode Shadow */
+:root[data-theme="dark"] .avatar {
+    /* Keep everything else the same, just adjust shadow for dark background */
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.15);
 }
 
 /* 🟢 Status Badge */
@@ -493,6 +499,20 @@ a {
         background 0.25s ease,
         border-color 0.25s ease,
         color 0.2s ease;
+}
+
+/* Project card small text */
+/* Project card small text - default light mode */
+.project-card small {
+    color: #6b7280; /* gray-500 for light mode */
+    font-size: 0.8em;
+    display: block;
+    margin-top: 4px;
+}
+
+/* Dark mode adjustment */
+:root[data-theme="dark"] .project-card small {
+    color: #9ca3af; /* gray-400 for better visibility in dark mode */
 }
 
 /* ✨ Hover (motion only) */
