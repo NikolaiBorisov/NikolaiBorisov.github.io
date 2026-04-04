@@ -333,7 +333,7 @@ a {
     max-width: 800px;
     margin-left: 16px;
     margin-right: 16px;
-    padding: 30px 20px;
+    padding: 30px 14px;
     opacity: 0;
     transform: translateY(20px);
     animation: fadeIn 0.8s forwards;
