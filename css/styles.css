@@ -86,12 +86,13 @@ a {
     transition: 0.3s;
 }
 
-.theme-switch button.active {
-    background: #3b82f6;
-    color: white;
+.theme-switch button:hover {
+    background: rgba(255,255,255,0.2);
+    color: #bfdbfe;
 }
 
-:root[data-theme="light"] .theme-switch button.active {
+.theme-switch button.active {
+    background: #3b82f6;
     color: white;
 }
 
@@ -120,6 +121,14 @@ a {
 
 :root[data-theme="light"] .theme-switch button {
    color: #60a5fa; /* light blue */
+}
+
+:root[data-theme="light"] .theme-switch button.active {
+    color: white;
+}
+
+:root[data-theme="light"] .theme-switch button:hover {
+    background: rgba(0,0,0,0.1);
 }
 
 :root[data-theme="light"] .card,
@@ -169,6 +178,70 @@ a {
     font-size: 18px;
     margin-top: 4px;
     transition: color 0.3s ease;
+}
+
+.apple {
+    margin-left: 4px;
+    font-size: 18px;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+}
+
+/* 🔥 Capsule */
+.stat-value {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 64px;            /* 👈 fixed width */
+    height: 36px;           /* 👈 consistent height */
+    
+    border-radius: 999px;
+
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(59,130,246,0.18);
+    backdrop-filter: blur(10px);
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition: all 0.25s ease;
+}
+
+/* label below */
+.stat span {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    opacity: 0.7;
+}
+
+/* ✨ hover */
+.stat-value:hover {
+    transform: translateY(-2px);
+    background: rgba(255,255,255,0.12);
+}
+
+:root[data-theme="light"] .stat-value {
+    background: rgba(0,0,0,0.05);
+    border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+/* Light theme override */
+:root[data-theme="light"] .apple {
+    color: #0f172a; /* dark text */
 }
 
 /* 🌙 DARK */
@@ -476,7 +549,7 @@ a {
 
     /* text */
     color: #3b82f6;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 16px;
     text-decoration: none;
 
@@ -492,8 +565,17 @@ a {
         color 0.2s ease;
 }
 
+.project-title {
+    display: block;
+    margin-bottom: 6px;
+}
+
 /* Project card small text */
-/* Project card small text - default light mode */
+.project-card small:first-of-type {
+    font-weight: 500;
+    opacity: 0.9;
+}
+
 .project-card small {
     color: #6b7280; /* gray-500 for light mode */
     font-size: 0.8em;
@@ -508,14 +590,23 @@ a {
 
 /* ✨ Hover (motion only) */
 .project-card:hover {
-    transform: translateY(-2px) scale(1.01);
+    transform: translateY(-3px) scale(1.01);
     box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    color: #93c5fd;
 }
 
 /* 👇 Click feel */
 .project-card:active {
     transform: translateY(-2px) scale(1.01);
+}
+
+/* DARK */
+:root[data-theme="dark"] .project-card small {
+    color: #9ca3af; /* softer gray for dark */
+}
+
+/* LIGHT */
+:root[data-theme="light"] .project-card small {
+    color: #6b7280;
 }
 
 /* 🌙 DARK MODE */
