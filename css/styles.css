@@ -86,11 +86,6 @@ a {
     transition: 0.3s;
 }
 
-.theme-switch button:hover {
-    background: rgba(255,255,255,0.2);
-    color: #bfdbfe;
-}
-
 .theme-switch button.active {
     background: #3b82f6;
     color: white;
