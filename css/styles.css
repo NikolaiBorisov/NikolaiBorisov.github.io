@@ -40,13 +40,11 @@
 }
 
 html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto;
     overflow-x: hidden;
 }
 
 body {
-    position: relative;
-    isolation: isolate;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -55,51 +53,22 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
     line-height: 1.55;
     color: var(--text);
-    background: linear-gradient(180deg, #050506 0%, #101014 48%, #050506 100%);
-    transition: background 520ms var(--ease), color 320ms ease;
-}
-
-body > * {
-    position: relative;
-    z-index: 1;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        radial-gradient(circle at 42% 12%, rgba(10, 132, 255, 0.28), transparent 34rem),
+        radial-gradient(circle at 75% 16%, rgba(94, 92, 230, 0.2), transparent 32rem),
+        linear-gradient(180deg, #050506 0%, #101014 48%, #050506 100%);
+    background-size: 72px 72px, 72px 72px, auto, auto, auto;
 }
 
 :root[data-theme="light"] body {
-    background: linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 52%, #ffffff 100%);
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
     background:
-        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-    background-size: 72px 72px;
-    z-index: 0;
-}
-
-body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    background:
-        radial-gradient(circle at 42% 12%, rgba(10, 132, 255, 0.28), transparent 34rem),
-        radial-gradient(circle at 75% 16%, rgba(94, 92, 230, 0.2), transparent 32rem),
-        linear-gradient(90deg, rgba(5, 5, 6, 0.2), rgba(10, 16, 32, 0.34), rgba(5, 5, 6, 0.18));
-    filter: blur(2px);
-    transition: opacity 520ms var(--ease);
-    z-index: 0;
-}
-
-:root[data-theme="light"] body::after {
-    background: radial-gradient(circle at 50% 10%, rgba(0, 113, 227, 0.14), transparent 34rem);
+        linear-gradient(rgba(29, 29, 31, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29, 29, 31, 0.035) 1px, transparent 1px),
+        radial-gradient(circle at 50% 10%, rgba(0, 113, 227, 0.14), transparent 34rem),
+        linear-gradient(180deg, #fbfbfd 0%, #f5f5f7 52%, #ffffff 100%);
+    background-size: 72px 72px, 72px 72px, auto, auto;
 }
 
 a {
@@ -136,8 +105,6 @@ a {
     border-radius: 999px;
     background: rgba(18, 18, 22, 0.66);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(24px) saturate(145%);
-    -webkit-backdrop-filter: blur(24px) saturate(145%);
 }
 
 :root[data-theme="light"] .theme-switch,
@@ -156,7 +123,6 @@ a {
     color: var(--muted);
     cursor: pointer;
     font: 600 12px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-    transition: transform 220ms var(--ease), color 220ms ease, background 220ms ease;
 }
 
 .lang-switch button {
@@ -177,7 +143,7 @@ a {
 .project-card:active,
 .links a:active,
 .contact-list a:active {
-    transform: scale(0.97);
+    transform: none;
 }
 
 .theme-switch button.active,
@@ -212,9 +178,6 @@ a {
     z-index: -1;
     border-radius: 999px;
     background: radial-gradient(circle, rgba(10, 132, 255, 0.34), transparent 66%);
-    filter: blur(18px);
-    transform: translate3d(0, var(--hero-glow, 0), 0);
-    transition: transform 220ms ease-out;
 }
 
 .avatar {
@@ -239,8 +202,6 @@ a {
     font-size: 12px;
     font-weight: 650;
     letter-spacing: 0.01em;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
 }
 
 .status-badge::before {
@@ -307,13 +268,11 @@ h2 {
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: var(--surface);
-    backdrop-filter: blur(22px) saturate(140%);
-    -webkit-backdrop-filter: blur(22px) saturate(140%);
-    transition: transform 260ms var(--ease), border-color 260ms ease, background 260ms ease;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .stat:hover {
-    transform: translateY(-4px);
     background: var(--surface-strong);
     border-color: var(--line-strong);
 }
@@ -334,15 +293,8 @@ h2 {
 .connect-section {
     width: min(calc(100% - 32px), 880px);
     padding: clamp(34px, 6vw, 58px) 0;
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 760ms var(--ease), transform 760ms var(--ease);
-}
-
-.section.is-visible,
-.connect-section.is-visible {
     opacity: 1;
-    transform: translateY(0);
+    transform: none;
 }
 
 .section p {
@@ -376,11 +328,9 @@ h2 {
     color: var(--muted);
     font-size: 14px;
     font-weight: 560;
-    transition: transform 220ms var(--ease), background 220ms ease, border-color 220ms ease, color 220ms ease;
 }
 
 .chips span:hover {
-    transform: translateY(-2px);
     color: var(--text);
     background: var(--surface-strong);
     border-color: var(--line-strong);
@@ -392,9 +342,8 @@ h2 {
     border-radius: var(--radius);
     background: linear-gradient(180deg, var(--surface-strong), var(--surface));
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
-    backdrop-filter: blur(24px) saturate(140%);
-    -webkit-backdrop-filter: blur(24px) saturate(140%);
-    transition: transform 260ms var(--ease), background 260ms ease, border-color 260ms ease, box-shadow 260ms ease;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
 }
 
 .card {
@@ -405,7 +354,6 @@ h2 {
 
 .card:hover,
 .project-card:hover {
-    transform: translateY(-4px);
     border-color: var(--line-strong);
     background: var(--surface-strong);
     box-shadow: var(--shadow);
@@ -461,7 +409,6 @@ h2 {
 .links a {
     color: var(--accent);
     font-weight: 620;
-    transition: transform 220ms var(--ease), color 220ms ease, background 220ms ease, border-color 220ms ease;
 }
 
 .contact-list a {
@@ -511,7 +458,6 @@ h2 {
     background: currentColor;
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 260ms var(--ease);
 }
 
 .links a:hover::after {
@@ -532,7 +478,6 @@ h2 {
     line-height: 1;
     text-align: center;
     text-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
-    transition: transform 260ms var(--ease), color 220ms ease, text-shadow 220ms ease;
 }
 
 .contact-icon {
@@ -548,31 +493,29 @@ h2 {
 }
 
 .contact-btn:hover {
-    transform: translateY(-4px);
     color: var(--accent);
     text-shadow: 0 12px 28px rgba(10, 132, 255, 0.35);
 }
 
-.is-theme-changing * {
-    transition-duration: 420ms;
-}
-
 .is-language-changing [data-i18n] {
-    opacity: 0.22;
-    transform: translateY(4px);
+    opacity: 1;
+    transform: none;
 }
 
 [data-i18n] {
-    transition: opacity 240ms var(--ease), transform 240ms var(--ease), color 220ms ease;
+    transition: none;
+}
+
+.hero [data-i18n],
+.hero .role,
+.hero .work-setup,
+.hero .apple {
+    transition: none;
 }
 
 @media (max-width: 680px) {
     html {
         scroll-behavior: auto;
-    }
-
-    body::after {
-        filter: none;
     }
 
     .lang-switch,

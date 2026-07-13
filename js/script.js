@@ -1,8 +1,6 @@
 const themeButtons = document.querySelectorAll(".theme-switch button");
 const languageButtons = document.querySelectorAll(".lang-switch button");
 const translatableItems = document.querySelectorAll("[data-i18n]");
-const revealItems = document.querySelectorAll(".section, .connect-section");
-const avatarGlow = document.querySelector(".avatar-wrapper");
 
 const translations = {
     en: {
@@ -137,11 +135,7 @@ const translations = {
 };
 
 function applyTheme(theme) {
-    document.body.classList.add("is-theme-changing");
     document.documentElement.setAttribute("data-theme", theme);
-    window.setTimeout(() => {
-        document.body.classList.remove("is-theme-changing");
-    }, 460);
 }
 
 function setTheme(theme) {
@@ -155,28 +149,23 @@ function setTheme(theme) {
 function setLanguage(language) {
     const dictionary = translations[language] || translations.en;
 
-    document.body.classList.add("is-language-changing");
+    document.documentElement.lang = language;
+    document.title = dictionary.title;
 
-    window.setTimeout(() => {
-        document.documentElement.lang = language;
-        document.title = dictionary.title;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+        metaDescription.setAttribute("content", dictionary.metaDescription);
+    }
 
-        const metaDescription = document.querySelector('meta[name="description"]');
-        if (metaDescription) {
-            metaDescription.setAttribute("content", dictionary.metaDescription);
+    translatableItems.forEach(item => {
+        const key = item.dataset.i18n;
+        if (dictionary[key]) {
+            item.textContent = dictionary[key];
         }
+    });
 
-        translatableItems.forEach(item => {
-            const key = item.dataset.i18n;
-            if (dictionary[key]) {
-                item.textContent = dictionary[key];
-            }
-        });
-
-        languageButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.lang === language));
-        localStorage.setItem("language", language);
-        document.body.classList.remove("is-language-changing");
-    }, 150);
+    languageButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.lang === language));
+    localStorage.setItem("language", language);
 }
 
 const savedTheme = localStorage.getItem("theme") === "light" ? "light" : "dark";
@@ -196,49 +185,3 @@ languageButtons.forEach(btn => {
         setLanguage(btn.dataset.lang);
     });
 });
-
-const isSmallScreen = window.matchMedia("(max-width: 680px)").matches;
-
-if (isSmallScreen) {
-    revealItems.forEach(item => item.classList.add("is-visible"));
-} else if ("IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("is-visible");
-                revealObserver.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.16,
-        rootMargin: "0px 0px -8% 0px"
-    });
-
-    revealItems.forEach(item => revealObserver.observe(item));
-} else {
-    revealItems.forEach(item => item.classList.add("is-visible"));
-}
-
-if (!isSmallScreen) {
-    let ticking = false;
-
-    function updateHeroMotion() {
-        const scrollOffset = window.scrollY;
-
-        if (avatarGlow) {
-            const offset = Math.min(scrollOffset * 0.08, 26);
-            avatarGlow.style.setProperty("--hero-glow", `${offset}px`);
-        }
-
-        ticking = false;
-    }
-
-    window.addEventListener("scroll", () => {
-        if (!ticking) {
-            window.requestAnimationFrame(updateHeroMotion);
-            ticking = true;
-        }
-    }, { passive: true });
-
-    updateHeroMotion();
-}
