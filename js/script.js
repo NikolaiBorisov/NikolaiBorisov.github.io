@@ -197,7 +197,11 @@ languageButtons.forEach(btn => {
     });
 });
 
-if ("IntersectionObserver" in window) {
+const isSmallScreen = window.matchMedia("(max-width: 680px)").matches;
+
+if (isSmallScreen) {
+    revealItems.forEach(item => item.classList.add("is-visible"));
+} else if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -215,24 +219,26 @@ if ("IntersectionObserver" in window) {
     revealItems.forEach(item => item.classList.add("is-visible"));
 }
 
-let ticking = false;
+if (!isSmallScreen) {
+    let ticking = false;
 
-function updateHeroMotion() {
-    const scrollOffset = window.scrollY;
+    function updateHeroMotion() {
+        const scrollOffset = window.scrollY;
 
-    if (avatarGlow) {
-        const offset = Math.min(scrollOffset * 0.08, 26);
-        avatarGlow.style.setProperty("--hero-glow", `${offset}px`);
+        if (avatarGlow) {
+            const offset = Math.min(scrollOffset * 0.08, 26);
+            avatarGlow.style.setProperty("--hero-glow", `${offset}px`);
+        }
+
+        ticking = false;
     }
 
-    ticking = false;
+    window.addEventListener("scroll", () => {
+        if (!ticking) {
+            window.requestAnimationFrame(updateHeroMotion);
+            ticking = true;
+        }
+    }, { passive: true });
+
+    updateHeroMotion();
 }
-
-window.addEventListener("scroll", () => {
-    if (!ticking) {
-        window.requestAnimationFrame(updateHeroMotion);
-        ticking = true;
-    }
-}, { passive: true });
-
-updateHeroMotion();

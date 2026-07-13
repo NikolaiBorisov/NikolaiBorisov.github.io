@@ -567,9 +567,19 @@ h2 {
 }
 
 @media (max-width: 680px) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    body::after {
+        filter: none;
+    }
+
     .lang-switch,
     .theme-switch {
         top: max(14px, env(safe-area-inset-top));
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .theme-switch button,
@@ -594,6 +604,22 @@ h2 {
     .section,
     .connect-section {
         width: min(calc(100% - 28px), 880px);
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .avatar-wrapper::before {
+        transform: none;
+        transition: none;
+    }
+
+    .stat,
+    .card,
+    .project-card,
+    .status-badge {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
     }
 
     .projects-grid {
