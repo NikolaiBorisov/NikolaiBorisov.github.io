@@ -279,7 +279,7 @@ function openSwiftTalks() {
     closeSwiftTalksButton?.focus();
 }
 
-function closeSwiftTalks() {
+function closeSwiftTalks(options = {}) {
     if (!swiftTalksScreen) {
         return;
     }
@@ -287,10 +287,21 @@ function closeSwiftTalks() {
     swiftTalksScreen.classList.remove("is-open");
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
+
+    if (!options.keepHash && window.location.hash === "#swift-talks") {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
+
     openSwiftTalksButton?.focus();
 }
 
-openSwiftTalksButton?.addEventListener("click", openSwiftTalks);
+openSwiftTalksButton?.addEventListener("click", () => {
+    if (window.location.hash !== "#swift-talks") {
+        window.location.hash = "swift-talks";
+    } else {
+        openSwiftTalks();
+    }
+});
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
 
 document.addEventListener("keydown", event => {
@@ -298,6 +309,17 @@ document.addEventListener("keydown", event => {
         closeSwiftTalks();
     }
 });
+
+function syncSwiftTalksWithHash() {
+    if (window.location.hash === "#swift-talks") {
+        openSwiftTalks();
+    } else if (swiftTalksScreen?.classList.contains("is-open")) {
+        closeSwiftTalks({ keepHash: true });
+    }
+}
+
+window.addEventListener("hashchange", syncSwiftTalksWithHash);
+syncSwiftTalksWithHash();
 
 function copyWithFallback(text) {
     const textArea = document.createElement("textarea");
