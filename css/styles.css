@@ -408,7 +408,7 @@ h2 {
     z-index: 100;
     display: none;
     overflow-y: auto;
-    padding: max(34px, env(safe-area-inset-top)) 0 max(28px, env(safe-area-inset-bottom));
+    padding: max(74px, calc(env(safe-area-inset-top) + 34px)) 0 max(28px, env(safe-area-inset-bottom));
     color: var(--text);
     background:
         linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
@@ -458,6 +458,13 @@ h2 {
     flex-wrap: wrap;
     justify-content: flex-end;
     gap: 8px;
+}
+
+.talks-close {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    right: max(16px, env(safe-area-inset-right));
+    z-index: 2;
 }
 
 .talks-button {
@@ -565,8 +572,8 @@ h2 {
 
 .talk-footer {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     gap: 16px;
     margin-top: 26px;
     padding-top: 18px;
@@ -576,8 +583,23 @@ h2 {
     font-weight: 620;
 }
 
+.talk-footer-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
 .talk-footer a {
     color: var(--accent);
+}
+
+.talk-footer .talks-actions {
+    justify-content: flex-end;
+}
+
+.talk-footer .talks-button.primary {
+    color: #fff;
 }
 
 #about p {
@@ -848,12 +870,13 @@ h2 {
     }
 
     .talks-header,
-    .talk-footer {
+    .talk-footer-meta {
         align-items: stretch;
         flex-direction: column;
     }
 
-    .talks-actions {
+    .talks-actions,
+    .talk-footer .talks-actions {
         justify-content: flex-start;
     }
 
