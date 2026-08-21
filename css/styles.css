@@ -462,9 +462,11 @@ h2 {
 
 .talks-close {
     position: fixed;
+    top: 16px;
+    right: 16px;
     top: max(16px, env(safe-area-inset-top));
     right: max(16px, env(safe-area-inset-right));
-    z-index: 2;
+    z-index: 101;
 }
 
 .talks-button {
