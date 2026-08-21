@@ -298,9 +298,9 @@ function closeSwiftTalks(options = {}) {
 openSwiftTalksButton?.addEventListener("click", () => {
     if (window.location.hash !== "#swift-talks") {
         window.location.hash = "swift-talks";
-    } else {
-        openSwiftTalks();
     }
+
+    openSwiftTalks();
 });
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
 
