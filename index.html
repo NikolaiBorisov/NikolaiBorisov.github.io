@@ -28,6 +28,11 @@
 
 <body>
 
+<!-- 🧭 Top Navigation -->
+<nav class="top-nav" aria-label="Featured content">
+    <button type="button" class="nav-pill" id="open-swift-talks">#SWIFT Talks</button>
+</nav>
+
 <!-- 🌐 Language Picker -->
 <div class="lang-switch" aria-label="Language">
     <button data-lang="en" class="active" aria-label="English">🇬🇧</button>
@@ -67,6 +72,72 @@
         <span data-i18n="statApps">Apps</span>
     </div>
 </div>
+</section>
+
+<!-- 🔶 SWIFT Talks -->
+<section id="swift-talks" class="swift-talks-screen" aria-hidden="true">
+    <div class="swift-talks-content">
+    <div class="talks-header">
+        <div>
+            <span class="talks-kicker">SWIFT Talks · Part 1</span>
+            <h2>What is Swift? Why Swift? What for?</h2>
+        </div>
+        <div class="talks-actions">
+            <button type="button" id="copy-swift-talk" class="talks-button" aria-live="polite">Copy post</button>
+            <button type="button" id="translate-swift-talk" class="talks-button">Translate</button>
+            <a class="talks-button primary" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20SWIFT%20Talks%20Part%201&body=Hi%20Niko%2C%0A%0AI%20read%20your%20first%20SWIFT%20Talks%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
+            <button type="button" id="close-swift-talks" class="talks-button" aria-label="Close SWIFT Talks">Close</button>
+        </div>
+    </div>
+
+    <article class="talk-card" aria-labelledby="swift-talk-title">
+        <p class="talk-intro" id="swift-talk-title">Swift is Apple’s modern programming language for building apps across iOS, macOS, watchOS, tvOS, visionOS, and beyond.</p>
+
+        <div class="talk-grid">
+            <div>
+                <h3>Where It Came From</h3>
+                <p>Introduced by Apple in 2014, Swift was created as a safer, faster, and more expressive alternative to Objective-C. The project was started by Chris Lattner around 2010, with major contributions from Apple’s compiler and developer tools teams.</p>
+                <p>Swift did not appear from nowhere. It carries ideas from Objective-C, C, C++, Rust, Haskell, Python, Ruby, C#, and other modern languages.</p>
+            </div>
+            <div>
+                <h3>Why Apple Built It</h3>
+                <ul>
+                    <li><strong>Safe:</strong> optionals and strong typing help catch mistakes early.</li>
+                    <li><strong>Fast:</strong> compiled performance with safer defaults.</li>
+                    <li><strong>Readable:</strong> less ceremony, more intention.</li>
+                    <li><strong>Modern:</strong> closures, generics, async/await, protocols, extensions, and pattern matching.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="talk-highlight">
+            <span>Core idea</span>
+            <blockquote>“Code should be expressive without being fragile.”</blockquote>
+        </div>
+
+        <div class="talk-grid">
+            <div>
+                <h3>What Swift Is Used For</h3>
+                <ul>
+                    <li>Building iPhone, Mac, Apple Watch, and visionOS apps.</li>
+                    <li>Writing server-side backends with frameworks like Vapor.</li>
+                    <li>Creating command-line tools, SDKs, frameworks, and production-grade software.</li>
+                    <li>Teaching programming and prototyping ideas quickly.</li>
+                </ul>
+            </div>
+            <div>
+                <h3>The Philosophy</h3>
+                <p>Features like <code>let</code>, <code>guard</code>, <code>if let</code>, <code>struct</code>, <code>protocol</code>, and <code>async/await</code> are not just syntax. They represent a philosophy: make the correct path easy, and the dangerous path visible.</p>
+                <p>Swift sits at the intersection of design, engineering, safety, and creativity.</p>
+            </div>
+        </div>
+
+        <footer class="talk-footer">
+            <span>Next part: Swift Under the Hood</span>
+            <a href="https://www.linkedin.com/in/niko-anderson-36269333b/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
+        </footer>
+    </article>
+    </div>
 </section>
 
 <section id="about" class="section">
