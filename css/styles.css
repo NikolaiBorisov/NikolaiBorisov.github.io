@@ -502,6 +502,68 @@ h2 {
     box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
 }
 
+.talks-accordion {
+    display: grid;
+    gap: 14px;
+}
+
+.talk-accordion-item {
+    padding: 0;
+    overflow: hidden;
+}
+
+.talk-accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: clamp(18px, 3vw, 26px) clamp(20px, 4vw, 34px);
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    font: inherit;
+}
+
+.talk-accordion-trigger:hover {
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.talk-accordion-title {
+    display: block;
+    margin-top: 5px;
+    font-size: clamp(25px, 4vw, 46px);
+    line-height: 1.12;
+    font-weight: 760;
+}
+
+.talk-chevron {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+    border-right: 3px solid currentColor;
+    border-bottom: 3px solid currentColor;
+    color: var(--muted);
+    transform: rotate(45deg);
+    transition: transform 180ms var(--ease), color 180ms var(--ease);
+}
+
+.talk-accordion-item.is-expanded .talk-chevron {
+    color: var(--accent);
+    transform: rotate(225deg);
+}
+
+.talk-accordion-panel {
+    display: none;
+    padding: 0 clamp(20px, 4vw, 34px) clamp(20px, 4vw, 34px);
+}
+
+.talk-accordion-item.is-expanded .talk-accordion-panel {
+    display: block;
+}
+
 .talk-card h3 {
     margin-bottom: 9px;
     font-size: 17px;
@@ -530,7 +592,8 @@ h2 {
 }
 
 .talk-grid + .talk-grid,
-.talk-highlight + .talk-grid {
+.talk-highlight + .talk-grid,
+.talk-grid + .talk-highlight {
     margin-top: 24px;
 }
 

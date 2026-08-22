@@ -80,67 +80,190 @@
 <section id="swift-talks" class="swift-talks-screen" aria-hidden="true">
     <button type="button" id="close-swift-talks" class="talks-button talks-close" aria-label="Close SWIFT Talks">Close</button>
     <div class="swift-talks-content">
-    <div class="talks-header">
-        <div>
-            <span class="talks-kicker">SWIFT Talks · Part 1</span>
-            <h2>What is Swift? Why Swift? What for?</h2>
-        </div>
-    </div>
-
-    <article class="talk-card" aria-labelledby="swift-talk-title">
-        <p class="talk-intro" id="swift-talk-title">Swift is Apple’s modern programming language for building apps across iOS, macOS, watchOS, tvOS, visionOS, and beyond.</p>
-
-        <div class="talk-grid">
+        <div class="talks-header">
             <div>
-                <h3>Where It Came From</h3>
-                <p>Introduced by Apple in 2014, Swift was created as a safer, faster, and more expressive alternative to Objective-C. The project was started by Chris Lattner around 2010, with major contributions from Apple’s compiler and developer tools teams.</p>
-                <p>Swift did not appear from nowhere. It carries ideas from Objective-C, C, C++, Rust, Haskell, Python, Ruby, C#, and other modern languages.</p>
-            </div>
-            <div>
-                <h3>Why Apple Built It</h3>
-                <ul>
-                    <li><strong>Safe:</strong> optionals and strong typing help catch mistakes early.</li>
-                    <li><strong>Fast:</strong> compiled performance with safer defaults.</li>
-                    <li><strong>Readable:</strong> less ceremony, more intention.</li>
-                    <li><strong>Modern:</strong> closures, generics, async/await, protocols, extensions, and pattern matching.</li>
-                </ul>
+                <span class="talks-kicker">SWIFT Talks</span>
+                <h2>Swift learning notes</h2>
             </div>
         </div>
 
-        <div class="talk-highlight">
-            <span>Core idea</span>
-            <blockquote>“Code should be expressive without being fragile.”</blockquote>
-        </div>
+        <div class="talks-accordion">
+            <article class="talk-card talk-accordion-item is-expanded" data-talk-id="part1">
+                <button type="button" class="talk-accordion-trigger" aria-expanded="true">
+                    <span>
+                        <span class="talks-kicker">Part 1</span>
+                        <span class="talk-accordion-title">What is Swift? Why Swift? What for?</span>
+                    </span>
+                    <span class="talk-chevron" aria-hidden="true"></span>
+                </button>
 
-        <div class="talk-grid">
-            <div>
-                <h3>What Swift Is Used For</h3>
-                <ul>
-                    <li>Building iPhone, Mac, Apple Watch, and visionOS apps.</li>
-                    <li>Writing server-side backends with frameworks like Vapor.</li>
-                    <li>Creating command-line tools, SDKs, frameworks, and production-grade software.</li>
-                    <li>Teaching programming and prototyping ideas quickly.</li>
-                </ul>
-            </div>
-            <div>
-                <h3>The Philosophy</h3>
-                <p>Features like <code>let</code>, <code>guard</code>, <code>if let</code>, <code>struct</code>, <code>protocol</code>, and <code>async/await</code> are not just syntax. They represent a philosophy: make the correct path easy, and the dangerous path visible.</p>
-                <p>Swift sits at the intersection of design, engineering, safety, and creativity.</p>
-            </div>
-        </div>
+                <div class="talk-accordion-panel">
+                    <p class="talk-intro">Swift is Apple's modern programming language for building apps across iOS, macOS, watchOS, tvOS, visionOS, and beyond.</p>
 
-        <footer class="talk-footer">
-            <div class="talk-footer-meta">
-                <span>Next part: Swift Under the Hood</span>
-                <a href="https://www.linkedin.com/in/niko-anderson-36269333b/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
-            </div>
-            <div class="talks-actions">
-                <button type="button" id="copy-swift-talk" class="talks-button" aria-live="polite">Copy post</button>
-                <button type="button" id="translate-swift-talk" class="talks-button">Translate</button>
-                <a class="talks-button primary" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20SWIFT%20Talks%20Part%201&body=Hi%20Niko%2C%0A%0AI%20read%20your%20first%20SWIFT%20Talks%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
-            </div>
-        </footer>
-    </article>
+                    <div class="talk-grid">
+                        <div>
+                            <h3>Where It Came From</h3>
+                            <p>Introduced by Apple in 2014, Swift was created as a safer, faster, and more expressive alternative to Objective-C. The project was started by Chris Lattner around 2010, with major contributions from Apple's compiler and developer tools teams.</p>
+                            <p>Swift did not appear from nowhere. It carries ideas from Objective-C, C, C++, Rust, Haskell, Python, Ruby, C#, and other modern languages.</p>
+                        </div>
+                        <div>
+                            <h3>Why Apple Built It</h3>
+                            <ul>
+                                <li><strong>Safe:</strong> optionals and strong typing help catch mistakes early.</li>
+                                <li><strong>Fast:</strong> compiled performance with safer defaults.</li>
+                                <li><strong>Readable:</strong> less ceremony, more intention.</li>
+                                <li><strong>Modern:</strong> closures, generics, async/await, protocols, extensions, and pattern matching.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="talk-highlight">
+                        <span>Core idea</span>
+                        <blockquote>"Code should be expressive without being fragile."</blockquote>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>What Swift Is Used For</h3>
+                            <ul>
+                                <li>Building iPhone, Mac, Apple Watch, and visionOS apps.</li>
+                                <li>Writing server-side backends with frameworks like Vapor.</li>
+                                <li>Creating command-line tools, SDKs, frameworks, and production-grade software.</li>
+                                <li>Teaching programming and prototyping ideas quickly.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>The Philosophy</h3>
+                            <p>Features like <code>let</code>, <code>guard</code>, <code>if let</code>, <code>struct</code>, <code>protocol</code>, and <code>async/await</code> are not just syntax. They represent a philosophy: make the correct path easy, and the dangerous path visible.</p>
+                            <p>Swift sits at the intersection of design, engineering, safety, and creativity.</p>
+                        </div>
+                    </div>
+
+                    <footer class="talk-footer">
+                        <div class="talk-footer-meta">
+                            <span>Next part: Swift Under the Hood</span>
+                            <a href="https://www.linkedin.com/in/niko-anderson-36269333b/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
+                        </div>
+                        <div class="talks-actions">
+                            <button type="button" class="talks-button copy-talk" data-talk-id="part1" aria-live="polite">Copy post</button>
+                            <button type="button" class="talks-button translate-talk" data-talk-id="part1">Translate</button>
+                            <a class="talks-button primary" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20SWIFT%20Talks%20Part%201&body=Hi%20Niko%2C%0A%0AI%20read%20your%20first%20SWIFT%20Talks%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
+                        </div>
+                    </footer>
+                </div>
+            </article>
+
+            <article class="talk-card talk-accordion-item" data-talk-id="part2">
+                <button type="button" class="talk-accordion-trigger" aria-expanded="false">
+                    <span>
+                        <span class="talks-kicker">Part 2</span>
+                        <span class="talk-accordion-title">Swift Under the Hood</span>
+                    </span>
+                    <span class="talk-chevron" aria-hidden="true"></span>
+                </button>
+
+                <div class="talk-accordion-panel">
+                    <p class="talk-intro">Swift under the hood combines compiler checks, memory management, type safety, and runtime support.</p>
+
+                    <div class="talk-highlight">
+                        <span>Compiler pipeline</span>
+                        <blockquote>Swift Code -> Parser -> Type Checker -> SIL -> LLVM -> Machine Code</blockquote>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>Parser</h3>
+                            <p>First, Swift reads our code and turns it into a structure the compiler can understand.</p>
+                            <ul>
+                                <li>Constants and variables.</li>
+                                <li>Functions, types, expressions, and scopes.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>Type Checker</h3>
+                            <p>The type checker verifies that our code makes sense before the app runs. It understands that <code>25</code> is an <code>Int</code>, <code>"Alex"</code> is a <code>String</code>, and <code>true</code> is a <code>Bool</code>.</p>
+                            <p><code>let count: Int = "10"</code> is an error. Swift catches the mistake at compile time.</p>
+                        </div>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>SIL</h3>
+                            <p>After type checking, Swift code becomes SIL: Swift Intermediate Language. This is where Swift-specific optimization happens.</p>
+                            <p>The compiler can reason about value types, generics, protocols, ARC, ownership, and memory behavior.</p>
+                        </div>
+                        <div>
+                            <h3>LLVM</h3>
+                            <p>After SIL, Swift uses LLVM. LLVM lowers the code closer to machine instructions and applies performance optimizations.</p>
+                            <p>It helps with inlining, removing unused code, and generating optimized machine code for the target device.</p>
+                        </div>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>Memory Management</h3>
+                            <p>Swift uses ARC: Automatic Reference Counting. ARC tracks how many strong references point to an object.</p>
+                            <p>When no strong references remain, the object can be removed from memory. This gives Swift automatic memory management without a traditional garbage collector.</p>
+                        </div>
+                        <div>
+                            <h3>Value Types</h3>
+                            <p>Swift encourages value types like <code>struct</code> and <code>enum</code>. Value types make code easier to reason about because data changes are more explicit.</p>
+                            <p>Swift also uses optimizations like copy-on-write, so value semantics do not always mean expensive copying.</p>
+                        </div>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>Optionals</h3>
+                            <p>Optionals are a core safety feature. An optional means there may be a value, or there may be no value.</p>
+                            <p>Swift forces us to handle missing values directly, instead of letting them become unexpected crashes later.</p>
+                        </div>
+                        <div>
+                            <h3>Concurrency</h3>
+                            <p>Modern Swift includes structured concurrency. <code>async/await</code> makes asynchronous code easier to read, tasks give async work structure, and actors help protect shared mutable state.</p>
+                            <p><code>@MainActor</code> helps keep UI updates on the main thread.</p>
+                        </div>
+                    </div>
+
+                    <div class="talk-highlight">
+                        <span>Core idea</span>
+                        <blockquote>Swift is designed to make safe code feel natural.</blockquote>
+                    </div>
+
+                    <div class="talk-grid">
+                        <div>
+                            <h3>Why It Feels Safe</h3>
+                            <ul>
+                                <li>Strong typing catches mistakes early.</li>
+                                <li>Optionals make absence visible.</li>
+                                <li>ARC manages memory automatically.</li>
+                                <li>Value types reduce hidden sharing.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3>The Balance</h3>
+                            <ul>
+                                <li>High-level enough to be expressive.</li>
+                                <li>Low-level enough to be fast.</li>
+                                <li>Practical enough for real production apps.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <footer class="talk-footer">
+                        <div class="talk-footer-meta">
+                            <span>Next part: Swift Type System</span>
+                            <a href="https://www.linkedin.com/in/niko-anderson-36269333b/" target="_blank" rel="noopener noreferrer">Follow on LinkedIn</a>
+                        </div>
+                        <div class="talks-actions">
+                            <button type="button" class="talks-button copy-talk" data-talk-id="part2" aria-live="polite">Copy post</button>
+                            <button type="button" class="talks-button translate-talk" data-talk-id="part2">Translate</button>
+                            <a class="talks-button primary" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20SWIFT%20Talks%20Part%202&body=Hi%20Niko%2C%0A%0AI%20read%20your%20second%20SWIFT%20Talks%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
+                        </div>
+                    </footer>
+                </div>
+            </article>
+        </div>
     </div>
 </section>
 

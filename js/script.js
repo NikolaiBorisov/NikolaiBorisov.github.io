@@ -4,10 +4,12 @@ const translatableItems = document.querySelectorAll("[data-i18n]");
 const openSwiftTalksButton = document.querySelector("#open-swift-talks");
 const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
 const swiftTalksScreen = document.querySelector("#swift-talks");
-const copySwiftTalkButton = document.querySelector("#copy-swift-talk");
-const translateSwiftTalkButton = document.querySelector("#translate-swift-talk");
+const accordionTriggers = document.querySelectorAll(".talk-accordion-trigger");
+const copyTalkButtons = document.querySelectorAll(".copy-talk");
+const translateTalkButtons = document.querySelectorAll(".translate-talk");
 
-const swiftTalkPost = `🔶 SWIFT Talks
+const swiftTalkPosts = {
+    part1: `🔶 SWIFT Talks
 What is Swift? Why Swift? What for?
 
 Swift is Apple’s modern programming language for building apps across:
@@ -79,7 +81,112 @@ Swift sits at the intersection of design, engineering, safety, and creativity.
 
 🔶 Follow for the next part: Swift Under the Hood
 🔗 https://www.linkedin.com/in/niko-anderson-36269333b/
-#SwiftTalks`;
+#SwiftTalks`,
+    part2: `🔶 SWIFT Talks
+
+Swift Under the Hood
+
+Swift under the hood combines:
+
+• Compiler checks
+• Memory management
+• Type safety
+• Runtime support
+
+At a high level, Swift code goes through this pipeline:
+Swift Code -> Parser -> Type Checker -> SIL -> LLVM -> Machine Code
+
+🔸 Parser
+First, Swift reads our code and turns it into a structure the compiler can understand.
+
+It understands:
+• Constants
+• Variables
+• Functions
+• Types
+• Expressions
+• Scopes
+
+🔸 Type Checker
+The type checker verifies that our code makes sense before the app runs.
+
+It understands that:
+• 25 is an \`Int\`
+• "Alex" is a \`String\`
+• true is a \`Bool\`
+• let count: Int = "10" // error
+
+This is called type inference.
+We do not always need to write the type manually, but Swift still knows it.
+Swift catches the mistake at compile time.
+
+🔸 SIL
+After type checking, Swift code becomes SIL: Swift Intermediate Language.
+This is where Swift-specific optimization happens.
+
+The compiler can reason about:
+• value types
+• generics
+• protocols
+• ARC
+• ownership
+• memory behavior
+
+🔸 LLVM
+After SIL, Swift uses LLVM.
+LLVM lowers the code closer to machine instructions and applies performance optimizations.
+It helps with inlining, removing unused code, generating optimized machine code for the target device.
+
+🔸 Memory Management
+Swift uses ARC: Automatic Reference Counting.
+ARC tracks how many strong references point to an object.
+When no strong references remain, the object can be removed from memory.
+This gives Swift automatic memory management without a traditional garbage collector.
+
+🔸 Value Types
+Swift encourages value types like struct and enum.
+Value types make code easier to reason about because data changes are more explicit.
+They help reduce accidental shared mutable state.
+Swift also uses performance optimizations like copy-on-write, so value semantics do not always mean expensive copying.
+
+🔸 Optionals
+Optionals are a core safety feature.
+
+An optional means:
+• There may be a value
+• Or there may be no value
+
+Swift forces us to handle missing values directly, instead of letting them become unexpected crashes later.
+
+🔸 Concurrency
+Modern Swift includes structured concurrency.
+async/await makes asynchronous code easier to read.
+tasks give async work structure.
+actors help protect shared mutable state.
+@MainActor helps keep UI updates on the main thread.
+
+Swift is designed to make safe code feel natural.
+
+Its features are not random:
+• strong typing catches mistakes early
+• optionals make absence visible
+• ARC manages memory automatically
+• value types reduce hidden sharing
+• generics and protocols improve reuse
+• async/await and actors make concurrency safer
+• the compiler checks more before runtime
+
+Swift under the hood is a balance:
+• High-level enough to be expressive
+• Low-level enough to be fast
+• Practical enough for real production apps
+
+Swift helps developers build reliable software with less accidental complexity.
+
+🔶 Follow for the next part: Swift Type System
+
+#Swift #SwiftTalks #iOS`
+};
 
 const translations = {
     en: {
@@ -321,6 +428,15 @@ function syncSwiftTalksWithHash() {
 window.addEventListener("hashchange", syncSwiftTalksWithHash);
 syncSwiftTalksWithHash();
 
+accordionTriggers.forEach(trigger => {
+    trigger.addEventListener("click", () => {
+        const item = trigger.closest(".talk-accordion-item");
+        const isExpanded = item?.classList.toggle("is-expanded");
+
+        trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+    });
+});
+
 function copyWithFallback(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -333,36 +449,48 @@ function copyWithFallback(text) {
     document.body.removeChild(textArea);
 }
 
-if (copySwiftTalkButton) {
-    copySwiftTalkButton.addEventListener("click", async () => {
+copyTalkButtons.forEach(button => {
+    button.addEventListener("click", async () => {
+        const post = swiftTalkPosts[button.dataset.talkId];
+
+        if (!post) {
+            return;
+        }
+
         try {
             if (navigator.clipboard && window.isSecureContext) {
-                await navigator.clipboard.writeText(swiftTalkPost);
+                await navigator.clipboard.writeText(post);
             } else {
-                copyWithFallback(swiftTalkPost);
+                copyWithFallback(post);
             }
 
-            copySwiftTalkButton.textContent = "Copied";
+            button.textContent = "Copied";
             setTimeout(() => {
-                copySwiftTalkButton.textContent = "Copy post";
+                button.textContent = "Copy post";
             }, 1800);
         } catch {
-            copySwiftTalkButton.textContent = "Copy failed";
+            button.textContent = "Copy failed";
             setTimeout(() => {
-                copySwiftTalkButton.textContent = "Copy post";
+                button.textContent = "Copy post";
             }, 1800);
         }
     });
-}
+});
 
-if (translateSwiftTalkButton) {
-    translateSwiftTalkButton.addEventListener("click", () => {
+translateTalkButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        const post = swiftTalkPosts[button.dataset.talkId];
+
+        if (!post) {
+            return;
+        }
+
         const translateUrl = new URL("https://translate.google.com/");
         translateUrl.searchParams.set("sl", "en");
         translateUrl.searchParams.set("tl", "auto");
-        translateUrl.searchParams.set("text", swiftTalkPost);
+        translateUrl.searchParams.set("text", post);
         translateUrl.searchParams.set("op", "translate");
 
         window.open(translateUrl.toString(), "_blank", "noopener,noreferrer");
     });
-}
+});
