@@ -187,6 +187,160 @@ Swift helps developers build reliable software with less accidental complexity.
 
 🔶 Follow for the next part: Swift Type System
 
+#Swift #SwiftTalks #iOS`,
+    part3: `🔶 Swift Talks
+
+iOS Development & iOS Developer
+
+iOS development is the process of building apps for Apple’s mobile ecosystem.
+
+An iOS developer works with:
+
+• UI and UX
+• Architecture
+• State management
+• Networking
+• Persistence
+• Performance
+• Testing
+• App Store delivery
+
+🔸 What Is iOS Development?
+
+iOS development means creating apps for iPhone and iPad.
+
+Most modern iOS apps are built with:
+
+• Swift
+• SwiftUI or UIKit
+• Xcode
+• Apple SDKs
+
+Swift is the main language.
+Xcode is the main development environment.
+Apple SDKs provide tools for UI, networking, storage, maps, camera, notifications, payments, and more.
+
+🔸 What Does an iOS Developer Do?
+
+An iOS developer turns ideas into working mobile products.
+
+This includes:
+
+• Building screens
+• Handling user actions
+• Connecting APIs
+• Managing app state
+• Saving local data
+• Handling errors
+• Fixing bugs
+• Preparing releases
+
+A good iOS developer does not only ask:
+
+"How do I make it work?"
+
+They also ask:
+
+"Is it maintainable?"
+"Is it testable?"
+"Does it feel good to use?"
+
+🔸 UI Layer
+
+The UI layer is what the user sees and touches.
+
+In iOS, this usually means SwiftUI or UIKit.
+
+SwiftUI is declarative:
+
+You describe the UI for a given state.
+
+UIKit is imperative:
+
+You control views and updates more manually.
+
+A strong iOS developer understands UI state, navigation, accessibility, animations, and platform behavior.
+
+🔸 App Architecture
+
+Real apps need structure.
+
+Without architecture, screens become too large, logic gets duplicated, and small changes become risky.
+
+Common iOS architecture patterns include:
+
+• MVC
+• MVVM
+• Clean Architecture
+• VIPER
+• TCA
+
+Architecture helps separate responsibilities.
+
+The point is to keep the app understandable as it grows.
+
+🔸 Data & APIs
+
+Most iOS apps work with data.
+
+That data can come from:
+
+• REST APIs
+• GraphQL
+• Local databases
+• UserDefaults
+• Keychain
+• Cloud services
+
+An iOS developer needs to understand networking, JSON decoding, caching, offline behavior, and error handling.
+
+🔸 Performance
+
+iOS apps should feel fast.
+
+Performance means:
+
+• Smooth scrolling
+• Fast launch time
+• Efficient images
+• Safe memory usage
+• No main-thread blocking
+
+Users may not know why an app feels slow.
+
+But they always feel it.
+
+🔸 Testing
+
+Testing helps protect the app from breaking as it changes.
+
+iOS developers may write:
+
+• Unit tests
+• UI tests
+• Snapshot tests
+• Integration tests
+
+Good tests make refactoring safer and bugs easier to catch before users see them.
+
+🔸 The Main Idea
+
+An iOS developer builds product experiences for Apple platforms.
+
+They need to understand code, design, architecture, data, performance, and users.
+
+iOS development is a balance:
+
+• Technical enough to be reliable
+• Visual enough to care about details
+• Practical enough to ship real products
+
+You are not only building screens.
+
+You are building software people carry in their hands every day.
+
+🔶 Follow for the next part: Swift Type System
+
 #Swift #SwiftTalks #iOS`
 };
 
@@ -381,23 +535,22 @@ function saveStoredLikes(likes) {
     }
 }
 
-function formatLikeCount(count) {
-    return `${count} ${count === 1 ? "like" : "likes"}`;
-}
-
-function renderLikeControl(control, state) {
+function renderLikeControl(control, isLiked) {
     const button = control.querySelector(".like-button");
-    const count = control.querySelector(".like-count");
 
-    button?.setAttribute("aria-pressed", state.liked ? "true" : "false");
+    button?.setAttribute("aria-pressed", isLiked ? "true" : "false");
 
     if (button) {
-        button.setAttribute("aria-label", state.liked ? "Unlike this post" : "Like this post");
+        button.setAttribute("aria-label", isLiked ? "Unlike this post" : "Like this post");
+    }
+}
+
+function getStoredLikeValue(value) {
+    if (typeof value === "object" && value !== null) {
+        return Boolean(value.liked);
     }
 
-    if (count) {
-        count.textContent = formatLikeCount(state.count);
-    }
+    return Boolean(value);
 }
 
 function setupLikes() {
@@ -411,19 +564,15 @@ function setupLikes() {
             return;
         }
 
-        const state = likes[talkId] || { liked: false, count: 0 };
-        state.count = Math.max(0, Number(state.count) || 0);
-        state.liked = Boolean(state.liked);
-        likes[talkId] = state;
-        renderLikeControl(control, state);
+        let isLiked = getStoredLikeValue(likes[talkId]);
+        likes[talkId] = isLiked;
+        renderLikeControl(control, isLiked);
 
         button.addEventListener("click", () => {
-            const nextLiked = !state.liked;
-            state.count = Math.max(0, state.count + (nextLiked ? 1 : -1));
-            state.liked = nextLiked;
-            likes[talkId] = state;
+            isLiked = !isLiked;
+            likes[talkId] = isLiked;
             saveStoredLikes(likes);
-            renderLikeControl(control, state);
+            renderLikeControl(control, isLiked);
         });
     });
 

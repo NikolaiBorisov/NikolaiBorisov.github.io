@@ -673,7 +673,6 @@ h2 {
     display: inline-flex;
     align-items: center;
     align-self: flex-start;
-    gap: 10px;
 }
 
 .like-button {
@@ -723,13 +722,6 @@ h2 {
 .like-button[aria-pressed="true"] .like-icon {
     fill: currentColor;
     transform: scale(1.05);
-}
-
-.like-count {
-    min-width: 58px;
-    color: var(--quiet);
-    font-size: 13px;
-    font-weight: 680;
 }
 
 #about p {
