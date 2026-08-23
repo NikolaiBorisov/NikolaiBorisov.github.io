@@ -7,6 +7,8 @@ const swiftTalksScreen = document.querySelector("#swift-talks");
 const accordionTriggers = document.querySelectorAll(".talk-accordion-trigger");
 const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
+const likeControls = document.querySelectorAll(".talk-like");
+const likesStorageKey = "swiftTalkLikes";
 
 const swiftTalkPosts = {
     part1: `🔶 SWIFT Talks
@@ -362,6 +364,73 @@ const savedLanguage = localStorage.getItem("language") || "en";
 
 setTheme(savedTheme);
 setLanguage(savedLanguage);
+
+function readStoredLikes() {
+    try {
+        return JSON.parse(localStorage.getItem(likesStorageKey)) || {};
+    } catch {
+        return {};
+    }
+}
+
+function saveStoredLikes(likes) {
+    try {
+        localStorage.setItem(likesStorageKey, JSON.stringify(likes));
+    } catch {
+        return;
+    }
+}
+
+function formatLikeCount(count) {
+    return `${count} ${count === 1 ? "like" : "likes"}`;
+}
+
+function renderLikeControl(control, state) {
+    const button = control.querySelector(".like-button");
+    const count = control.querySelector(".like-count");
+
+    button?.setAttribute("aria-pressed", state.liked ? "true" : "false");
+
+    if (button) {
+        button.setAttribute("aria-label", state.liked ? "Unlike this post" : "Like this post");
+    }
+
+    if (count) {
+        count.textContent = formatLikeCount(state.count);
+    }
+}
+
+function setupLikes() {
+    const likes = readStoredLikes();
+
+    likeControls.forEach(control => {
+        const talkId = control.dataset.talkId;
+        const button = control.querySelector(".like-button");
+
+        if (!talkId || !button) {
+            return;
+        }
+
+        const state = likes[talkId] || { liked: false, count: 0 };
+        state.count = Math.max(0, Number(state.count) || 0);
+        state.liked = Boolean(state.liked);
+        likes[talkId] = state;
+        renderLikeControl(control, state);
+
+        button.addEventListener("click", () => {
+            const nextLiked = !state.liked;
+            state.count = Math.max(0, state.count + (nextLiked ? 1 : -1));
+            state.liked = nextLiked;
+            likes[talkId] = state;
+            saveStoredLikes(likes);
+            renderLikeControl(control, state);
+        });
+    });
+
+    saveStoredLikes(likes);
+}
+
+setupLikes();
 
 themeButtons.forEach(btn => {
     btn.addEventListener("click", () => {

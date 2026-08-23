@@ -17,6 +17,8 @@
     --line-strong: rgba(255, 255, 255, 0.22);
     --accent: #0a84ff;
     --accent-soft: rgba(10, 132, 255, 0.16);
+    --like: #bf5af2;
+    --like-soft: rgba(191, 90, 242, 0.16);
     --success: #30d158;
     --shadow: 0 24px 80px rgba(0, 0, 0, 0.34);
     --radius: 8px;
@@ -667,6 +669,69 @@ h2 {
     color: #fff;
 }
 
+.talk-like {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 10px;
+}
+
+.like-button {
+    width: 48px;
+    height: 48px;
+    display: inline-grid;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--muted);
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.like-button:hover {
+    border-color: rgba(191, 90, 242, 0.42);
+    background: var(--like-soft);
+    color: var(--like);
+}
+
+.like-button:focus-visible {
+    outline: 3px solid rgba(191, 90, 242, 0.34);
+    outline-offset: 3px;
+}
+
+.like-button[aria-pressed="true"] {
+    border-color: rgba(191, 90, 242, 0.58);
+    background: var(--like-soft);
+    color: var(--like);
+}
+
+.like-icon {
+    width: 24px;
+    height: 24px;
+    display: block;
+    fill: transparent;
+    stroke: currentColor;
+    stroke-width: 1.9;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: fill 160ms var(--ease), transform 160ms var(--ease);
+}
+
+.like-button[aria-pressed="true"] .like-icon {
+    fill: currentColor;
+    transform: scale(1.05);
+}
+
+.like-count {
+    min-width: 58px;
+    color: var(--quiet);
+    font-size: 13px;
+    font-weight: 680;
+}
+
 #about p {
     white-space: normal;
 }
@@ -945,6 +1010,11 @@ h2 {
         justify-content: flex-start;
     }
 
+    .talk-like {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
     .talk-grid {
         grid-template-columns: 1fr;
     }
@@ -984,6 +1054,10 @@ h2 {
     .talks-actions {
         display: grid;
         grid-template-columns: 1fr;
+    }
+
+    .talks-actions .talks-button {
+        width: 100%;
     }
 }
 
