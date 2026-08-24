@@ -187,14 +187,14 @@ body.talks-open {
 
 .lang-switch {
     left: max(16px, env(safe-area-inset-left));
+    justify-items: start;
 }
 
 .theme-switch {
     right: max(16px, env(safe-area-inset-right));
 }
 
-.theme-switch,
-.lang-switch {
+.theme-switch {
     display: inline-flex;
     gap: 2px;
     padding: 4px;
@@ -204,13 +204,55 @@ body.talks-open {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
 }
 
-:root[data-theme="light"] .theme-switch,
-:root[data-theme="light"] .lang-switch {
+:root[data-theme="light"] .theme-switch {
     background: rgba(255, 255, 255, 0.76);
 }
 
+.lang-switch {
+    position: fixed;
+    display: grid;
+    gap: 8px;
+}
+
+.lang-current,
+.lang-options {
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(18, 18, 22, 0.78);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+:root[data-theme="light"] .lang-current,
+:root[data-theme="light"] .lang-options {
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.lang-current {
+    width: 58px;
+    min-height: 40px;
+    display: inline-grid;
+    place-items: center;
+    padding: 0;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.lang-options {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    display: none;
+    gap: 2px;
+    padding: 4px;
+}
+
+.lang-switch.is-open .lang-options {
+    display: inline-flex;
+}
+
 .theme-switch button,
-.lang-switch button {
+.lang-options button {
     min-width: 52px;
     min-height: 30px;
     padding: 0 12px;
@@ -222,20 +264,22 @@ body.talks-open {
     font: 600 12px/1 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
 }
 
-.lang-switch button {
+.lang-options button {
     min-width: 46px;
     padding: 0 10px;
     font-size: 17px;
 }
 
 .theme-switch button:hover,
-.lang-switch button:hover {
+.lang-current:hover,
+.lang-options button:hover {
     color: var(--text);
     background: rgba(255, 255, 255, 0.08);
 }
 
 .theme-switch button:active,
-.lang-switch button:active,
+.lang-current:active,
+.lang-options button:active,
 .contact-btn:active,
 .project-card:active,
 .links a:active,
@@ -244,7 +288,7 @@ body.talks-open {
 }
 
 .theme-switch button.active,
-.lang-switch button.active {
+.lang-options button.active {
     color: #fff;
     background: var(--accent);
     box-shadow: 0 8px 18px rgba(10, 132, 255, 0.28);
@@ -975,8 +1019,7 @@ h2 {
         -webkit-backdrop-filter: none;
     }
 
-    .theme-switch button,
-    .lang-switch button {
+    .theme-switch button {
         min-width: 58px;
     }
 
@@ -1051,11 +1094,15 @@ h2 {
 }
 
 @media (max-width: 420px) {
-    .theme-switch button,
-    .lang-switch button {
+    .theme-switch button {
         min-width: 44px;
         padding: 0 8px;
         font-size: 11px;
+    }
+
+    .lang-current {
+        width: 50px;
+        min-height: 38px;
     }
 
     h1 {

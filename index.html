@@ -36,10 +36,13 @@
 </nav>
 
 <!-- 🌐 Language Picker -->
-<div class="lang-switch" aria-label="Language">
-    <button data-lang="en" class="active" aria-label="English">🇬🇧</button>
-    <button data-lang="es" aria-label="Spanish">🇪🇸</button>
-    <button data-lang="th" aria-label="Thai">🇹🇭</button>
+<div class="lang-switch" aria-label="Language selector">
+    <button type="button" class="lang-current" id="lang-current" aria-label="Choose language" aria-expanded="false" aria-controls="lang-options">🇬🇧</button>
+    <div class="lang-options" id="lang-options" role="menu" aria-label="Language options">
+        <button type="button" data-lang="en" class="active" role="menuitemradio" aria-checked="true" aria-label="English">🇬🇧</button>
+        <button type="button" data-lang="es" role="menuitemradio" aria-checked="false" aria-label="Spanish">🇪🇸</button>
+        <button type="button" data-lang="th" role="menuitemradio" aria-checked="false" aria-label="Thai">🇹🇭</button>
+    </div>
 </div>
 
 <!-- 🎨 Theme Toggle -->

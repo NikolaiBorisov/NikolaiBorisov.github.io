@@ -1,5 +1,7 @@
 const themeButtons = document.querySelectorAll(".theme-switch button");
-const languageButtons = document.querySelectorAll(".lang-switch button");
+const languageSwitch = document.querySelector(".lang-switch");
+const languageCurrentButton = document.querySelector("#lang-current");
+const languageButtons = document.querySelectorAll(".lang-options button");
 const translatableItems = document.querySelectorAll("[data-i18n]");
 const openSwiftTalksButton = document.querySelector("#open-swift-talks");
 const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
@@ -9,6 +11,11 @@ const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
 const likeControls = document.querySelectorAll(".talk-like");
 const likesStorageKey = "swiftTalkLikes";
+const languageLabels = {
+    en: "🇬🇧",
+    es: "🇪🇸",
+    th: "🇹🇭"
+};
 
 const swiftTalkPosts = {
     part1: `🔶 SWIFT Talks
@@ -680,8 +687,27 @@ function setLanguage(language) {
         }
     });
 
-    languageButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.lang === language));
+    languageButtons.forEach(btn => {
+        const isActive = btn.dataset.lang === language;
+        btn.classList.toggle("active", isActive);
+        btn.setAttribute("aria-checked", isActive ? "true" : "false");
+    });
+
+    if (languageCurrentButton) {
+        languageCurrentButton.textContent = languageLabels[language] || languageLabels.en;
+    }
+
     localStorage.setItem("language", language);
+}
+
+function closeLanguageMenu() {
+    languageSwitch?.classList.remove("is-open");
+    languageCurrentButton?.setAttribute("aria-expanded", "false");
+}
+
+function toggleLanguageMenu() {
+    const isOpen = languageSwitch?.classList.toggle("is-open");
+    languageCurrentButton?.setAttribute("aria-expanded", isOpen ? "true" : "false");
 }
 
 const savedTheme = localStorage.getItem("theme") === "light" ? "light" : "dark";
@@ -761,7 +787,19 @@ themeButtons.forEach(btn => {
 languageButtons.forEach(btn => {
     btn.addEventListener("click", () => {
         setLanguage(btn.dataset.lang);
+        closeLanguageMenu();
     });
+});
+
+languageCurrentButton?.addEventListener("click", event => {
+    event.stopPropagation();
+    toggleLanguageMenu();
+});
+
+document.addEventListener("click", event => {
+    if (!languageSwitch?.contains(event.target)) {
+        closeLanguageMenu();
+    }
 });
 
 function openSwiftTalks() {
@@ -801,6 +839,10 @@ openSwiftTalksButton?.addEventListener("click", () => {
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
 
 document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        closeLanguageMenu();
+    }
+
     if (event.key === "Escape" && swiftTalksScreen?.classList.contains("is-open")) {
         closeSwiftTalks();
     }
