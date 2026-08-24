@@ -874,6 +874,10 @@ h2 {
     color: var(--text);
 }
 
+.education-card {
+    min-height: 150px;
+}
+
 .project-title {
     display: block;
     margin-bottom: 12px;
