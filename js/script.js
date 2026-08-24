@@ -475,6 +475,43 @@ That loop is how a beginner becomes someone who can ship real iOS products.
 Do not only watch tutorials.
 Build, break, debug, and ship.
 
+#Swift #SwiftTalks #iOS`,
+    part5: `🔶 Swift Talks
+
+iOS Beginner Roadmap
+
+A simple visual roadmap for beginner iOS developers.
+
+Start with:
+
+1. Setup (IDE)
+Mac, Xcode, iOS Simulator, iPhone, Git, GitHub, Postman, Figma.
+
+2. Swift Core Theory
+Variables, optionals, structs, classes, enums, protocols, closures, generics, error handling, async/await.
+
+3. SwiftUI Core Theory
+Views, modifiers, layout, state, binding, navigation, forms, lists, reusable components, previews, accessibility.
+
+4. UIKit Core Theory
+UIViewController lifecycle, Auto Layout, table views, collection views, delegation, target-action, coordinators.
+
+5. Playground Practice
+Solve small Swift tasks, practice collections, decode JSON, write tiny async examples, refactor for readability.
+
+6. Pet Project
+Pick one useful app idea. Build launch, onboarding, auth, profile, API flow, local storage, error states, and polished UI.
+
+7. Portfolio
+Create a GitHub repo, README, screenshots, architecture notes, GitHub.io personal website, and a short case study.
+
+8. AI Tools
+Use AI to explain errors, review code, compare solutions, and ask why code works. Verify with Apple documentation.
+
+Daily rule:
+Swift → SwiftUI → UIKit → pet project.
+One small feature at a time.
+
 #Swift #SwiftTalks #iOS`
 };
 
