@@ -637,6 +637,25 @@ h2 {
     font-weight: 730;
 }
 
+.talk-highlight-rich {
+    display: grid;
+    gap: 10px;
+}
+
+.talk-highlight-rich p,
+.talk-highlight-rich li {
+    color: var(--text);
+    font-size: clamp(16px, 2.1vw, 20px);
+    line-height: 1.45;
+    font-weight: 650;
+}
+
+.talk-highlight-rich ul {
+    display: grid;
+    gap: 6px;
+    padding-left: 20px;
+}
+
 .talk-footer {
     display: flex;
     flex-direction: column;
