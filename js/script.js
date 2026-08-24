@@ -565,7 +565,6 @@ const translations = {
         projectSolidfolioDescription: "Portfolio website builder",
         privateAppsTitle: "3 Private Apps by request*",
         privateAppsDescription: "Educational & Corporate Apps",
-        contactTitle: "Contact",
         connectTitle: "Connect"
     },
     es: {
@@ -610,7 +609,6 @@ const translations = {
         projectSolidfolioDescription: "Constructor de sitios de portafolio",
         privateAppsTitle: "3 apps privadas por solicitud*",
         privateAppsDescription: "Apps educativas y corporativas",
-        contactTitle: "Contacto",
         connectTitle: "Conecta"
     },
     th: {
@@ -655,7 +653,6 @@ const translations = {
         projectSolidfolioDescription: "เครื่องมือสร้างเว็บไซต์พอร์ตโฟลิโอ",
         privateAppsTitle: "3 แอปส่วนตัวตามคำขอ*",
         privateAppsDescription: "แอปด้านการศึกษาและองค์กร",
-        contactTitle: "ติดต่อ",
         connectTitle: "ช่องทางออนไลน์"
     }
 };

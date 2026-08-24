@@ -282,8 +282,7 @@ body.talks-open {
 .lang-options button:active,
 .contact-btn:active,
 .project-card:active,
-.links a:active,
-.contact-list a:active {
+.links a:active {
     transform: none;
 }
 
@@ -897,32 +896,9 @@ h2 {
     color: var(--quiet);
 }
 
-.contact-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-}
-
-.contact-list a,
 .links a {
     color: var(--accent);
     font-weight: 620;
-}
-
-.contact-list a {
-    display: inline-flex;
-    align-items: center;
-    min-height: 42px;
-    padding: 0 15px;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    background: var(--surface);
-}
-
-.contact-list a:hover {
-    color: var(--text);
-    background: var(--accent-soft);
-    border-color: rgba(10, 132, 255, 0.36);
 }
 
 .connect-section {
@@ -1091,10 +1067,6 @@ h2 {
         grid-template-columns: 1fr;
     }
 
-    .contact-list a {
-        width: 100%;
-        justify-content: center;
-    }
 }
 
 @media (max-width: 420px) {
