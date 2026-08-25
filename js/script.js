@@ -927,6 +927,155 @@ Core idea:
 Commit small, clear changes.
 A good Git history shows your growth as a developer.
 
+#Swift #SwiftTalks #iOS`,
+    part9: `🔶 Swift Talks
+
+Pet Project. How to Start?
+
+A pet project is a small app you build for yourself to practice real development.
+
+It includes:
+
+• idea
+• design
+• code
+• GitHub
+• testing
+• polish
+• presentation
+
+It is not just a tutorial copy.
+It is your own small product where you make decisions.
+
+🔸 How to Choose a Topic
+
+Start from something you actually like.
+
+Think about:
+
+• dogs
+• cats
+• cars
+• flowers
+• food
+• fitness
+• books
+• travel
+
+Choose one topic.
+Then ask:
+
+What problem can this app solve?
+What would I personally use?
+What can I build in 2–4 weeks?
+
+🔸 Connect the Ideas
+
+Example:
+
+You love dogs.
+
+Possible app:
+Dog care tracker.
+
+Features:
+
+• walks
+• food schedule
+• vet notes
+• vaccination reminders
+• photo diary
+
+You love cars.
+
+Possible app:
+Car log.
+
+Features:
+
+• fuel tracking
+• repair history
+• service reminders
+• expenses
+
+This is how a simple interest becomes an app idea.
+
+🔸 Start Small
+
+Do not begin with a huge app.
+
+Start with:
+
+• Name
+• Logo
+• Motto
+• Launch screen
+• Onboarding
+• Home screen
+
+After that, the path becomes clearer.
+
+🔸 First Real Features
+
+Build:
+
+• list screen
+• details screen
+• add item flow
+• edit item flow
+• empty state
+• loading state
+• error state
+
+These features teach real app development.
+
+🔸 What to Use
+
+For the first version:
+
+• SwiftUI for UI
+• Swift models for data
+• UserDefaults or local JSON first
+• GitHub for commits and README
+• Figma or sketches for rough screens
+
+Do not add backend too early.
+Finish the local version first.
+
+🔸 Goals to Set
+
+Set simple goals:
+
+• one feature per day
+• one commit per meaningful step
+• README from day one
+• screenshots as the app grows
+• version 1 before version 2 ideas
+
+Small goals help you finish.
+
+🔸 Make It Portfolio-Ready
+
+Add:
+
+• clear naming
+• consistent UI
+• accessibility labels
+• screenshots
+• architecture notes
+• what you learned
+• next steps
+
+Your pet project should show how you think, not only how it looks.
+
+Main idea:
+Think about what you love.
+Choose one small idea.
+Build the first useful version.
+
+You do not need a perfect idea.
+You need a project you care enough to finish.
+
 #Swift #SwiftTalks #iOS`
 };
 
