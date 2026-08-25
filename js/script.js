@@ -406,7 +406,7 @@ The simulator is useful, but real devices show real performance, camera behavior
 
 AI can help you learn faster, but it should not replace understanding.
 
-Use ChatGPT, Cursor, GitHub Copilot, Perplexity, and Apple docs.
+Use Codex, Cursor, GitHub Copilot, Perplexity, and Apple docs.
 
 Use AI to:
 
@@ -518,6 +518,414 @@ Use AI to explain errors, review code, compare solutions, and ask why code works
 Daily rule:
 Swift → SwiftUI → UIKit → pet project.
 One small feature at a time.
+
+#Swift #SwiftTalks #iOS`,
+    part6: `🔶 Swift Talks
+
+No IT Experience? How to Start
+
+You can start iOS development without an IT background.
+
+But you need:
+
+• consistency
+• small projects
+• real practice
+• code you can explain
+
+🔸 Start With Computer Logic
+
+Before apps and architecture, learn how programs think:
+
+• variables
+• conditions
+• loops
+• functions
+• arrays
+• dictionaries
+• strings
+• errors
+
+Your first goal is simple:
+read code line by line without panic.
+
+🔸 Your First Tools
+
+Keep the setup small:
+
+• Xcode
+• Swift Playgrounds
+• GitHub
+• Figma
+• Postman later, when you start APIs
+
+You do not need every professional tool on day one.
+
+🔸 First 30 Days
+
+Days 1–7:
+Swift basics in playgrounds.
+
+Days 8–14:
+small SwiftUI screens.
+
+Days 15–21:
+navigation, forms, state.
+
+Days 22–30:
+one tiny app with local data.
+
+🔸 Daily Practice
+
+Do one visible thing every day:
+
+• create a button and handle a tap
+• build a login screen without backend
+• save a value locally
+• fix one bug and write what caused it
+
+Small visible progress keeps motivation alive.
+
+🔸 What to Avoid
+
+Avoid:
+
+• huge apps too early
+• copying code you cannot explain
+• only watching tutorials
+• learning every architecture before building UI
+
+You need repetition more than complexity.
+
+🔸 How to Use AI
+
+Use AI as a teacher, not a replacement.
+
+Ask AI to:
+
+• explain compiler errors
+• simplify code
+• review your solution
+• compare two approaches
+• create small practice tasks
+
+Then rewrite the answer yourself.
+
+🔸 Your First Portfolio App
+
+One small finished app is better than five unfinished demos.
+
+Build:
+
+• one clear problem
+• three to five screens
+• local storage or one public API
+• README with screenshots and decisions
+
+🔸 How to Know You Are Improving
+
+You are improving when:
+
+• you can explain your code out loud
+• you can debug with breakpoints
+• you can rebuild old screens faster
+• you commit small changes regularly
+
+Core idea:
+You do not need an IT background to start.
+You need consistency, small tasks, and code you can explain.
+
+Explore programming languages:
+Learn Swift and mobile development theory step by step.
+https://apps.apple.com/th/app/isolid-learn-programming/id6752113008
+
+#Swift #SwiftTalks #iOS`,
+    part7: `🔶 Swift Talks
+
+Tutorials, Books, AI Tools
+
+A curated starter pack for learning Swift, UIKit, SwiftUI, and using AI tools wisely.
+
+🔸 Top 5 Swift Theory Tutorials
+
+1. Swift.org — Getting Started
+https://www.swift.org/getting-started/
+
+2. The Swift Programming Language
+https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
+
+3. A Swift Tour
+https://docs.swift.org/swift-book/documentation/the-swift-programming-language/guidedtour/
+
+4. Swift by Sundell — Basics
+https://www.swiftbysundell.com/basics/
+
+5. Kodeco — Swift Apprentice
+https://www.kodeco.com/books/swift-apprentice
+
+🔸 Top 5 UIKit Tutorials
+
+1. Apple — App Development with UIKit
+https://developer.apple.com/documentation/uikit/about-app-development-with-uikit
+
+2. Apple — Views and Controls
+https://developer.apple.com/documentation/uikit/views-and-controls
+
+3. Apple — View Controllers
+https://developer.apple.com/documentation/uikit/view-controllers
+
+4. Apple — Handling Touches
+https://developer.apple.com/documentation/uikit/handling-touches-in-your-view
+
+5. Kodeco — UIKit Apprentice
+https://www.kodeco.com/books/uikit-apprentice
+
+🔸 Top 5 SwiftUI Tutorials
+
+1. Apple — SwiftUI Tutorials
+https://developer.apple.com/tutorials/swiftui
+
+2. Apple — SwiftUI Documentation
+https://developer.apple.com/documentation/swiftui
+
+3. Apple — Develop in Swift Tutorials
+https://developer.apple.com/tutorials/develop-in-swift
+
+4. Kodeco — SwiftUI Apprentice
+https://www.kodeco.com/books/swiftui-apprentice
+
+5. Point-Free — SwiftUI Collection
+https://www.pointfree.co/collections/swiftui
+
+🔸 Top 5 Swift Books
+
+1. The Swift Programming Language
+https://docs.swift.org/swift-book/documentation/the-swift-programming-language/
+
+2. Swift Apprentice
+https://www.kodeco.com/books/swift-apprentice
+
+3. Swift Programming: The Big Nerd Ranch Guide
+https://www.informit.com/store/swift-programming-the-big-nerd-ranch-guide-9780135266618
+
+4. Advanced Swift
+https://www.objc.io/books/advanced-swift/
+
+5. Thinking in SwiftUI
+https://www.objc.io/books/thinking-in-swiftui/
+
+🔸 AI Tools for iOS Development
+
+• Codex
+https://openai.com/codex/
+
+• Cursor
+https://cursor.com/
+
+• GitHub Copilot
+https://github.com/features/copilot
+
+• Perplexity
+https://www.perplexity.ai/
+
+🔸 iOS Dev Bible
+
+Apple Developer Documentation
+https://developer.apple.com/documentation/
+
+🔸 Test your knowledge
+
+Take a Swift & Mobile Development QUIZ:
+https://apps.apple.com/th/app/isolid-learn-programming/id6752113008
+
+#Swift #SwiftTalks #iOS`,
+    part8: `🔶 Swift Talks
+
+Git & GitHub & GitFlow for iOS Developers
+
+Git is not just a tool for saving code.
+
+For an iOS developer, Git is:
+
+• proof of progress
+• a safety net
+• part of teamwork
+• a way to show how you build
+
+🔸 What Git Solves
+
+Git helps you:
+
+• track what changed
+• return to a working version
+• work on features safely
+• make your learning visible
+
+🔸 Beginner Terminal Commands
+
+Start with:
+
+• cd folder-name
+Move into your project folder.
+
+• git status
+See changed files.
+
+• git branch
+Check your current branch.
+
+• git checkout -b feature/login-screen
+Create a new branch.
+
+• git add .
+Stage changes.
+
+• git commit -m "Add onboarding screen"
+Save a checkpoint.
+
+• git push -u origin feature/login-screen
+Upload the branch to GitHub.
+
+• git pull
+Download remote changes.
+
+You do not need to memorize everything.
+Use a few commands often.
+
+🔸 Create a New GitHub Repo
+
+1. Open GitHub.
+2. Create a new repository.
+3. Use a clear name like ios-weather-app.
+4. Add a short description.
+5. Copy the repository URL.
+
+If your local project already has files, do not create README online.
+Keep the first push clean.
+
+🔸 Connect It With a Local Folder
+
+Inside your project folder:
+
+• cd ios-weather-app
+• git init
+• git add .
+• git commit -m "Initial commit"
+• git branch -M main
+• git remote add origin repo-url
+• git push -u origin main
+
+Now your local folder is connected to GitHub.
+
+🔸 Real Feature Flow Example
+
+1. cd ios-weather-app
+2. git status
+3. git checkout -b feature/profile-screen
+4. build the profile screen
+5. git status
+6. git add .
+7. git commit -m "Add profile screen"
+8. git push -u origin feature/profile-screen
+9. open a pull request on GitHub
+
+🔸 Good Commit Messages
+
+A good commit tells the story of what you built.
+
+Good examples:
+
+• Add onboarding screen
+• Fix profile image layout
+• Handle empty task list state
+• Refactor login validation
+
+Bad examples:
+
+• update
+• fix
+• final
+• changes
+
+🔸 Branches
+
+A branch is a safe place to work without breaking the main version.
+
+Useful branch names:
+
+• main
+stable code
+
+• feature/login-screen
+new feature
+
+• fix/profile-layout
+bug fix
+
+• release/1.0
+release preparation
+
+🔸 Simple GitFlow
+
+As a beginner, keep GitFlow simple:
+
+1. Create a branch for one feature.
+2. Commit small steps.
+3. Push the branch.
+4. Open a pull request.
+5. Review the changes.
+6. Merge when the feature is clean.
+
+This teaches professional workflow without making Git scary.
+
+🔸 GitHub Portfolio Repos
+
+Your repository should help people understand your work quickly.
+
+Add:
+
+• clear README
+• screenshots
+• feature list
+• architecture explanation
+• setup instructions
+• known limitations
+• next steps
+
+One clean repository is better than ten messy ones.
+
+🔸 How to Show Progress
+
+Push code regularly.
+
+Show:
+
+• meaningful commit history
+• screenshots or demo GIFs
+• what you learned
+• what you improved
+• why you made decisions
+
+Recruiters and developers do not only look at the final app.
+They also look at how you think.
+
+🔸 Terminal and Git Clients
+
+Learn terminal basics because every developer needs them.
+
+But visual Git clients are useful too:
+
+• Xcode Source Control
+• GitHub Desktop
+• Fork
+• SourceTree
+
+Use clients to understand changes visually.
+Use terminal to build confidence.
+
+Core idea:
+Commit small, clear changes.
+A good Git history shows your growth as a developer.
 
 #Swift #SwiftTalks #iOS`
 };

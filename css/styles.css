@@ -699,6 +699,15 @@ h2 {
     padding-left: 20px;
 }
 
+.talk-resource-list a {
+    color: var(--accent);
+    font-weight: 680;
+}
+
+.talk-resource-list a:hover {
+    color: var(--text);
+}
+
 .talk-roadmap {
     margin: 24px 0 0;
     overflow: hidden;
