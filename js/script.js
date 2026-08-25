@@ -1259,6 +1259,7 @@ const translations = {
         projectSoliddsDescription: "Reusable SwiftUI design system",
         projectTextModerationDescription: "Native Swift Package for rule-based, on-device moderation of user-generated text",
         projectSolidfolioDescription: "Portfolio website builder",
+        projectSwiftTalksDescription: "Swift & iOS learning notes for beginners",
         privateAppsTitle: "3 Private Apps by request*",
         privateAppsDescription: "Educational & Corporate Apps",
         connectTitle: "Connect"
@@ -1303,6 +1304,7 @@ const translations = {
         projectSoliddsDescription: "Sistema de diseño reutilizable en SwiftUI",
         projectTextModerationDescription: "Paquete nativo de Swift para la moderación de texto generado por usuarios, basada en reglas y realizada en el dispositivo",
         projectSolidfolioDescription: "Constructor de sitios de portafolio",
+        projectSwiftTalksDescription: "Notas de Swift e iOS para principiantes",
         privateAppsTitle: "3 apps privadas por solicitud*",
         privateAppsDescription: "Apps educativas y corporativas",
         connectTitle: "Conecta"
@@ -1347,6 +1349,7 @@ const translations = {
         projectSoliddsDescription: "ระบบดีไซน์ SwiftUI ที่นำกลับมาใช้ซ้ำได้",
         projectTextModerationDescription: "Swift Package แบบเนทีฟสำหรับการตรวจสอบข้อความที่ผู้ใช้สร้างขึ้นตามกฎ โดยประมวลผลบนอุปกรณ์",
         projectSolidfolioDescription: "เครื่องมือสร้างเว็บไซต์พอร์ตโฟลิโอ",
+        projectSwiftTalksDescription: "โน้ตการเรียนรู้ Swift และ iOS สำหรับผู้เริ่มต้น",
         privateAppsTitle: "3 แอปส่วนตัวตามคำขอ*",
         privateAppsDescription: "แอปด้านการศึกษาและองค์กร",
         connectTitle: "ช่องทางออนไลน์"
