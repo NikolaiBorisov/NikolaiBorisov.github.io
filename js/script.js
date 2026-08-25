@@ -1076,6 +1076,145 @@ Build the first useful version.
 You do not need a perfect idea.
 You need a project you care enough to finish.
 
+#Swift #SwiftTalks #iOS`,
+    part10: `🔶 Swift Talks
+
+First iOS App Checklist
+
+Your first iOS app does not need to be big.
+
+It needs to be:
+
+• finished
+• understandable
+• easy to explain
+• useful enough to show
+
+🔸 Before You Start
+
+Write this down first:
+
+• What problem does the app solve?
+• Who is the target user?
+• What are the 3–5 core screens?
+• What features belong to version 1?
+• What will you not build yet?
+
+The last question is important.
+Scope control helps you finish.
+
+🔸 Project Setup
+
+Start clean:
+
+• Create the Xcode project.
+• Create a GitHub repository.
+• Add README from day one.
+• Make the first commit.
+• Create a simple folder structure.
+
+Do not wait until the end to create GitHub.
+Your progress matters.
+
+🔸 Core Screens
+
+A good first app can include:
+
+• launch screen
+• onboarding or welcome screen
+• home screen
+• list screen
+• detail screen
+• add or edit screen
+• settings or profile screen
+
+You do not need all of them.
+Choose what fits your idea.
+
+🔸 Core States
+
+Do not build only the happy path.
+
+Add:
+
+• loading state
+• empty state
+• error state
+• success state
+• disabled button state
+• validation messages
+
+These states make the app feel real.
+
+🔸 Core iOS Skills
+
+Your first app should practice:
+
+• Swift models
+• SwiftUI views and modifiers
+• navigation
+• state management
+• local storage
+• optional API call
+
+Start local first.
+Add backend or API only when the app already has shape.
+
+🔸 Quality Checklist
+
+Before you call it finished:
+
+• no obvious crashes
+• readable names
+• consistent spacing
+• consistent typography
+• dark and light mode checked
+• tested on a real device
+• accessibility labels added
+
+Small polish makes a big difference.
+
+🔸 GitHub Checklist
+
+Your repo should include:
+
+• clean commit history
+• README with project goal
+• screenshots or demo GIF
+• feature list
+• architecture notes
+• setup instructions
+• next steps
+
+A good README helps people understand your work quickly.
+
+🔸 Final Review
+
+Ask yourself:
+
+• Can I explain every screen?
+• Can I explain every model?
+• Can I describe one bug I fixed?
+• Can someone run this project?
+• Does the app solve the original problem?
+
+If yes, you have something real.
+
+Main idea:
+Do not build a huge app.
+Build a small app completely.
+
+Idea.
+UI.
+Data.
+States.
+Testing.
+README.
+Screenshots.
+
+When version 1 works, stop adding features.
+Polish it, document it, share it, then start version 2.
+
 #Swift #SwiftTalks #iOS`
 };
 
