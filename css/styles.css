@@ -966,9 +966,7 @@ h2 {
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    margin-top: 6px;
-    padding-top: 18px;
-    border-top: 1px solid var(--line);
+    width: 100%;
     background: transparent;
 }
 
@@ -986,9 +984,9 @@ h2 {
 
 .swift-quiz-footer {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
     margin-top: 4px;
     padding-top: 18px;
     border-top: 1px solid var(--line);
@@ -996,7 +994,7 @@ h2 {
 
 .swift-quiz-feedback-button {
     min-height: 58px;
-    padding: 0 32px;
+    padding: 0 34px;
     font-size: 16px;
     box-shadow: 0 16px 34px rgba(10, 132, 255, 0.22);
 }
@@ -1300,24 +1298,20 @@ h2 {
 
     .talks-header,
     .talk-footer-meta,
-    .talk-quiz-cta,
-    .swift-quiz-footer {
+    .talk-quiz-cta {
         align-items: stretch;
         flex-direction: column;
     }
 
     .talks-actions,
-    .talk-footer .talks-actions {
+    .talk-footer .talks-actions,
+    .swift-quiz-actions {
         justify-content: flex-start;
     }
 
     .talk-like {
         width: 100%;
         justify-content: flex-start;
-    }
-
-    .swift-quiz-footer .talk-like {
-        width: auto;
     }
 
     .talk-grid {
