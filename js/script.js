@@ -6,11 +6,20 @@ const translatableItems = document.querySelectorAll("[data-i18n]");
 const openSwiftTalksButton = document.querySelector("#open-swift-talks");
 const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
 const swiftTalksScreen = document.querySelector("#swift-talks");
+const openSwiftQuizButtons = document.querySelectorAll(".open-swift-quiz");
+const closeSwiftQuizButton = document.querySelector("#close-swift-quiz");
+const swiftQuizScreen = document.querySelector("#swift-intro-quiz");
+const swiftQuizForm = document.querySelector("#swift-quiz-form");
+const finishSwiftQuizButton = document.querySelector("#finish-swift-quiz");
+const resetSwiftQuizButton = document.querySelector("#reset-swift-quiz");
+const swiftQuizScore = document.querySelector("#swift-quiz-score");
+const swiftQuizLegend = document.querySelector("#swift-quiz-legend");
 const accordionTriggers = document.querySelectorAll(".talk-accordion-trigger");
 const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
 const likeControls = document.querySelectorAll(".talk-like");
 const likesStorageKey = "swiftTalkLikes";
+const swiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const languageLabels = {
     en: "🇬🇧",
     es: "🇪🇸",
@@ -1218,6 +1227,189 @@ Polish it, document it, share it, then start version 2.
 #Swift #SwiftTalks #iOS`
 };
 
+const swiftIntroQuizQuestions = [
+    {
+        part: "Part 1",
+        question: "What did Apple create Swift to improve compared with Objective-C?",
+        options: ["Safety, speed, and expressiveness", "Only App Store screenshots", "Readable modern syntax"],
+        answers: [0, 2]
+    },
+    {
+        part: "Part 1",
+        question: "Which features reflect Swift's safer programming philosophy?",
+        options: ["Optionals", "Strong typing", "Ignoring missing values until runtime"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 1",
+        question: "What can Swift be used to build?",
+        options: ["iPhone, Mac, watchOS, tvOS, and visionOS apps", "Server-side backends and command-line tools", "Only calculator apps"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 2",
+        question: "Which stages belong to the Swift compiler pipeline described in Part 2?",
+        options: ["Parser and Type Checker", "SIL and LLVM", "Storyboard Painter"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 2",
+        question: "What does ARC do in Swift?",
+        options: ["Tracks strong references to objects", "Removes objects when no strong references remain", "Replaces type checking"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 2",
+        question: "Why are optionals important?",
+        options: ["They make missing values explicit", "They force developers to handle absence", "They turn every value into a String"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 3",
+        question: "What does an iOS developer commonly work with?",
+        options: ["UI, architecture, state management, and networking", "Persistence, testing, and delivery", "Only changing app icons"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 3",
+        question: "Which tools and technologies are central to modern iOS apps?",
+        options: ["Swift", "SwiftUI or UIKit", "Xcode"],
+        answers: [0, 1, 2]
+    },
+    {
+        part: "Part 3",
+        question: "What should a good iOS developer ask beyond 'How do I make it work?'",
+        options: ["Is it maintainable?", "Is it testable?", "Can I avoid handling errors?"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 4",
+        question: "What helps someone become an iOS developer?",
+        options: ["Learning the Apple ecosystem", "Building real apps", "Waiting until every topic is mastered before writing code"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 4",
+        question: "Which habits support beginner progress?",
+        options: ["Practice regularly", "Ship small projects", "Avoid Git until the end"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 4",
+        question: "What should beginners focus on when learning?",
+        options: ["Swift basics", "UI building and navigation", "Random advanced optimization first"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 5",
+        question: "What does the iOS beginner roadmap move through?",
+        options: ["Setup and core theory", "Playground practice and pet projects", "Skipping portfolio work"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 5",
+        question: "Why is a roadmap useful for beginners?",
+        options: ["It creates an order of learning", "It makes progress easier to track", "It removes the need to build apps"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 5",
+        question: "Which outcomes belong near the end of a beginner roadmap?",
+        options: ["Portfolio", "Projects that can be explained", "Only copied tutorial code"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 6",
+        question: "Can someone start iOS development without IT experience?",
+        options: ["Yes, with a clear routine", "Yes, by building small projects", "No, it is impossible"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 6",
+        question: "What should a beginner practice explaining?",
+        options: ["What their code does", "Why a solution works", "Nothing until they become senior"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 6",
+        question: "What makes learning more manageable for beginners?",
+        options: ["Small projects", "Consistent routine", "Trying to build a giant app first"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 7",
+        question: "What belongs in a useful starter pack for iOS learning?",
+        options: ["Swift resources", "UIKit and SwiftUI resources", "Unrelated design gossip"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 7",
+        question: "How should AI tools be used while learning iOS?",
+        options: ["To support understanding", "To help while building apps wisely", "To replace learning the basics completely"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 7",
+        question: "Which official resources are useful for beginners?",
+        options: ["Swift.org Getting Started", "Apple SwiftUI documentation and tutorials", "A random file with no examples"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 8",
+        question: "Why is Git important for iOS developers?",
+        options: ["It is proof of progress", "It is a safety net", "It replaces testing"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 8",
+        question: "What does a professional Git workflow commonly include?",
+        options: ["Feature branches", "Pull Requests and review", "Only direct commits to main"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 8",
+        question: "What should commits and repositories help communicate?",
+        options: ["What changed", "How the project is structured", "Private passwords"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 9",
+        question: "What is a pet project?",
+        options: ["A small app you build for yourself", "Practice for real development", "A project that never needs to run"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 9",
+        question: "Which steps belong in starting a pet project?",
+        options: ["Idea and design", "Code, GitHub, testing, and polish", "Publishing before the app opens"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 9",
+        question: "Why build a pet project?",
+        options: ["To practice the full development cycle", "To create something presentable", "To avoid learning from mistakes"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 10",
+        question: "What should the first iOS app be?",
+        options: ["Finished and understandable", "Easy to explain", "Huge before it works"],
+        answers: [0, 1]
+    },
+    {
+        part: "Part 10",
+        question: "Which items belong in the quality checklist?",
+        options: ["No obvious crashes", "Dark and light mode checked", "Accessibility labels added"],
+        answers: [0, 1, 2]
+    },
+    {
+        part: "Part 10",
+        question: "What should happen when version 1 works?",
+        options: ["Stop adding features", "Polish, document, and share it", "Delete the README"],
+        answers: [0, 1]
+    }
+];
+
 const translations = {
     en: {
         title: "Niko A. | iOS Developer",
@@ -1512,16 +1704,46 @@ function openSwiftTalks() {
     closeSwiftTalksButton?.focus();
 }
 
+function openSwiftQuiz() {
+    if (!swiftQuizScreen) {
+        return;
+    }
+
+    openSwiftTalks();
+    renderSwiftQuiz();
+    swiftQuizScreen.classList.add("is-open");
+    swiftQuizScreen.setAttribute("aria-hidden", "false");
+    document.body.classList.add("quiz-open");
+    closeSwiftQuizButton?.focus();
+}
+
+function closeSwiftQuiz(options = {}) {
+    if (!swiftQuizScreen) {
+        return;
+    }
+
+    swiftQuizScreen.classList.remove("is-open");
+    swiftQuizScreen.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("quiz-open");
+
+    if (!options.keepHash && window.location.hash === swiftQuizHash) {
+        window.location.hash = "swift-talks";
+    }
+
+    openSwiftQuizButtons[0]?.focus();
+}
+
 function closeSwiftTalks(options = {}) {
     if (!swiftTalksScreen) {
         return;
     }
 
+    closeSwiftQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && window.location.hash === "#swift-talks") {
+    if (!options.keepHash && (window.location.hash === "#swift-talks" || window.location.hash === swiftQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -1536,10 +1758,25 @@ openSwiftTalksButton?.addEventListener("click", () => {
     openSwiftTalks();
 });
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
+openSwiftQuizButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (window.location.hash !== swiftQuizHash) {
+            window.location.hash = swiftQuizHash.slice(1);
+        }
+
+        openSwiftQuiz();
+    });
+});
+closeSwiftQuizButton?.addEventListener("click", closeSwiftQuiz);
 
 document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
         closeLanguageMenu();
+    }
+
+    if (event.key === "Escape" && swiftQuizScreen?.classList.contains("is-open")) {
+        closeSwiftQuiz();
+        return;
     }
 
     if (event.key === "Escape" && swiftTalksScreen?.classList.contains("is-open")) {
@@ -1548,7 +1785,10 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
-    if (window.location.hash === "#swift-talks") {
+    if (window.location.hash === swiftQuizHash) {
+        openSwiftQuiz();
+    } else if (window.location.hash === "#swift-talks") {
+        closeSwiftQuiz({ keepHash: true });
         openSwiftTalks();
     } else if (swiftTalksScreen?.classList.contains("is-open")) {
         closeSwiftTalks({ keepHash: true });
@@ -1557,6 +1797,133 @@ function syncSwiftTalksWithHash() {
 
 window.addEventListener("hashchange", syncSwiftTalksWithHash);
 syncSwiftTalksWithHash();
+
+function renderSwiftQuiz() {
+    if (!swiftQuizForm || swiftQuizForm.dataset.rendered === "true") {
+        return;
+    }
+
+    let currentPart = "";
+
+    swiftIntroQuizQuestions.forEach((quizQuestion, questionIndex) => {
+        if (quizQuestion.part !== currentPart) {
+            currentPart = quizQuestion.part;
+            const partLabel = document.createElement("div");
+            partLabel.className = "swift-quiz-part";
+            partLabel.textContent = currentPart;
+            swiftQuizForm.appendChild(partLabel);
+        }
+
+        const section = document.createElement("section");
+        section.className = "swift-quiz-question";
+        section.id = `swift-quiz-q${questionIndex}`;
+
+        const title = document.createElement("strong");
+        title.textContent = `${questionIndex + 1}. ${quizQuestion.question}`;
+        section.appendChild(title);
+
+        quizQuestion.options.forEach((option, optionIndex) => {
+            const label = document.createElement("label");
+            label.className = "swift-quiz-option";
+
+            const input = document.createElement("input");
+            input.type = "checkbox";
+            input.name = `swift-quiz-q${questionIndex}`;
+            input.value = optionIndex;
+
+            const text = document.createElement("span");
+            text.textContent = option;
+
+            label.append(input, text);
+            section.appendChild(label);
+        });
+
+        const feedback = document.createElement("div");
+        feedback.className = "swift-quiz-feedback";
+        feedback.id = `swift-quiz-feedback${questionIndex}`;
+        section.appendChild(feedback);
+        swiftQuizForm.appendChild(section);
+    });
+
+    swiftQuizForm.dataset.rendered = "true";
+}
+
+function arraysEqual(a, b) {
+    return a.length === b.length && a.every((value, index) => value === b[index]);
+}
+
+function gradeSwiftQuiz() {
+    renderSwiftQuiz();
+
+    let score = 0;
+
+    swiftIntroQuizQuestions.forEach((quizQuestion, questionIndex) => {
+        const question = document.querySelector(`#swift-quiz-q${questionIndex}`);
+        const selected = [...document.querySelectorAll(`input[name="swift-quiz-q${questionIndex}"]:checked`)]
+            .map(input => Number(input.value))
+            .sort((a, b) => a - b);
+        const correct = [...quizQuestion.answers].sort((a, b) => a - b);
+        const isCorrect = arraysEqual(selected, correct);
+
+        question?.classList.remove("correct-question", "wrong-question");
+        question?.classList.add(isCorrect ? "correct-question" : "wrong-question");
+
+        if (isCorrect) {
+            score++;
+        }
+
+        question?.querySelectorAll(".swift-quiz-option").forEach((label, optionIndex) => {
+            label.classList.remove("correct-selected", "wrong-selected", "missed-correct");
+            const input = label.querySelector("input");
+            const shouldBeSelected = correct.includes(optionIndex);
+
+            if (input.checked && shouldBeSelected) {
+                label.classList.add("correct-selected");
+            } else if (input.checked && !shouldBeSelected) {
+                label.classList.add("wrong-selected");
+            } else if (!input.checked && shouldBeSelected) {
+                label.classList.add("missed-correct");
+            }
+        });
+
+        const letters = correct.map(index => String.fromCharCode(65 + index)).join(", ");
+        const noun = correct.length > 1 ? "answers" : "answer";
+        const feedback = document.querySelector(`#swift-quiz-feedback${questionIndex}`);
+
+        if (feedback) {
+            feedback.textContent = isCorrect ? `Correct. Answer: ${letters}` : `Incorrect. Correct ${noun}: ${letters}`;
+        }
+    });
+
+    const percent = Math.round((score / swiftIntroQuizQuestions.length) * 100);
+    if (swiftQuizScore) {
+        swiftQuizScore.textContent = `Score: ${score} / ${swiftIntroQuizQuestions.length} (${percent}%)`;
+    }
+
+    swiftQuizLegend?.classList.add("is-visible");
+    swiftQuizScore?.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function resetSwiftQuiz() {
+    swiftQuizForm?.reset();
+    document.querySelectorAll(".swift-quiz-question").forEach(question => {
+        question.classList.remove("correct-question", "wrong-question");
+    });
+    document.querySelectorAll(".swift-quiz-option").forEach(option => {
+        option.classList.remove("correct-selected", "wrong-selected", "missed-correct");
+    });
+    document.querySelectorAll(".swift-quiz-feedback").forEach(feedback => {
+        feedback.textContent = "";
+    });
+    if (swiftQuizScore) {
+        swiftQuizScore.textContent = `${swiftIntroQuizQuestions.length} questions`;
+    }
+    swiftQuizLegend?.classList.remove("is-visible");
+    swiftQuizScreen?.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+finishSwiftQuizButton?.addEventListener("click", gradeSwiftQuiz);
+resetSwiftQuizButton?.addEventListener("click", resetSwiftQuiz);
 
 accordionTriggers.forEach(trigger => {
     trigger.addEventListener("click", () => {
