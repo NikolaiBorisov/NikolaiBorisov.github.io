@@ -19,7 +19,9 @@ const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
 const likeControls = document.querySelectorAll(".talk-like");
 const likesStorageKey = "swiftTalkLikes";
-const swiftQuizHash = "#swift-talks/#swift-intro-quiz";
+const swiftTalksHash = "#swift-talks";
+const swiftQuizHash = "#swift-intro-quiz";
+const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const languageLabels = {
     en: "🇬🇧",
     es: "🇪🇸",
@@ -1726,7 +1728,7 @@ function closeSwiftQuiz(options = {}) {
     swiftQuizScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("quiz-open");
 
-    if (!options.keepHash && window.location.hash === swiftQuizHash) {
+    if (!options.keepHash && isSwiftQuizHash()) {
         window.location.hash = "swift-talks";
     }
 
@@ -1743,7 +1745,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === "#swift-talks" || window.location.hash === swiftQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash())) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -1751,7 +1753,7 @@ function closeSwiftTalks(options = {}) {
 }
 
 openSwiftTalksButton?.addEventListener("click", () => {
-    if (window.location.hash !== "#swift-talks") {
+    if (window.location.hash !== swiftTalksHash) {
         window.location.hash = "swift-talks";
     }
 
@@ -1785,9 +1787,9 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
-    if (window.location.hash === swiftQuizHash) {
+    if (isSwiftQuizHash()) {
         openSwiftQuiz();
-    } else if (window.location.hash === "#swift-talks") {
+    } else if (window.location.hash === swiftTalksHash) {
         closeSwiftQuiz({ keepHash: true });
         openSwiftTalks();
     } else if (swiftTalksScreen?.classList.contains("is-open")) {
@@ -1797,6 +1799,19 @@ function syncSwiftTalksWithHash() {
 
 window.addEventListener("hashchange", syncSwiftTalksWithHash);
 syncSwiftTalksWithHash();
+
+function isSwiftQuizHash() {
+    const rawHash = window.location.hash;
+    let decodedHash = rawHash;
+
+    try {
+        decodedHash = decodeURIComponent(rawHash);
+    } catch {
+        decodedHash = rawHash;
+    }
+
+    return decodedHash === swiftQuizHash || decodedHash === legacySwiftQuizHash;
+}
 
 function renderSwiftQuiz() {
     if (!swiftQuizForm || swiftQuizForm.dataset.rendered === "true") {
