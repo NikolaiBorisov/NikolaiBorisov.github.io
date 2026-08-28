@@ -6,6 +6,8 @@ const translatableItems = document.querySelectorAll("[data-i18n]");
 const openSwiftTalksButton = document.querySelector("#open-swift-talks");
 const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
 const swiftTalksScreen = document.querySelector("#swift-talks");
+const openSwiftIntroTrackButton = document.querySelector("#open-swift-intro-track");
+const backToTalkTopicsButton = document.querySelector("#back-to-talk-topics");
 const openSwiftQuizButtons = document.querySelectorAll(".open-swift-quiz");
 const closeSwiftQuizButton = document.querySelector("#close-swift-quiz");
 const swiftQuizScreen = document.querySelector("#swift-intro-quiz");
@@ -1706,12 +1708,30 @@ function openSwiftTalks() {
     closeSwiftTalksButton?.focus();
 }
 
+function showSwiftIntroTrack() {
+    if (!swiftTalksScreen) {
+        return;
+    }
+
+    swiftTalksScreen.classList.add("is-viewing-intro");
+}
+
+function showSwiftTalkTopics() {
+    if (!swiftTalksScreen) {
+        return;
+    }
+
+    closeSwiftQuiz({ keepHash: true });
+    swiftTalksScreen.classList.remove("is-viewing-intro");
+}
+
 function openSwiftQuiz() {
     if (!swiftQuizScreen) {
         return;
     }
 
     openSwiftTalks();
+    showSwiftIntroTrack();
     renderSwiftQuiz();
     swiftQuizScreen.classList.add("is-open");
     swiftQuizScreen.setAttribute("aria-hidden", "false");
@@ -1742,6 +1762,7 @@ function closeSwiftTalks(options = {}) {
 
     closeSwiftQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
+    swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
@@ -1758,8 +1779,16 @@ openSwiftTalksButton?.addEventListener("click", () => {
     }
 
     openSwiftTalks();
+    showSwiftTalkTopics();
 });
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
+openSwiftIntroTrackButton?.addEventListener("click", () => {
+    showSwiftIntroTrack();
+});
+backToTalkTopicsButton?.addEventListener("click", () => {
+    showSwiftTalkTopics();
+    openSwiftIntroTrackButton?.focus();
+});
 openSwiftQuizButtons.forEach(button => {
     button.addEventListener("click", () => {
         if (window.location.hash !== swiftQuizHash) {
@@ -1790,8 +1819,8 @@ function syncSwiftTalksWithHash() {
     if (isSwiftQuizHash()) {
         openSwiftQuiz();
     } else if (window.location.hash === swiftTalksHash) {
-        closeSwiftQuiz({ keepHash: true });
         openSwiftTalks();
+        showSwiftTalkTopics();
     } else if (swiftTalksScreen?.classList.contains("is-open")) {
         closeSwiftTalks({ keepHash: true });
     }
