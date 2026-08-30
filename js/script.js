@@ -8,9 +8,11 @@ const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
 const swiftTalksScreen = document.querySelector("#swift-talks");
 const openSwiftIntroTrackButton = document.querySelector("#open-swift-intro-track");
 const openToolboxTrackButton = document.querySelector("#open-toolbox-track");
+const openPortfolioTrackButton = document.querySelector("#open-portfolio-track");
 const backToTalkTopicsButton = document.querySelector("#back-to-talk-topics");
 const backToTalkTopicsButtons = document.querySelectorAll(".back-to-talk-topics");
 const toolboxAccordion = document.querySelector("#toolbox-accordion");
+const portfolioAccordion = document.querySelector("#portfolio-accordion");
 const openSwiftQuizButtons = document.querySelectorAll(".open-swift-quiz");
 const closeSwiftQuizButton = document.querySelector("#close-swift-quiz");
 const swiftQuizScreen = document.querySelector("#swift-intro-quiz");
@@ -27,6 +29,14 @@ const resetToolboxQuizButton = document.querySelector("#reset-toolbox-quiz");
 const toolboxQuizScore = document.querySelector("#toolbox-quiz-score");
 const toolboxQuizLegend = document.querySelector("#toolbox-quiz-legend");
 const openToolboxQuizButtons = document.querySelectorAll(".open-toolbox-quiz");
+const portfolioQuizScreen = document.querySelector("#portfolio-quiz");
+const portfolioQuizForm = document.querySelector("#portfolio-quiz-form");
+const closePortfolioQuizButton = document.querySelector("#close-portfolio-quiz");
+const finishPortfolioQuizButton = document.querySelector("#finish-portfolio-quiz");
+const resetPortfolioQuizButton = document.querySelector("#reset-portfolio-quiz");
+const portfolioQuizScore = document.querySelector("#portfolio-quiz-score");
+const portfolioQuizLegend = document.querySelector("#portfolio-quiz-legend");
+const openPortfolioQuizButtons = document.querySelectorAll(".open-portfolio-quiz");
 const accordionTriggers = document.querySelectorAll(".talk-accordion-trigger");
 const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
@@ -36,6 +46,7 @@ const swiftTalksHash = "#swift-talks";
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const toolboxQuizHash = "#ios-dev-toolbox-quiz";
+const portfolioQuizHash = "#portfolio-website-quiz";
 const languageLabels = {
     en: "🇬🇧",
     es: "🇪🇸",
@@ -1627,6 +1638,488 @@ const toolboxQuizQuestions = [
     { part: "Part 15", question: "What is the beginner goal with tools?", options: ["Use them while building real screens", "Explain which tool solved which problem", "Learn tools only in isolation forever"], answers: [0, 1] }
 ];
 
+toolboxParts.forEach((part, index) => {
+    swiftTalkPosts[`toolbox-part${index + 1}`] = buildTrackPost(part, "iOS Dev Toolbox", "#Swift #iOS #DeveloperTools #SwiftTalks");
+});
+
+const portfolioParts = [
+    {
+        part: "Part 1",
+        title: "Why It Matters",
+        intro: "A portfolio website is the perfect beginner project because it gives you visible progress fast. You are not only reading theory. You are building a real page with your name, your story, your projects, and your contacts.",
+        sections: [
+            ["Do Not Drown In Theory", ["Theory matters, but beginners often get stuck trying to understand everything before building anything.", "A visible project gives your brain feedback: this text moved, this color changed, this button works.", "That feedback builds confidence because progress becomes something you can see, not only something you hope is happening."]],
+            ["Why A Portfolio Works", ["It is small enough to finish, but real enough to teach layout, structure, styling, interaction, Git, and deployment.", "It becomes useful immediately: you can send it to mentors, recruiters, classmates, or clients.", "Every improvement has meaning because the website represents you."]],
+            ["Good Beginner Mindset", ["Build version 1 first. Keep it simple, clean, and honest.", "Do not wait for the perfect design. Start with a readable page and improve it step by step.", "When you learn a new tag, property, or command, use it inside your own website the same day."]]
+        ],
+        examples: [
+            {
+                label: "Tiny goal for day one",
+                language: "text",
+                code: `1. Create index.html
+2. Add your name and role
+3. Add one short bio paragraph
+4. Open it in the browser
+5. Change one color and one font size`
+            }
+        ],
+        highlight: "Learning becomes easier when every topic has a visible result."
+    },
+    {
+        part: "Part 2",
+        title: "What Is HTML + CSS + JS?",
+        intro: "HTML, CSS, and JavaScript are the three core pieces of a web page. A useful beginner model: HTML is the structure, CSS is the visual design, and JavaScript is the behavior.",
+        sections: [
+            ["HTML", ["HTML means HyperText Markup Language.", "It describes what exists on the page: headings, paragraphs, images, links, buttons, sections, lists, and forms.", "HTML should be meaningful. A contact area should be a `section`, a main title should be an `h1`, and navigation should live inside `nav`."]],
+            ["CSS", ["CSS means Cascading Style Sheets.", "It controls how the page looks: colors, spacing, fonts, layout, borders, shadows, responsiveness, and dark mode.", "Good CSS makes the same HTML feel clear, polished, and usable on phones and desktops."]],
+            ["JavaScript", ["JavaScript adds behavior: opening menus, switching themes, filtering projects, validating forms, copying text, and changing content without reloading the page.", "For this portfolio, JavaScript can power light/dark mode, language switching, and small interactions.", "Use JavaScript after the HTML already makes sense. Behavior should support the content, not hide it."]]
+        ],
+        examples: [
+            {
+                label: "The three pieces together",
+                language: "html",
+                code: `<h1>Niko Anderson</h1>
+<p>iOS Developer building useful apps with Swift.</p>
+<button id="themeButton">Switch theme</button>`
+            },
+            {
+                label: "CSS changes the look",
+                language: "css",
+                code: `body {
+  font-family: Arial, sans-serif;
+  background: #0f172a;
+  color: #f8fafc;
+}`
+            },
+            {
+                label: "JavaScript adds action",
+                language: "js",
+                code: `document.querySelector("#themeButton").addEventListener("click", () => {
+  document.body.classList.toggle("light");
+});`
+            }
+        ],
+        highlight: "HTML says what it is. CSS says how it looks. JavaScript says what happens."
+    },
+    {
+        part: "Part 3",
+        title: "Real Usage Of HTML",
+        intro: "HTML is the skeleton of your portfolio. The goal is not to memorize every tag. The goal is to choose meaningful tags so your page is readable for people, browsers, search engines, and accessibility tools.",
+        sections: [
+            ["Core Tags", ["`html` wraps the whole page.", "`head` contains metadata, title, fonts, and CSS links.", "`body` contains visible content.", "`header`, `main`, `section`, and `footer` create page landmarks.", "`div` is a generic box. Use it when no more meaningful tag fits.", "`br` creates a line break, but normal spacing should usually be done with CSS.", "`ul`, `ol`, and `li` create lists. Use them for skills, steps, education items, and project features."]],
+            ["Portfolio Sections", ["Hero: your name, role, short value line, and primary links.", "Bio/About: who you are, what you build, what you care about.", "Projects: cards with title, description, tech stack, links, and screenshots.", "Skills, education, contact: quick proof and clear next action."]],
+            ["Useful Attributes", ["`id` gives one unique name to an element, useful for navigation and JavaScript.", "`class` groups elements for styling.", "`href` sets a link destination.", "`src` sets an image path.", "`alt` explains an image for accessibility and when images fail to load."]]
+        ],
+        examples: [
+            {
+                label: "Portfolio page structure",
+                language: "html",
+                code: `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Niko Anderson | Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <p class="eyebrow">iOS Developer</p>
+        <h1>Niko Anderson</h1>
+        <p>I build clean, useful mobile apps and simple web tools.</p>
+        <a href="#projects">View projects</a>
+      </section>
+
+      <section id="about">
+        <h2>About</h2>
+        <p>I enjoy turning ideas into readable interfaces.</p>
+      </section>
+    </main>
+  </body>
+</html>`
+            },
+            {
+                label: "Lists and project cards",
+                language: "html",
+                code: `<section id="skills">
+  <h2>Skills</h2>
+  <ul>
+    <li>HTML</li>
+    <li>CSS</li>
+    <li>JavaScript</li>
+  </ul>
+</section>
+
+<article class="project-card">
+  <img src="img/portfolio-preview.png" alt="Portfolio website preview">
+  <h3>Portfolio Website</h3>
+  <p>A personal website with dark mode and language switch.</p>
+  <a href="https://username.github.io">Live demo</a>
+</article>`
+            }
+        ],
+        highlight: "Good HTML is not fancy. Good HTML is clear."
+    },
+    {
+        part: "Part 4",
+        title: "Real Usage Of CSS",
+        intro: "CSS turns a plain document into a designed interface. For a portfolio, CSS controls the first impression: spacing, rhythm, readability, responsive layout, dark mode, and the feeling that the page was built with care.",
+        sections: [
+            ["Core Ideas", ["Selectors choose what to style: `body`, `.hero`, `#contact`, or `.project-card h3`.", "The box model explains spacing: content, padding, border, and margin.", "Flexbox is excellent for rows, navigation, buttons, and small groups.", "Grid is excellent for project cards, skill groups, and page layouts."]],
+            ["Portfolio Styling", ["Use a small color system with variables so dark and light mode are easy.", "Use consistent spacing values instead of random margins everywhere.", "Set readable line height and avoid giant paragraphs stretching across the screen.", "Make cards, buttons, and links visually consistent."]],
+            ["Responsive Habits", ["Start with a layout that works on mobile.", "Use `max-width` so content does not become too wide on desktop.", "Use `grid-template-columns: repeat(auto-fit, minmax(...))` for flexible cards.", "Test at small phone width, tablet width, and desktop width."]]
+        ],
+        examples: [
+            {
+                label: "Clean base styles",
+                language: "css",
+                code: `:root {
+  --bg: #0f172a;
+  --surface: #111827;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --accent: #38bdf8;
+  --line: rgba(148, 163, 184, 0.24);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}`
+            },
+            {
+                label: "Hero and project grid",
+                language: "css",
+                code: `.container {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.hero {
+  min-height: 80vh;
+  display: grid;
+  align-content: center;
+  gap: 20px;
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}`
+            },
+            {
+                label: "Light mode",
+                language: "css",
+                code: `body.light {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #475569;
+  --accent: #0369a1;
+  --line: rgba(15, 23, 42, 0.16);
+}`
+            }
+        ],
+        highlight: "CSS is not decoration only. It is how you make information easy to scan."
+    },
+    {
+        part: "Part 5",
+        title: "Real Usage Of JavaScript",
+        intro: "JavaScript should make your portfolio feel alive without making it confusing. Start with small useful interactions: theme switch, language switch, active navigation, copy email, and form feedback.",
+        sections: [
+            ["Core Concepts", ["Variables store values: `const themeButton = ...`.", "Functions package behavior so you can reuse it.", "Events run code when something happens, like a click.", "`classList` lets JavaScript add or remove CSS classes.", "`localStorage` saves small preferences like dark or light mode."]],
+            ["Portfolio Interactions", ["Light/dark mode: toggle a class on `body` and remember the preference.", "Language switch: update visible text from a dictionary.", "Copy email: copy your email address to the clipboard.", "Project filter: show only iOS, web, or all projects."]],
+            ["Good Habits", ["Select elements once near the top of the file.", "Use clear names like `themeButton`, `languageButtons`, and `projectCards`.", "Check that an element exists before using it if the script may run on multiple pages.", "Keep JavaScript focused. Do not use it to create simple static text that belongs in HTML."]]
+        ],
+        examples: [
+            {
+                label: "Theme switch with saved preference",
+                language: "js",
+                code: `const themeButton = document.querySelector("#themeButton");
+const savedTheme = localStorage.getItem("theme");
+
+if (savedTheme === "light") {
+  document.body.classList.add("light");
+}
+
+themeButton.addEventListener("click", () => {
+  document.body.classList.toggle("light");
+  const nextTheme = document.body.classList.contains("light") ? "light" : "dark";
+  localStorage.setItem("theme", nextTheme);
+});`
+            },
+            {
+                label: "Copy email button",
+                language: "js",
+                code: `const copyEmailButton = document.querySelector("#copyEmail");
+
+copyEmailButton.addEventListener("click", async () => {
+  await navigator.clipboard.writeText("you@example.com");
+  copyEmailButton.textContent = "Copied";
+
+  setTimeout(() => {
+    copyEmailButton.textContent = "Copy email";
+  }, 1600);
+});`
+            }
+        ],
+        highlight: "Use JavaScript to support the user, not to show off."
+    },
+    {
+        part: "Part 6",
+        title: "HTML + CSS + JS Together",
+        intro: "A clean project is easier to understand, debug, and improve. Separate your HTML, CSS, JavaScript, and images so every file has a clear job.",
+        sections: [
+            ["Folder Structure", ["`index.html` is the main page.", "`css/styles.css` stores visual styles.", "`js/script.js` stores behavior.", "`img/` stores photos, screenshots, icons, and project previews.", "`README.md` explains the project goal and how to run it."]],
+            ["Senior Habits For Beginners", ["Use meaningful section names and class names.", "Write small CSS systems: variables, containers, sections, buttons, cards.", "Keep repeated UI consistent.", "Make the website work without JavaScript first, then add enhancements.", "Commit after meaningful steps so your progress is safe."]],
+            ["What Version 1 Should Include", ["Hero with your name and role.", "About or bio section.", "Projects section with at least one project.", "Skills and education.", "Contact links.", "Light/dark mode and language switch if you want extra practice."]]
+        ],
+        examples: [
+            {
+                label: "Recommended structure",
+                language: "text",
+                code: `portfolio-website/
+  index.html
+  README.md
+  css/
+    styles.css
+  js/
+    script.js
+  img/
+    profile.jpg
+    project-portfolio.png`
+            },
+            {
+                label: "Connect files",
+                language: "html",
+                code: `<head>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- page content -->
+  <script src="js/script.js"></script>
+</body>`
+            }
+        ],
+        highlight: "A small clean website teaches more than a big messy one."
+    },
+    {
+        part: "Part 7",
+        title: "Ship It With GitHub Pages",
+        intro: "Deployment means making your website live on the internet. GitHub Pages is beginner-friendly because it can publish a static HTML, CSS, and JavaScript website directly from your repository.",
+        sections: [
+            ["Before You Start", ["Create a GitHub account.", "Install Git on your machine.", "Create a folder for your portfolio.", "Open Terminal in that folder.", "Run `pwd` to confirm where you are before Git commands."]],
+            ["Important Commands", ["`pwd` shows the current folder.", "`ls` lists files.", "`cd folder-name` moves into a folder.", "`git status` shows changed files and branch state.", "`git add .` stages changes.", "`git commit -m \"message\"` saves a checkpoint.", "`git push` uploads commits to GitHub."]],
+            ["GitHub Pages Domain", ["For a personal site, name the repo `username.github.io`, replacing `username` with your GitHub username.", "GitHub will publish it at `https://username.github.io`.", "If you use another repo name, the URL usually becomes `https://username.github.io/repo-name/`."]]
+        ],
+        examples: [
+            {
+                label: "Create local project",
+                language: "bash",
+                code: `mkdir portfolio-website
+cd portfolio-website
+touch index.html
+mkdir css js img
+touch css/styles.css js/script.js README.md`
+            },
+            {
+                label: "Start Git and make first commit",
+                language: "bash",
+                code: `git init
+git status
+git add .
+git commit -m "Create portfolio website structure"
+git branch -M main`
+            },
+            {
+                label: "Connect to GitHub and push",
+                language: "bash",
+                code: `git remote add origin https://github.com/username/username.github.io.git
+git push -u origin main`
+            },
+            {
+                label: "Daily update flow",
+                language: "bash",
+                code: `git status
+git add .
+git commit -m "Improve hero section"
+git push`
+            }
+        ],
+        bonusLink: {
+            label: "Bonus GitHub Pages Guide",
+            text: "Use this extra guide if you want a focused GitHub Pages walkthrough after finishing the terminal steps above.",
+            href: "https://lnkd.in/p/gVWsyQuF"
+        },
+        highlight: "At the end, your website should not only exist on your computer. It should be live and shareable."
+    },
+    {
+        part: "Part 8",
+        title: "Responsive And Accessible",
+        intro: "A portfolio should work for real people on real devices. Responsive design makes it usable on phones and desktops. Accessibility makes it usable for more people and creates better HTML habits.",
+        sections: [
+            ["Responsive Checklist", ["Use the viewport meta tag.", "Avoid fixed widths like `width: 1200px` for main content.", "Use `max-width` and flexible grids.", "Test navigation, cards, and buttons on narrow screens.", "Make sure text does not overlap or become too small."]],
+            ["Accessibility Basics", ["Use one clear `h1` for the page.", "Keep heading order logical: `h2` for sections, `h3` for cards.", "Write useful `alt` text for meaningful images.", "Use buttons for actions and links for navigation.", "Make color contrast readable in light and dark mode."]],
+            ["Portfolio Details", ["Project screenshots need descriptive alt text.", "Contact links should clearly say where they go.", "Buttons like theme switch and language switch should have understandable labels.", "Keyboard users should be able to tab through the page."]]
+        ],
+        examples: [
+            {
+                label: "Responsive grid",
+                language: "css",
+                code: `.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+}`
+            },
+            {
+                label: "Accessible image and button",
+                language: "html",
+                code: `<img src="img/project-app.png" alt="Dashboard screen from my habit tracking app">
+<button type="button" id="themeButton" aria-label="Switch color theme">
+  Theme
+</button>`
+            }
+        ],
+        highlight: "Responsive and accessible is not advanced polish. It is part of building a real website."
+    },
+    {
+        part: "Part 9",
+        title: "Polish Your Story",
+        intro: "A portfolio is not only a code exercise. It is also a communication tool. The page should help someone quickly understand who you are, what you can build, and why your work is worth exploring.",
+        sections: [
+            ["Hero Copy", ["Say your name clearly.", "Say what you do in one direct line.", "Add one useful detail: platform, stack, niche, or type of product.", "Give the visitor a clear next action like viewing projects or contacting you."]],
+            ["Project Cards", ["Use project names that are easy to understand.", "Explain the problem, not only the technology.", "List the stack, but do not let the stack replace the story.", "Add links to live demo, GitHub, or screenshots when available."]],
+            ["Trust Signals", ["Add education, certificates, work experience, or learning progress honestly.", "Keep links updated.", "Remove empty sections until you have content.", "Proofread the page. Small text mistakes can make a polished layout feel unfinished."]]
+        ],
+        examples: [
+            {
+                label: "Before and after project description",
+                language: "text",
+                code: `Weak:
+Website with HTML CSS JS.
+
+Stronger:
+A personal portfolio website with responsive layout, dark mode,
+language switch, project cards, and GitHub Pages deployment.`
+            },
+            {
+                label: "Project card content",
+                language: "html",
+                code: `<article class="project-card">
+  <h3>Portfolio Website</h3>
+  <p>A responsive personal site with theme switch and GitHub Pages deployment.</p>
+  <ul>
+    <li>HTML</li>
+    <li>CSS Grid</li>
+    <li>JavaScript</li>
+  </ul>
+  <a href="https://username.github.io">Live demo</a>
+</article>`
+            }
+        ],
+        highlight: "Your portfolio should show skill and explain the thinking behind the skill."
+    },
+    {
+        part: "Part 10",
+        title: "Final Build Checklist",
+        intro: "Before you call the project finished, walk through the website like a visitor and like a developer. You want it to look good, work correctly, and be easy to update later.",
+        sections: [
+            ["Content Checklist", ["Hero has your name, role, and clear action.", "About section sounds human and specific.", "Projects have descriptions, stack, and links.", "Skills and education are easy to scan.", "Contact links work."]],
+            ["Technical Checklist", ["HTML has correct structure.", "CSS is organized with variables and reusable classes.", "JavaScript has no console errors.", "Dark/light mode works.", "Language switch works if included.", "Images load from the `img` folder.", "The page works on mobile and desktop."]],
+            ["Shipping Checklist", ["Run `git status` before final commit.", "Commit the finished version.", "Push to GitHub.", "Open your GitHub Pages URL.", "Test the live website, not only the local file.", "Add the live URL to your GitHub profile and LinkedIn."]]
+        ],
+        examples: [
+            {
+                label: "Final terminal flow",
+                language: "bash",
+                code: `git status
+git add .
+git commit -m "Finish first portfolio website"
+git push`
+            },
+            {
+                label: "README starter",
+                language: "md",
+                code: `# Portfolio Website
+
+My personal portfolio website built with HTML, CSS, and JavaScript.
+
+## Features
+- Responsive layout
+- Dark and light mode
+- Project cards
+- Contact links
+
+## Live Website
+https://username.github.io`
+            }
+        ],
+        highlight: "Finish version 1, share it, then improve it with real feedback."
+    }
+];
+
+const portfolioQuizQuestions = [
+    { part: "Part 1", question: "Why is a portfolio website a strong beginner project?", options: ["It creates visible progress", "It is small but real", "It requires no practice"], answers: [0, 1] },
+    { part: "Part 1", question: "What helps beginners avoid drowning in theory?", options: ["Building visible results", "Using new concepts in a real project", "Waiting until every topic is mastered"], answers: [0, 1] },
+    { part: "Part 1", question: "What should version 1 be?", options: ["Simple, clean, and honest", "Finished enough to share", "Perfect before it is opened"], answers: [0, 1] },
+    { part: "Part 2", question: "What does HTML mainly describe?", options: ["Page structure and content", "Headings, links, sections, images, and forms", "Only button animation"], answers: [0, 1] },
+    { part: "Part 2", question: "What does CSS control?", options: ["Colors, spacing, fonts, and layout", "Responsive design and dark mode", "GitHub passwords"], answers: [0, 1] },
+    { part: "Part 2", question: "What does JavaScript add?", options: ["Behavior and interaction", "Theme switch and language switch logic", "The meaning of every heading"], answers: [0, 1] },
+    { part: "Part 3", question: "Which tags are useful page landmarks?", options: ["header, main, section, footer", "nav", "br for every layout gap"], answers: [0, 1] },
+    { part: "Part 3", question: "What is the best use of div?", options: ["A generic grouping box when no semantic tag fits", "Replacing every meaningful tag", "Styling support"], answers: [0, 2] },
+    { part: "Part 3", question: "Which attributes are useful in portfolio HTML?", options: ["id and class", "href, src, and alt", "secretToken"], answers: [0, 1] },
+    { part: "Part 4", question: "What does the CSS box model include?", options: ["Content, padding, border, margin", "Spacing around elements", "Git commits"], answers: [0, 1] },
+    { part: "Part 4", question: "Which layouts are useful in CSS?", options: ["Flexbox", "Grid", "Random fixed widths everywhere"], answers: [0, 1] },
+    { part: "Part 4", question: "What helps with light and dark mode?", options: ["CSS variables", "Changing color values in one system", "Duplicating the whole website"], answers: [0, 1] },
+    { part: "Part 5", question: "What JavaScript feature saves a theme preference?", options: ["localStorage", "classList with stored value", "br tags"], answers: [0, 1] },
+    { part: "Part 5", question: "What is an event listener used for?", options: ["Running code after a click", "Reacting to user actions", "Creating a GitHub repo by itself"], answers: [0, 1] },
+    { part: "Part 5", question: "What is a good JavaScript habit?", options: ["Use clear element names", "Check elements before using them when needed", "Hide all content until JS loads"], answers: [0, 1] },
+    { part: "Part 6", question: "What belongs in a clean portfolio folder?", options: ["index.html", "css, js, and img folders", "Only one huge unnamed file"], answers: [0, 1] },
+    { part: "Part 6", question: "Why separate CSS and JS files?", options: ["Each file has a clear job", "The project becomes easier to maintain", "It prevents all bugs automatically"], answers: [0, 1] },
+    { part: "Part 6", question: "What should portfolio version 1 include?", options: ["Hero, about, projects, skills, contact", "Readable structure", "Every feature from every website"], answers: [0, 1] },
+    { part: "Part 7", question: "What does GitHub Pages do?", options: ["Publishes a static website online", "Can serve HTML, CSS, and JavaScript from a repo", "Replaces HTML"], answers: [0, 1] },
+    { part: "Part 7", question: "What does git status show?", options: ["Changed files and branch state", "Useful safety information before commits", "Your website font size"], answers: [0, 1] },
+    { part: "Part 7", question: "Which commands are part of the first Git flow?", options: ["git init, git add ., git commit", "git remote add origin, git push", "git drown theory"], answers: [0, 1] },
+    { part: "Part 8", question: "What helps responsive design?", options: ["Viewport meta tag", "Flexible grids and max-width", "Only desktop testing"], answers: [0, 1] },
+    { part: "Part 8", question: "What helps accessibility?", options: ["Useful alt text", "Logical headings", "Low contrast text"], answers: [0, 1] },
+    { part: "Part 8", question: "What should buttons and links be used for?", options: ["Buttons for actions", "Links for navigation", "Links for every JavaScript action"], answers: [0, 1] },
+    { part: "Part 9", question: "What should a strong hero section communicate?", options: ["Name and role", "A clear next action", "Only a vague slogan"], answers: [0, 1] },
+    { part: "Part 9", question: "What makes project cards stronger?", options: ["Problem and outcome", "Stack and useful links", "Only the word project"], answers: [0, 1] },
+    { part: "Part 9", question: "What trust signals can a beginner include?", options: ["Education or learning progress", "Honest project work", "Fake experience"], answers: [0, 1] },
+    { part: "Part 10", question: "What belongs in the technical checklist?", options: ["No console errors", "Images load and responsive layout works", "Broken contact links"], answers: [0, 1] },
+    { part: "Part 10", question: "What should be tested after pushing?", options: ["The live GitHub Pages URL", "Mobile and desktop behavior", "Only the local file forever"], answers: [0, 1] },
+    { part: "Part 10", question: "What is the best finish for version 1?", options: ["Commit, push, share, and improve from feedback", "Never publish it", "Keep adding features before it works"], answers: [0] }
+];
+
+portfolioParts.forEach((part, index) => {
+    swiftTalkPosts[`portfolio-part${index + 1}`] = buildTrackPost(part, "Let's Build Your Portfolio Website", "#HTML #CSS #JavaScript #Portfolio #SwiftTalks");
+});
+
 const translations = {
     en: {
         title: "Niko A. | iOS Developer",
@@ -1859,29 +2352,9 @@ function getStoredLikeValue(value) {
 }
 
 function setupLikes() {
-    const likes = readStoredLikes();
-
     likeControls.forEach(control => {
-        const talkId = control.dataset.talkId;
-        const button = control.querySelector(".like-button");
-
-        if (!talkId || !button) {
-            return;
-        }
-
-        let isLiked = getStoredLikeValue(likes[talkId]);
-        likes[talkId] = isLiked;
-        renderLikeControl(control, isLiked);
-
-        button.addEventListener("click", () => {
-            isLiked = !isLiked;
-            likes[talkId] = isLiked;
-            saveStoredLikes(likes);
-            renderLikeControl(control, isLiked);
-        });
+        setupLikeControl(control);
     });
-
-    saveStoredLikes(likes);
 }
 
 setupLikes();
@@ -1940,6 +2413,17 @@ function showToolboxTrack() {
     swiftTalksScreen.classList.add("is-viewing-toolbox");
 }
 
+function showPortfolioTrack() {
+    if (!swiftTalksScreen) {
+        return;
+    }
+
+    renderPortfolioParts();
+    swiftTalksScreen.classList.remove("is-viewing-intro");
+    swiftTalksScreen.classList.remove("is-viewing-toolbox");
+    swiftTalksScreen.classList.add("is-viewing-portfolio");
+}
+
 function showSwiftTalkTopics() {
     if (!swiftTalksScreen) {
         return;
@@ -1947,8 +2431,10 @@ function showSwiftTalkTopics() {
 
     closeSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
+    closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
+    swiftTalksScreen.classList.remove("is-viewing-portfolio");
 }
 
 function openSwiftQuiz() {
@@ -2009,6 +2495,34 @@ function closeToolboxQuiz(options = {}) {
     }
 }
 
+function openPortfolioQuiz() {
+    if (!portfolioQuizScreen) {
+        return;
+    }
+
+    openSwiftTalks();
+    showPortfolioTrack();
+    renderPortfolioQuiz();
+    portfolioQuizScreen.classList.add("is-open");
+    portfolioQuizScreen.setAttribute("aria-hidden", "false");
+    document.body.classList.add("quiz-open");
+    closePortfolioQuizButton?.focus();
+}
+
+function closePortfolioQuiz(options = {}) {
+    if (!portfolioQuizScreen) {
+        return;
+    }
+
+    portfolioQuizScreen.classList.remove("is-open");
+    portfolioQuizScreen.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("quiz-open");
+
+    if (!options.keepHash && window.location.hash === portfolioQuizHash) {
+        window.location.hash = "swift-talks";
+    }
+}
+
 function closeSwiftTalks(options = {}) {
     if (!swiftTalksScreen) {
         return;
@@ -2016,13 +2530,15 @@ function closeSwiftTalks(options = {}) {
 
     closeSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
+    closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
+    swiftTalksScreen.classList.remove("is-viewing-portfolio");
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash() || window.location.hash === toolboxQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash() || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -2043,6 +2559,9 @@ openSwiftIntroTrackButton?.addEventListener("click", () => {
 });
 openToolboxTrackButton?.addEventListener("click", () => {
     showToolboxTrack();
+});
+openPortfolioTrackButton?.addEventListener("click", () => {
+    showPortfolioTrack();
 });
 backToTalkTopicsButton?.addEventListener("click", () => {
     showSwiftTalkTopics();
@@ -2072,8 +2591,18 @@ openToolboxQuizButtons.forEach(button => {
         openToolboxQuiz();
     });
 });
+openPortfolioQuizButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (window.location.hash !== portfolioQuizHash) {
+            window.location.hash = portfolioQuizHash.slice(1);
+        }
+
+        openPortfolioQuiz();
+    });
+});
 closeSwiftQuizButton?.addEventListener("click", closeSwiftQuiz);
 closeToolboxQuizButton?.addEventListener("click", closeToolboxQuiz);
+closePortfolioQuizButton?.addEventListener("click", closePortfolioQuiz);
 
 document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
@@ -2090,13 +2619,20 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && portfolioQuizScreen?.classList.contains("is-open")) {
+        closePortfolioQuiz();
+        return;
+    }
+
     if (event.key === "Escape" && swiftTalksScreen?.classList.contains("is-open")) {
         closeSwiftTalks();
     }
 });
 
 function syncSwiftTalksWithHash() {
-    if (window.location.hash === toolboxQuizHash) {
+    if (window.location.hash === portfolioQuizHash) {
+        openPortfolioQuiz();
+    } else if (window.location.hash === toolboxQuizHash) {
         openToolboxQuiz();
     } else if (isSwiftQuizHash()) {
         openSwiftQuiz();
@@ -2316,6 +2852,8 @@ function renderToolboxParts() {
         highlight.append(highlightLabel, highlightText);
         panel.appendChild(highlight);
 
+        panel.appendChild(createTalkFooter(`toolbox-part${index + 1}`, `Feedback on iOS Dev Toolbox ${part.part}`));
+
         trigger.addEventListener("click", () => {
             const isExpanded = article.classList.toggle("is-expanded");
             trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
@@ -2326,6 +2864,227 @@ function renderToolboxParts() {
     });
 
     toolboxAccordion.dataset.rendered = "true";
+}
+
+function renderPortfolioParts() {
+    if (!portfolioAccordion || portfolioAccordion.dataset.rendered === "true") {
+        return;
+    }
+
+    portfolioParts.forEach((part, index) => {
+        const article = document.createElement("article");
+        article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}`;
+        article.dataset.talkId = `portfolio-part${index + 1}`;
+
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "talk-accordion-trigger";
+        trigger.setAttribute("aria-expanded", index === 0 ? "true" : "false");
+
+        const triggerText = document.createElement("span");
+        const kicker = document.createElement("span");
+        kicker.className = "talks-kicker";
+        kicker.textContent = part.part;
+        const title = document.createElement("span");
+        title.className = "talk-accordion-title";
+        title.textContent = part.title;
+        triggerText.append(kicker, title);
+
+        const chevron = document.createElement("span");
+        chevron.className = "talk-chevron";
+        chevron.setAttribute("aria-hidden", "true");
+        trigger.append(triggerText, chevron);
+
+        const panel = document.createElement("div");
+        panel.className = "talk-accordion-panel";
+
+        const intro = document.createElement("p");
+        intro.className = "talk-intro";
+        intro.textContent = part.intro;
+        panel.appendChild(intro);
+
+        const grid = document.createElement("div");
+        grid.className = "talk-grid";
+        part.sections.forEach(([heading, items]) => {
+            const section = document.createElement("div");
+            const h3 = document.createElement("h3");
+            h3.textContent = heading;
+            const list = document.createElement("ul");
+            items.forEach(item => {
+                const li = document.createElement("li");
+                appendFormattedText(li, item);
+                list.appendChild(li);
+            });
+            section.append(h3, list);
+            grid.appendChild(section);
+        });
+        panel.appendChild(grid);
+
+        part.examples.forEach(example => {
+            const block = document.createElement("div");
+            block.className = "talk-highlight talk-highlight-rich";
+            const label = document.createElement("span");
+            label.textContent = example.label;
+            const pre = document.createElement("pre");
+            pre.className = "talk-code-block";
+            const code = document.createElement("code");
+            code.className = `language-${example.language}`;
+            code.textContent = example.code;
+            pre.appendChild(code);
+            block.append(label, pre);
+            panel.appendChild(block);
+        });
+
+        const highlight = document.createElement("div");
+        highlight.className = "talk-highlight talk-highlight-rich";
+        const highlightLabel = document.createElement("span");
+        highlightLabel.textContent = "Portfolio mindset";
+        const highlightText = document.createElement("p");
+        const strong = document.createElement("strong");
+        strong.textContent = part.highlight;
+        highlightText.appendChild(strong);
+        highlight.append(highlightLabel, highlightText);
+        panel.appendChild(highlight);
+
+        if (part.bonusLink) {
+            panel.appendChild(createBonusLinkBlock(part.bonusLink));
+        }
+
+        panel.appendChild(createTalkFooter(`portfolio-part${index + 1}`, `Feedback on Portfolio Website ${part.part}`));
+
+        trigger.addEventListener("click", () => {
+            const isExpanded = article.classList.toggle("is-expanded");
+            trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+        });
+
+        article.append(trigger, panel);
+        portfolioAccordion.appendChild(article);
+    });
+
+    portfolioAccordion.dataset.rendered = "true";
+}
+
+function createTalkFooter(talkId, subject) {
+    const footer = document.createElement("footer");
+    footer.className = "talk-footer";
+
+    const meta = document.createElement("div");
+    meta.className = "talk-footer-meta";
+    const follow = document.createElement("a");
+    follow.href = "https://www.linkedin.com/in/niko-anderson-36269333b/";
+    follow.target = "_blank";
+    follow.rel = "noopener noreferrer";
+    follow.textContent = "Follow on LinkedIn";
+
+    const like = document.createElement("div");
+    like.className = "talk-like";
+    like.dataset.talkId = talkId;
+    like.innerHTML = '<button type="button" class="like-button" aria-label="Like this post" aria-pressed="false"><svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg></button>';
+    setupLikeControl(like);
+
+    meta.appendChild(follow);
+
+    const actions = document.createElement("div");
+    actions.className = "talks-actions";
+    const copy = document.createElement("button");
+    copy.type = "button";
+    copy.className = "talks-button copy-talk";
+    copy.dataset.talkId = talkId;
+    copy.setAttribute("aria-live", "polite");
+    copy.textContent = "Copy post";
+    bindCopyButton(copy);
+
+    const translate = document.createElement("button");
+    translate.type = "button";
+    translate.className = "talks-button translate-talk";
+    translate.dataset.talkId = talkId;
+    translate.textContent = "Translate";
+    bindTranslateButton(translate);
+
+    const feedback = document.createElement("a");
+    feedback.className = "talks-button primary";
+    feedback.href = `mailto:andersonnikko1@gmail.com?subject=${encodeURIComponent(subject)}&body=Hi%20Niko%2C%0A%0AI%20read%20this%20Portfolio%20Website%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A`;
+    feedback.textContent = "Send feedback";
+
+    actions.append(copy, translate, feedback);
+    footer.append(meta, like, actions);
+
+    return footer;
+}
+
+function createBonusLinkBlock(link) {
+    const block = document.createElement("div");
+    block.className = "talk-highlight talk-highlight-rich";
+
+    const label = document.createElement("span");
+    label.textContent = link.label;
+
+    const text = document.createElement("p");
+    text.textContent = link.text;
+
+    const anchor = document.createElement("a");
+    anchor.className = "talks-button primary";
+    anchor.href = link.href;
+    anchor.target = "_blank";
+    anchor.rel = "noopener noreferrer";
+    anchor.textContent = "Open GitHub Pages guide";
+
+    block.append(label, text, anchor);
+
+    return block;
+}
+
+function setupLikeControl(control) {
+    const likes = readStoredLikes();
+    const talkId = control.dataset.talkId;
+    const button = control.querySelector(".like-button");
+
+    if (!talkId || !button) {
+        return;
+    }
+
+    let isLiked = getStoredLikeValue(likes[talkId]);
+    likes[talkId] = isLiked;
+    renderLikeControl(control, isLiked);
+    saveStoredLikes(likes);
+
+    button.addEventListener("click", () => {
+        const nextLikes = readStoredLikes();
+        isLiked = !isLiked;
+        nextLikes[talkId] = isLiked;
+        saveStoredLikes(nextLikes);
+        renderLikeControl(control, isLiked);
+    });
+}
+
+function buildTrackPost(part, trackTitle, hashtags) {
+    const sections = part.sections
+        .map(([heading, items]) => `🔸 ${heading}\n\n${items.map(item => `• ${item.replace(/`/g, "")}`).join("\n")}`)
+        .join("\n\n");
+    const examples = (part.examples || [])
+        .map(example => `Example: ${example.label}\n\n${example.code}`)
+        .join("\n\n");
+    const bonus = part.bonusLink ? `Bonus:
+${part.bonusLink.text}
+${part.bonusLink.href}
+
+` : "";
+
+    return `🔶 SWIFT Talks
+${trackTitle}
+${part.part}: ${part.title}
+
+${part.intro}
+
+${sections}
+
+${examples ? `${examples}\n\n` : ""}${bonus}Main idea:
+${part.highlight}
+
+Follow on LinkedIn:
+https://www.linkedin.com/in/niko-anderson-36269333b/
+
+${hashtags}`;
 }
 
 function appendFormattedText(element, text) {
@@ -2351,6 +3110,14 @@ function renderToolboxQuiz() {
     }
 
     renderQuizQuestions(toolboxQuizForm, toolboxQuizQuestions, "toolbox-quiz");
+}
+
+function renderPortfolioQuiz() {
+    if (!portfolioQuizForm || portfolioQuizForm.dataset.rendered === "true") {
+        return;
+    }
+
+    renderQuizQuestions(portfolioQuizForm, portfolioQuizQuestions, "portfolio-quiz");
 }
 
 function renderQuizQuestions(form, questions, prefix) {
@@ -2406,6 +3173,15 @@ function gradeToolboxQuiz() {
 
 function resetToolboxQuiz() {
     resetQuiz(toolboxQuizForm, toolboxQuizQuestions, toolboxQuizScore, toolboxQuizLegend, toolboxQuizScreen);
+}
+
+function gradePortfolioQuiz() {
+    renderPortfolioQuiz();
+    gradeQuiz(portfolioQuizQuestions, "portfolio-quiz", portfolioQuizScore, portfolioQuizLegend);
+}
+
+function resetPortfolioQuiz() {
+    resetQuiz(portfolioQuizForm, portfolioQuizQuestions, portfolioQuizScore, portfolioQuizLegend, portfolioQuizScreen);
 }
 
 function gradeQuiz(questions, prefix, scoreElement, legendElement) {
@@ -2478,6 +3254,8 @@ function resetQuiz(form, questions, scoreElement, legendElement, scrollElement) 
 
 finishToolboxQuizButton?.addEventListener("click", gradeToolboxQuiz);
 resetToolboxQuizButton?.addEventListener("click", resetToolboxQuiz);
+finishPortfolioQuizButton?.addEventListener("click", gradePortfolioQuiz);
+resetPortfolioQuizButton?.addEventListener("click", resetPortfolioQuiz);
 
 accordionTriggers.forEach(trigger => {
     trigger.addEventListener("click", () => {
@@ -2500,7 +3278,7 @@ function copyWithFallback(text) {
     document.body.removeChild(textArea);
 }
 
-copyTalkButtons.forEach(button => {
+function bindCopyButton(button) {
     button.addEventListener("click", async () => {
         const post = swiftTalkPosts[button.dataset.talkId];
 
@@ -2526,9 +3304,9 @@ copyTalkButtons.forEach(button => {
             }, 1800);
         }
     });
-});
+}
 
-translateTalkButtons.forEach(button => {
+function bindTranslateButton(button) {
     button.addEventListener("click", () => {
         const post = swiftTalkPosts[button.dataset.talkId];
 
@@ -2544,4 +3322,7 @@ translateTalkButtons.forEach(button => {
 
         window.open(translateUrl.toString(), "_blank", "noopener,noreferrer");
     });
-});
+}
+
+copyTalkButtons.forEach(bindCopyButton);
+translateTalkButtons.forEach(bindTranslateButton);

@@ -594,7 +594,8 @@ h2 {
 }
 
 .swift-intro-track,
-.toolbox-track {
+.toolbox-track,
+.portfolio-track {
     display: none;
 }
 
@@ -611,6 +612,14 @@ h2 {
 }
 
 .swift-talks-screen.is-viewing-toolbox .toolbox-track {
+    display: block;
+}
+
+.swift-talks-screen.is-viewing-portfolio .talks-topic-hub {
+    display: none;
+}
+
+.swift-talks-screen.is-viewing-portfolio .portfolio-track {
     display: block;
 }
 
@@ -834,6 +843,27 @@ h2 {
     background: var(--surface);
     color: var(--text);
     font-size: 0.92em;
+}
+
+.talk-code-block {
+    margin: 18px 0 0;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(0, 0, 0, 0.24);
+}
+
+.talk-code-block code {
+    display: block;
+    min-width: max-content;
+    padding: 16px 18px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.65;
+    white-space: pre;
 }
 
 .talk-highlight {

@@ -115,6 +115,19 @@
                 </span>
                 <span class="talk-topic-action" aria-hidden="true">Open</span>
             </button>
+
+            <button type="button" class="talk-topic-card" id="open-portfolio-track" aria-controls="portfolio-track">
+                <span class="talk-topic-copy">
+                    <span class="talks-kicker">Project Track</span>
+                    <span class="talk-topic-title">Portfolio Website</span>
+                    <span class="talk-topic-description">Beginner-friendly real practice building and shipping your own mini website with HTML, CSS, and JavaScript.</span>
+                    <span class="talk-topic-meta">
+                        <span>HTML, CSS, JS</span>
+                        <span>Quiz</span>
+                    </span>
+                </span>
+                <span class="talk-topic-action" aria-hidden="true">Open</span>
+            </button>
         </div>
 
         <div class="swift-intro-track" id="swift-intro-track">
@@ -1352,6 +1365,25 @@
                 <button type="button" class="talks-button primary open-toolbox-quiz talk-quiz-button">Quiz</button>
             </div>
         </div>
+
+        <div class="portfolio-track" id="portfolio-track">
+            <div class="talks-track-header">
+                <button type="button" class="talks-button back-to-talk-topics">All topics</button>
+                <div>
+                    <span class="talks-kicker">SWIFT Talks</span>
+                    <h2>Let's Build Your Portfolio Website</h2>
+                </div>
+            </div>
+
+            <div class="talks-accordion" id="portfolio-accordion"></div>
+            <div class="talk-card talk-quiz-cta">
+                <div>
+                    <span class="talks-kicker">Portfolio Website Quiz</span>
+                    <p>30 questions with instant scoring, correct-answer highlights, and reset.</p>
+                </div>
+                <button type="button" class="talks-button primary open-portfolio-quiz talk-quiz-button">Quiz</button>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1423,6 +1455,43 @@
                     <button type="button" class="talks-button primary" id="finish-toolbox-quiz">Finish Quiz</button>
                     <button type="button" class="talks-button" id="reset-toolbox-quiz">Reset</button>
                     <a class="talks-button primary swift-quiz-feedback-button" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20iOS%20Dev%20Toolbox%20Quiz&body=Hi%20Niko%2C%0A%0AI%20completed%20the%20iOS%20Dev%20Toolbox%20Quiz%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</section>
+
+<section id="portfolio-quiz" class="swift-quiz-screen" aria-hidden="true">
+    <button type="button" id="close-portfolio-quiz" class="talks-button talks-close" aria-label="Close Portfolio Website Quiz">Close</button>
+    <div class="swift-talks-content swift-quiz-content">
+        <div class="talks-header">
+            <div>
+                <span class="talks-kicker">SWIFT Talks</span>
+                <h2>Portfolio Website Quiz</h2>
+            </div>
+            <div class="quiz-score-pill" id="portfolio-quiz-score" aria-live="polite">30 questions</div>
+        </div>
+
+        <div class="talk-card swift-quiz-card">
+            <p class="talk-intro">Select every correct answer.</p>
+            <div id="portfolio-quiz-legend" class="swift-quiz-legend">
+                <span><i class="quiz-swatch correct"></i>Correct selection</span>
+                <span><i class="quiz-swatch wrong"></i>Wrong selection</span>
+                <span><i class="quiz-swatch missed"></i>Correct answer you missed</span>
+            </div>
+            <form id="portfolio-quiz-form" class="swift-quiz-form"></form>
+            <footer class="swift-quiz-footer">
+                <div class="talk-like" data-talk-id="portfolio-quiz">
+                    <button type="button" class="like-button" aria-label="Like this quiz" aria-pressed="false">
+                        <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="swift-quiz-actions">
+                    <button type="button" class="talks-button primary" id="finish-portfolio-quiz">Finish Quiz</button>
+                    <button type="button" class="talks-button" id="reset-portfolio-quiz">Reset</button>
+                    <a class="talks-button primary swift-quiz-feedback-button" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20Portfolio%20Website%20Quiz&body=Hi%20Niko%2C%0A%0AI%20completed%20the%20Portfolio%20Website%20Quiz%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
                 </div>
             </footer>
         </div>
