@@ -1970,11 +1970,20 @@ git commit -m "Improve hero section"
 git push`
             }
         ],
-        bonusLink: {
-            label: "Bonus GitHub Pages Guide",
-            text: "Use this extra guide if you want a focused GitHub Pages walkthrough after finishing the terminal steps above.",
-            href: "https://lnkd.in/p/gVWsyQuF"
-        },
+        bonusLinks: [
+            {
+                label: "Bonus GitHub Pages Guide",
+                text: "Use this extra guide if you want a focused GitHub Pages walkthrough after finishing the terminal steps above.",
+                href: "https://lnkd.in/p/gVWsyQuF",
+                buttonText: "Open GitHub Pages guide"
+            },
+            {
+                label: "Ready-To-Use Portfolio Builder",
+                text: "If you want a working portfolio starter, explore SolidFolio and use it as a reference or foundation for your own version.",
+                href: "https://github.com/NikolaiBorisov/SolidFolio",
+                buttonText: "Open SolidFolio"
+            }
+        ],
         highlight: "At the end, your website should not only exist on your computer. It should be live and shareable."
     },
     {
@@ -2946,8 +2955,10 @@ function renderPortfolioParts() {
         highlight.append(highlightLabel, highlightText);
         panel.appendChild(highlight);
 
-        if (part.bonusLink) {
-            panel.appendChild(createBonusLinkBlock(part.bonusLink));
+        if (part.bonusLinks) {
+            part.bonusLinks.forEach(link => {
+                panel.appendChild(createBonusLinkBlock(link));
+            });
         }
 
         panel.appendChild(createTalkFooter(`portfolio-part${index + 1}`, `Feedback on Portfolio Website ${part.part}`));
@@ -3027,7 +3038,7 @@ function createBonusLinkBlock(link) {
     anchor.href = link.href;
     anchor.target = "_blank";
     anchor.rel = "noopener noreferrer";
-    anchor.textContent = "Open GitHub Pages guide";
+    anchor.textContent = link.buttonText || "Open bonus link";
 
     block.append(label, text, anchor);
 
@@ -3064,11 +3075,11 @@ function buildTrackPost(part, trackTitle, hashtags) {
     const examples = (part.examples || [])
         .map(example => `Example: ${example.label}\n\n${example.code}`)
         .join("\n\n");
-    const bonus = part.bonusLink ? `Bonus:
-${part.bonusLink.text}
-${part.bonusLink.href}
-
-` : "";
+    const bonus = part.bonusLinks ? part.bonusLinks
+        .map(link => `Bonus: ${link.label}
+${link.text}
+${link.href}`)
+        .join("\n\n") + "\n\n" : "";
 
     return `🔶 SWIFT Talks
 ${trackTitle}
