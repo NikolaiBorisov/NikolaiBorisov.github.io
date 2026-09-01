@@ -1559,6 +1559,12 @@ Protocol types  any SomeProtocol`
                 text: "Use this extra walkthrough to understand how Swift comments work, when to use them, and how to keep comments helpful for beginners and teammates.",
                 href: "https://www.linkedin.com/posts/activity-7454383049049395200-JohD?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open comments guide"
+            },
+            {
+                label: "Bonus: How var & let work in Swift",
+                text: "Use this extra walkthrough to reinforce how constants and variables behave in Swift, why mutability matters, and when to choose each one.",
+                href: "https://www.linkedin.com/posts/activity-7447844765586341888-aNFM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                buttonText: "Open var & let guide"
             }
         ],
         highlight: "`let` means the value stays the same. `var` means the value is allowed to change. Start with `let`, then use `var` when changing the value is part of your program's logic."
