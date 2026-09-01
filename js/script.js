@@ -6,13 +6,23 @@ const translatableItems = document.querySelectorAll("[data-i18n]");
 const openSwiftTalksButton = document.querySelector("#open-swift-talks");
 const closeSwiftTalksButton = document.querySelector("#close-swift-talks");
 const swiftTalksScreen = document.querySelector("#swift-talks");
+const openCoreSwiftTrackButton = document.querySelector("#open-core-swift-track");
 const openSwiftIntroTrackButton = document.querySelector("#open-swift-intro-track");
 const openToolboxTrackButton = document.querySelector("#open-toolbox-track");
 const openPortfolioTrackButton = document.querySelector("#open-portfolio-track");
 const backToTalkTopicsButton = document.querySelector("#back-to-talk-topics");
 const backToTalkTopicsButtons = document.querySelectorAll(".back-to-talk-topics");
+const coreSwiftAccordion = document.querySelector("#core-swift-accordion");
 const toolboxAccordion = document.querySelector("#toolbox-accordion");
 const portfolioAccordion = document.querySelector("#portfolio-accordion");
+const openCoreSwiftQuizButtons = document.querySelectorAll(".open-core-swift-quiz");
+const coreSwiftQuizScreen = document.querySelector("#core-swift-quiz");
+const coreSwiftQuizForm = document.querySelector("#core-swift-quiz-form");
+const closeCoreSwiftQuizButton = document.querySelector("#close-core-swift-quiz");
+const finishCoreSwiftQuizButton = document.querySelector("#finish-core-swift-quiz");
+const resetCoreSwiftQuizButton = document.querySelector("#reset-core-swift-quiz");
+const coreSwiftQuizScore = document.querySelector("#core-swift-quiz-score");
+const coreSwiftQuizLegend = document.querySelector("#core-swift-quiz-legend");
 const openSwiftQuizButtons = document.querySelectorAll(".open-swift-quiz");
 const closeSwiftQuizButton = document.querySelector("#close-swift-quiz");
 const swiftQuizScreen = document.querySelector("#swift-intro-quiz");
@@ -45,6 +55,7 @@ const likesStorageKey = "swiftTalkLikes";
 const swiftTalksHash = "#swift-talks";
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
+const coreSwiftQuizHash = "#core-swift-quiz";
 const toolboxQuizHash = "#ios-dev-toolbox-quiz";
 const portfolioQuizHash = "#portfolio-website-quiz";
 const languageLabels = {
@@ -1437,6 +1448,370 @@ const swiftIntroQuizQuestions = [
     }
 ];
 
+const coreSwiftParts = [
+    {
+        part: "Part 1",
+        title: "Variables and Constants",
+        intro: "When writing a program, we constantly work with values like text, numbers, and true/false decisions. Instead of using raw values everywhere, Swift lets us give values names with `let` and `var`, so the code is easier to read and reuse.",
+        sections: [
+            ["let vs var", ["`let` creates a constant. After the value is assigned, it cannot be reassigned.", "`var` creates a variable. The value can be reassigned later.", "`let` and `var` are about mutability, not about the value's type."]],
+            ["Type Safety", ["Every variable and constant in Swift has a type.", "`var` means the value may change, but its type does not change.", "Type inference means Swift can figure out the type from the assigned value. Swift still knows the type."]],
+            ["Naming", ["Names should explain what the value represents.", "Swift uses lower camel case by default for variables, constants, functions, and methods, such as `userName`, `profileImageURL`, and `isLoggedIn`.", "Types use upper camel case, such as `UserProfile`, `LoginViewModel`, or `NetworkService`.", "You may see `snake_case` in JSON, backend APIs, databases, Python, or file names, but it is not the normal style for Swift properties.", "Other cases exist, but the most important beginner rule is: follow the language and team style around you."]],
+            ["Common Mistakes", ["Using `var` everywhere just in case.", "Thinking `var` can change from `Int` to `String`.", "Confusing the keyword, identifier, type, and value in a declaration."]]
+        ],
+        examples: [
+            {
+                label: "Why let and var exist",
+                language: "swift",
+                code: `let playerName = "Neo" // the player's name stays the same
+var score = 0            // the score changes during the game
+score = 10               // update score after an action
+score = 20               // update score again later`
+            },
+            {
+                label: "Constants cannot be reassigned",
+                language: "swift",
+                code: `let name = "Neo"        // create a constant String
+// name = "Thomas"     // error: let constants cannot change
+
+let appName = "iSOLID"  // app name should stay stable
+let maximumAttempts = 3 // fixed rule for this feature`
+            },
+            {
+                label: "Variables can change value",
+                language: "swift",
+                code: `var isLoggedIn = false  // user starts logged out
+var unreadMessages = 3  // current number of unread messages
+
+isLoggedIn = true       // update when login succeeds
+unreadMessages = 2      // update after one message is read`
+            },
+            {
+                label: "var does not change the type",
+                language: "swift",
+                code: `var age: Int = 25  // age is an Int
+age = 26             // ok: another Int
+// age = "Twenty"    // error: String cannot become Int`
+            },
+            {
+                label: "Type inference",
+                language: "swift",
+                code: `let name = "Neo"      // Swift infers String
+var age = 25         // Swift infers Int
+let isLoggedIn = true // Swift infers Bool
+
+// name = 42         // error: name is still a String`
+            },
+            {
+                label: "Declaration breakdown",
+                language: "swift",
+                code: `let userName: String = "Neo" // let = constant
+// userName is the identifier    // the name used in code
+// String is the type            // the kind of value stored
+// "Neo" is the value            // the actual stored text`
+            },
+            {
+                label: "Good names",
+                language: "swift",
+                code: `let userName = "Neo"       // clear: user's name
+let unreadMessageCount = 5 // clear: number of unread messages
+let isLoggedIn = true      // clear: yes/no state
+// let x = "Neo"           // vague: meaning is hidden`
+            },
+            {
+                label: "Naming cases",
+                language: "swift",
+                code: `let userName = "Neo"           // camelCase: Swift variables
+let profileImageURL = "avatar" // camelCase: acronyms may stay uppercase
+struct UserProfile {}          // UpperCamelCase: Swift types
+// let user_name = "Neo"       // snake_case: common in JSON, not Swift style
+// let user-name = "Neo"       // kebab-case: invalid for Swift identifiers`
+            },
+            {
+                label: "What Can let and var Store?",
+                language: "text",
+                code: `let and var can be used with essentially any Swift type.
+
+Category        Examples
+Basic types     String, Int, Double, Bool, Character
+Collections     Array, Dictionary, Set
+Optionals       String?, Int?
+Tuples          (String, Int)
+Custom types    struct, class, enum instances
+Functions       (Int, Int) -> Int
+Closures        () -> Void
+Protocol types  any SomeProtocol`
+            }
+        ],
+        interviewCase: {
+            question: "What is the difference between let and var in Swift?",
+            answer: "`let` creates a constant, which means the value cannot be reassigned after it is set. `var` creates a variable, which means the value can be reassigned later. Both still have a type, and that type does not change. A common Swift habit is to start with `let` by default and use `var` only when changing the value is part of the program's logic."
+        },
+        bonusLinks: [
+            {
+                label: "Bonus: Type Inference in Swift",
+                text: "Use this extra walkthrough after the type inference section to understand how Swift can figure out types while still keeping code strongly typed.",
+                href: "https://www.linkedin.com/posts/activity-7454843481740550144-eTy9?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                buttonText: "Open type inference guide"
+            },
+            {
+                label: "Bonus: Comments in Swift",
+                text: "Use this extra walkthrough to understand how Swift comments work, when to use them, and how to keep comments helpful for beginners and teammates.",
+                href: "https://www.linkedin.com/posts/activity-7454383049049395200-JohD?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                buttonText: "Open comments guide"
+            }
+        ],
+        highlight: "`let` means the value stays the same. `var` means the value is allowed to change. Start with `let`, then use `var` when changing the value is part of your program's logic."
+    },
+    {
+        part: "Part 2",
+        title: "Basic Types",
+        intro: "Types tell Swift what kind of value your code is working with. Beginners should become comfortable with `String`, `Int`, `Double`, `Bool`, and Swift's type inference.",
+        sections: [
+            ["Core Types", ["`String` stores text.", "`Int` stores whole numbers.", "`Double` stores decimal numbers.", "`Bool` stores `true` or `false`."]],
+            ["Type Inference", ["Swift can often infer the type from the value.", "`let age = 25` becomes an `Int`.", "`let price = 9.99` becomes a `Double`.", "You can still write the type explicitly when clarity helps."]],
+            ["Common Mistakes", ["`\"25\"` is a `String`, not an `Int`.", "`25` and `25.0` are different numeric types.", "Swift does not silently convert types in many places. You must be clear."]]
+        ],
+        examples: [
+            {
+                label: "Useful beginner types",
+                language: "swift",
+                code: `let name: String = "Neo"  // String stores text
+let age: Int = 25       // Int stores whole numbers
+let progress = 0.75     // Swift infers Double
+let isOnline = true     // Swift infers Bool`
+            }
+        ],
+        highlight: "Swift types are not decoration. They help the compiler catch wrong assumptions early."
+    },
+    {
+        part: "Part 3",
+        title: "Operators and Expressions",
+        intro: "Operators let you calculate, compare, combine logic, and build strings. An expression is code that produces a value, such as `age >= 18` or `\"Hi, \\(name)\"`.",
+        sections: [
+            ["Arithmetic", ["Use `+`, `-`, `*`, `/`, and `%` for basic math.", "`%` gives the remainder after division.", "Be careful with integer division: `5 / 2` gives `2`, not `2.5`."]],
+            ["Comparison and Logic", ["Comparison operators return `Bool`: `==`, `!=`, `<`, `>`, `<=`, `>=`.", "`&&` means both conditions must be true.", "`||` means at least one condition must be true.", "`!` flips a Boolean value."]],
+            ["String Interpolation", ["Use `\\(value)` inside a string to insert a value.", "Interpolation keeps beginner code readable.", "It is commonly used for labels, logs, and debug messages."]]
+        ],
+        examples: [
+            {
+                label: "Expressions",
+                language: "swift",
+                code: `let age = 20                          // number to compare
+let hasTicket = true                  // Boolean condition
+let canEnter = age >= 18 && hasTicket // true only if both pass
+let message = "Allowed: \\(canEnter)" // inserts value into text`
+            }
+        ],
+        highlight: "Expressions are small pieces of logic. Learn to read what value each line produces."
+    },
+    {
+        part: "Part 4",
+        title: "Control Flow",
+        intro: "Control flow lets your program choose different paths. Beginners should understand `if`, `else`, `switch`, and the ternary operator before moving into app UI logic.",
+        sections: [
+            ["if and else", ["Use `if` when code should run only for a condition.", "Use `else` for the fallback path.", "Conditions must be Boolean expressions. Swift does not treat `0` as false."]],
+            ["switch", ["Use `switch` when one value has several possible cases.", "Swift switches must be exhaustive, so every possible value is handled.", "`default` is useful when you do not want to list every case."]],
+            ["Ternary", ["The ternary operator is a compact if/else expression.", "Use it for simple choices only.", "If it becomes hard to read, use normal `if` code."]]
+        ],
+        examples: [
+            {
+                label: "Choosing a path",
+                language: "swift",
+                code: `let score = 82              // value we want to check
+
+if score >= 90 {             // first condition
+    print("Excellent")       // runs for 90 or higher
+} else if score >= 70 {      // second condition
+    print("Good")            // runs from 70 to 89
+} else {                     // fallback path
+    print("Keep practicing") // runs below 70
+}`
+            }
+        ],
+        highlight: "Control flow is how your app decides what should happen next."
+    },
+    {
+        part: "Part 5",
+        title: "Loops",
+        intro: "Loops repeat work. In Swift, beginners use `for-in` most often because it reads clearly and works well with ranges and collections.",
+        sections: [
+            ["for-in", ["Use `for-in` to repeat code for each item.", "Ranges like `1...5` include the last number.", "Ranges like `1..<5` stop before the last number."]],
+            ["while", ["Use `while` when you do not know the exact number of repetitions in advance.", "The condition is checked before each loop run.", "Make sure the condition eventually changes, or the loop may never stop."]],
+            ["break and continue", ["`break` exits the loop immediately.", "`continue` skips the current iteration and moves to the next one.", "Use both sparingly so loops stay easy to follow."]]
+        ],
+        examples: [
+            {
+                label: "Loop over values",
+                language: "swift",
+                code: `let names = ["Ana", "Ben", "Mia"] // array of names
+
+for name in names {                 // loop through each name
+    print("Hi, \\(name)")           // runs once per item
+}`
+            }
+        ],
+        highlight: "Loops are for repeated patterns. Keep each loop small and obvious."
+    },
+    {
+        part: "Part 6",
+        title: "Functions",
+        intro: "Functions let you name reusable behavior. A good function has a clear job, clear inputs, and a clear output.",
+        sections: [
+            ["Parameters and Returns", ["Parameters are values the function receives.", "`return` sends a value back to the caller.", "If a function returns nothing, its return type is `Void`, usually written by omission."]],
+            ["Argument Labels", ["Swift function calls often read like sentences.", "The external label is used at the call site.", "The internal name is used inside the function body."]],
+            ["Beginner Habits", ["Make functions small enough to explain in one sentence.", "Use names that describe behavior, such as `calculateTotal`.", "Avoid hiding many unrelated actions inside one function."]]
+        ],
+        examples: [
+            {
+                label: "Function with a result",
+                language: "swift",
+                code: `func greeting(for name: String) -> String { // receives a name, returns text
+    return "Hi, \\(name)"                    // output of the function
+}
+
+let text = greeting(for: "Neo")             // call the function`
+            }
+        ],
+        highlight: "Functions turn repeated code into named ideas."
+    },
+    {
+        part: "Part 7",
+        title: "Collections",
+        intro: "Collections store multiple values. Swift gives beginners three important collection types: `Array`, `Dictionary`, and `Set`.",
+        sections: [
+            ["Array", ["An `Array` stores ordered values.", "Use arrays for lists where position matters.", "Access items by index, but remember indexes start at `0`."]],
+            ["Dictionary", ["A `Dictionary` stores values by key.", "Use dictionaries when you want to look something up by name, id, or code.", "Dictionary lookup returns an optional because the key may not exist."]],
+            ["Set", ["A `Set` stores unique values.", "Use sets when duplicates should be impossible.", "Sets are useful for selected ids, tags, and fast membership checks."]]
+        ],
+        examples: [
+            {
+                label: "Three collection types",
+                language: "swift",
+                code: `let names = ["Ana", "Ben"]          // Array keeps order
+let scores = ["Ana": 90, "Ben": 82] // Dictionary uses keys
+let selectedIds: Set<Int> = [1, 3, 5] // Set keeps unique values
+
+print(names[0])                       // first array item
+print(scores["Ana"] ?? 0)             // fallback if key is missing`
+            }
+        ],
+        highlight: "Choose the collection based on how you need to access the data."
+    },
+    {
+        part: "Part 8",
+        title: "Optionals",
+        intro: "Optionals are one of Swift's most important safety features. An optional means a value can exist, or it can be `nil`.",
+        sections: [
+            ["Why Optionals Exist", ["Real apps have missing data: no username, no image, no token, no network response.", "Swift makes missing values visible in the type system.", "`String?` means maybe there is a string, maybe there is `nil`."]],
+            ["Safe Unwrapping", ["Use `if let` when you want to run code only if the value exists.", "Use `guard let` when the rest of the function needs the value.", "Use `??` to provide a fallback value."]],
+            ["Common Mistakes", ["Avoid force unwrap `!` while learning unless you can prove the value exists.", "Do not ignore optionals by guessing.", "Handle the nil case like a real app state, not an inconvenience."]]
+        ],
+        examples: [
+            {
+                label: "Unwrap safely",
+                language: "swift",
+                code: `let nickname: String? = "Neo" // optional String: value or nil
+
+if let nickname {              // safely unwrap if value exists
+    print("Hi, \\(nickname)")  // use unwrapped String
+} else {                       // nil case
+    print("No nickname")       // fallback behavior
+}`
+            }
+        ],
+        highlight: "Optionals make absence explicit, which makes Swift code safer."
+    },
+    {
+        part: "Part 9",
+        title: "Structs and Classes",
+        intro: "Structs and classes let you create your own types. They can store properties, define methods, and use initializers.",
+        sections: [
+            ["Structs", ["A `struct` is a value type.", "When assigned or passed around, it behaves like a separate value.", "SwiftUI views and many models are structs."]],
+            ["Classes", ["A `class` is a reference type.", "Multiple variables can point to the same object.", "Classes are useful for shared identity, inheritance, and reference-based objects."]],
+            ["What To Learn First", ["Start with structs for simple data models.", "Use methods for behavior that belongs to the type.", "Learn value vs reference semantics because interviews ask about it often."]]
+        ],
+        examples: [
+            {
+                label: "Custom type",
+                language: "swift",
+                code: `struct User {                   // custom value type
+    let name: String            // stored constant property
+    var score: Int              // stored variable property
+
+    func greeting() -> String { // method belongs to User
+        "Hi, \\(name)"          // implicit return
+    }
+}`
+            }
+        ],
+        highlight: "Use structs for clear values. Use classes when shared identity matters."
+    },
+    {
+        part: "Part 10",
+        title: "Protocols and Extensions",
+        intro: "Protocols describe what a type can do. Extensions add behavior to existing types. Together, they are a huge part of idiomatic Swift.",
+        sections: [
+            ["Protocols", ["A protocol is a contract.", "It can require properties and methods.", "Types conform to a protocol by implementing its requirements."]],
+            ["Extensions", ["An extension adds methods, computed properties, or protocol conformance.", "Use extensions to organize related behavior.", "Extensions help keep models and utility code readable."]],
+            ["Beginner Interview Idea", ["Protocols reduce coupling because code can depend on behavior, not a concrete type.", "Extensions make types easier to evolve without rewriting the original declaration.", "This prepares you for delegation, repositories, testing, and SwiftUI patterns."]]
+        ],
+        examples: [
+            {
+                label: "Protocol plus extension",
+                language: "swift",
+                code: `protocol Displayable {              // contract for conforming types
+    var title: String { get }        // read-only required property
+}
+
+extension String {                  // add behavior to String
+    var trimmed: String {            // computed property
+        trimmingCharacters(in: .whitespaces) // removes outer spaces
+    }
+}`
+            }
+        ],
+        highlight: "Protocols define capabilities. Extensions attach useful behavior where it belongs."
+    }
+];
+
+const coreSwiftQuizQuestions = [
+    { part: "Part 1", question: "When should a beginner prefer let?", options: ["When the value should not change", "As the default starting choice", "Only for strings"], answers: [0, 1] },
+    { part: "Part 1", question: "What does var allow?", options: ["Changing the value later", "Mutable state", "Bypassing Swift types"], answers: [0, 1] },
+    { part: "Part 1", question: "Which names are clearer?", options: ["userName", "isLoggedIn", "x for everything"], answers: [0, 1] },
+    { part: "Part 2", question: "Which are basic Swift types?", options: ["String", "Int", "Bool"], answers: [0, 1, 2] },
+    { part: "Part 2", question: "What is type inference?", options: ["Swift figures out a type from the value", "The compiler still knows the type", "Types disappear at runtime by magic"], answers: [0, 1] },
+    { part: "Part 2", question: "Which statement is true?", options: ["\"25\" is a String", "25 is an Int", "Swift silently converts every type"], answers: [0, 1] },
+    { part: "Part 3", question: "Which operators compare values?", options: ["==", ">=", "&&"], answers: [0, 1] },
+    { part: "Part 3", question: "What does && mean?", options: ["Both conditions must be true", "It returns a Bool", "It creates a String"], answers: [0, 1] },
+    { part: "Part 3", question: "What does string interpolation do?", options: ["Inserts values into strings", "Uses \\(value)", "Changes let into var"], answers: [0, 1] },
+    { part: "Part 4", question: "What is control flow for?", options: ["Choosing different paths", "Running code based on conditions", "Avoiding functions forever"], answers: [0, 1] },
+    { part: "Part 4", question: "Why is switch useful?", options: ["It handles several cases", "It must be exhaustive", "It ignores all unknown values"], answers: [0, 1] },
+    { part: "Part 4", question: "When is ternary best?", options: ["Simple choices", "Short readable expressions", "Large nested business logic"], answers: [0, 1] },
+    { part: "Part 5", question: "What is for-in used for?", options: ["Repeating work for each item", "Looping over arrays and ranges", "Declaring a class"], answers: [0, 1] },
+    { part: "Part 5", question: "What is true about ranges?", options: ["1...5 includes 5", "1..<5 stops before 5", "Ranges are only for strings"], answers: [0, 1] },
+    { part: "Part 5", question: "What do break and continue do?", options: ["break exits a loop", "continue skips to the next iteration", "Both delete code"], answers: [0, 1] },
+    { part: "Part 6", question: "What should a good function have?", options: ["A clear job", "Clear inputs and output", "Every feature in one place"], answers: [0, 1] },
+    { part: "Part 6", question: "What are parameters?", options: ["Values the function receives", "Inputs to behavior", "Only values from the internet"], answers: [0, 1] },
+    { part: "Part 6", question: "Why use functions?", options: ["To name reusable behavior", "To reduce repeated code", "To hide all bugs"], answers: [0, 1] },
+    { part: "Part 7", question: "Which collections should beginners know?", options: ["Array", "Dictionary", "Set"], answers: [0, 1, 2] },
+    { part: "Part 7", question: "What does Array store?", options: ["Ordered values", "Values accessed by index", "Only unique values"], answers: [0, 1] },
+    { part: "Part 7", question: "Why can dictionary lookup be optional?", options: ["The key may not exist", "Swift makes missing data visible", "Dictionaries cannot store strings"], answers: [0, 1] },
+    { part: "Part 8", question: "What does an optional mean?", options: ["A value may exist", "A value may be nil", "A value is always safe to force unwrap"], answers: [0, 1] },
+    { part: "Part 8", question: "Which are safe optional tools?", options: ["if let", "guard let", "nil-coalescing ??"], answers: [0, 1, 2] },
+    { part: "Part 8", question: "Why avoid force unwrap while learning?", options: ["It can crash if the value is nil", "It hides missing-value thinking", "It makes code more type-safe"], answers: [0, 1] },
+    { part: "Part 9", question: "What is true about structs?", options: ["They are value types", "SwiftUI views are often structs", "They require inheritance"], answers: [0, 1] },
+    { part: "Part 9", question: "What is true about classes?", options: ["They are reference types", "Multiple variables can point to the same object", "They are always better than structs"], answers: [0, 1] },
+    { part: "Part 9", question: "What can custom types contain?", options: ["Properties", "Methods", "Initializers"], answers: [0, 1, 2] },
+    { part: "Part 10", question: "What is a protocol?", options: ["A contract", "A set of required capabilities", "A concrete API response"], answers: [0, 1] },
+    { part: "Part 10", question: "What can extensions do?", options: ["Add behavior to existing types", "Organize related methods", "Change Swift syntax rules"], answers: [0, 1] },
+    { part: "Part 10", question: "Why are protocols useful?", options: ["They reduce coupling", "They help testing and abstraction", "They force every type to be a class"], answers: [0, 1] }
+];
+
+coreSwiftParts.forEach((part, index) => {
+    swiftTalkPosts[`core-swift-part${index + 1}`] = buildTrackPost(part, "Core Swift", "#Swift #iOS #SwiftTalks #LearnSwift");
+});
+
 const toolboxParts = [
     {
         part: "Part 1",
@@ -1479,6 +1854,14 @@ const toolboxParts = [
             ["Daily Workflow", ["`git status` shows what changed and which branch you are on.", "`git branch` shows local branches. A branch is an isolated line of work.", "`git switch main` moves you to the main branch. `git switch -c feature/name` creates a new branch and switches to it.", "`git add .` stages changes. Staging means choosing what will go into the next commit.", "`git commit -m \"message\"` saves staged changes with a message.", "`git push` sends your local commits to the remote repository."]],
             ["What To Understand", ["Working tree: your current files.", "Staging area: selected changes prepared for commit.", "Commit: a saved checkpoint.", "Remote: a hosted copy, usually on GitHub.", "Conflict: Git cannot automatically combine changes and needs your decision."]],
             ["Tips & Hacks", ["Commit when one idea is complete, not after a whole week of random work.", "Write messages that explain the change: `Add onboarding screen` is better than `update files`.", "Before pulling or switching branches, check `git status` so unfinished work does not surprise you."]]
+        ],
+        bonusLinks: [
+            {
+                label: "Bonus: iOS Project + Git + GitHub Workflow",
+                text: "Use this walkthrough after learning the basic Git commands. It shows how Git fits into a real iOS project workflow with GitHub.",
+                href: "https://www.linkedin.com/posts/activity-7463086735632019456-1dHI?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                buttonText: "Open workflow guide"
+            }
         ],
         highlight: "Git is a safety net and a communication tool, not just a save button."
     },
@@ -2408,8 +2791,22 @@ function showSwiftIntroTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
+    swiftTalksScreen.classList.remove("is-viewing-portfolio");
     swiftTalksScreen.classList.add("is-viewing-intro");
+}
+
+function showCoreSwiftTrack() {
+    if (!swiftTalksScreen) {
+        return;
+    }
+
+    renderCoreSwiftParts();
+    swiftTalksScreen.classList.remove("is-viewing-intro");
+    swiftTalksScreen.classList.remove("is-viewing-toolbox");
+    swiftTalksScreen.classList.remove("is-viewing-portfolio");
+    swiftTalksScreen.classList.add("is-viewing-core-swift");
 }
 
 function showToolboxTrack() {
@@ -2418,7 +2815,9 @@ function showToolboxTrack() {
     }
 
     renderToolboxParts();
+    swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
+    swiftTalksScreen.classList.remove("is-viewing-portfolio");
     swiftTalksScreen.classList.add("is-viewing-toolbox");
 }
 
@@ -2428,6 +2827,7 @@ function showPortfolioTrack() {
     }
 
     renderPortfolioParts();
+    swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
     swiftTalksScreen.classList.add("is-viewing-portfolio");
@@ -2439,11 +2839,41 @@ function showSwiftTalkTopics() {
     }
 
     closeSwiftQuiz({ keepHash: true });
+    closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
+    swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
     swiftTalksScreen.classList.remove("is-viewing-portfolio");
+}
+
+function openCoreSwiftQuiz() {
+    if (!coreSwiftQuizScreen) {
+        return;
+    }
+
+    openSwiftTalks();
+    showCoreSwiftTrack();
+    renderCoreSwiftQuiz();
+    coreSwiftQuizScreen.classList.add("is-open");
+    coreSwiftQuizScreen.setAttribute("aria-hidden", "false");
+    document.body.classList.add("quiz-open");
+    closeCoreSwiftQuizButton?.focus();
+}
+
+function closeCoreSwiftQuiz(options = {}) {
+    if (!coreSwiftQuizScreen) {
+        return;
+    }
+
+    coreSwiftQuizScreen.classList.remove("is-open");
+    coreSwiftQuizScreen.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("quiz-open");
+
+    if (!options.keepHash && window.location.hash === coreSwiftQuizHash) {
+        window.location.hash = "swift-talks";
+    }
 }
 
 function openSwiftQuiz() {
@@ -2538,16 +2968,18 @@ function closeSwiftTalks(options = {}) {
     }
 
     closeSwiftQuiz({ keepHash: true });
+    closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
+    swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
     swiftTalksScreen.classList.remove("is-viewing-portfolio");
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash() || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -2563,6 +2995,9 @@ openSwiftTalksButton?.addEventListener("click", () => {
     showSwiftTalkTopics();
 });
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
+openCoreSwiftTrackButton?.addEventListener("click", () => {
+    showCoreSwiftTrack();
+});
 openSwiftIntroTrackButton?.addEventListener("click", () => {
     showSwiftIntroTrack();
 });
@@ -2574,12 +3009,21 @@ openPortfolioTrackButton?.addEventListener("click", () => {
 });
 backToTalkTopicsButton?.addEventListener("click", () => {
     showSwiftTalkTopics();
-    openSwiftIntroTrackButton?.focus();
+    openCoreSwiftTrackButton?.focus();
 });
 backToTalkTopicsButtons.forEach(button => {
     button.addEventListener("click", () => {
         showSwiftTalkTopics();
-        openSwiftIntroTrackButton?.focus();
+        openCoreSwiftTrackButton?.focus();
+    });
+});
+openCoreSwiftQuizButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        if (window.location.hash !== coreSwiftQuizHash) {
+            window.location.hash = coreSwiftQuizHash.slice(1);
+        }
+
+        openCoreSwiftQuiz();
     });
 });
 openSwiftQuizButtons.forEach(button => {
@@ -2609,6 +3053,7 @@ openPortfolioQuizButtons.forEach(button => {
         openPortfolioQuiz();
     });
 });
+closeCoreSwiftQuizButton?.addEventListener("click", closeCoreSwiftQuiz);
 closeSwiftQuizButton?.addEventListener("click", closeSwiftQuiz);
 closeToolboxQuizButton?.addEventListener("click", closeToolboxQuiz);
 closePortfolioQuizButton?.addEventListener("click", closePortfolioQuiz);
@@ -2620,6 +3065,11 @@ document.addEventListener("keydown", event => {
 
     if (event.key === "Escape" && swiftQuizScreen?.classList.contains("is-open")) {
         closeSwiftQuiz();
+        return;
+    }
+
+    if (event.key === "Escape" && coreSwiftQuizScreen?.classList.contains("is-open")) {
+        closeCoreSwiftQuiz();
         return;
     }
 
@@ -2643,6 +3093,8 @@ function syncSwiftTalksWithHash() {
         openPortfolioQuiz();
     } else if (window.location.hash === toolboxQuizHash) {
         openToolboxQuiz();
+    } else if (window.location.hash === coreSwiftQuizHash) {
+        openCoreSwiftQuiz();
     } else if (isSwiftQuizHash()) {
         openSwiftQuiz();
     } else if (window.location.hash === swiftTalksHash) {
@@ -2796,6 +3248,137 @@ function resetSwiftQuiz() {
 finishSwiftQuizButton?.addEventListener("click", gradeSwiftQuiz);
 resetSwiftQuizButton?.addEventListener("click", resetSwiftQuiz);
 
+function renderCoreSwiftParts() {
+    if (!coreSwiftAccordion || coreSwiftAccordion.dataset.rendered === "true") {
+        return;
+    }
+
+    coreSwiftParts.forEach((part, index) => {
+        const isLocked = index > 0;
+        const article = document.createElement("article");
+        article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
+        article.dataset.talkId = `core-swift-part${index + 1}`;
+
+        const trigger = document.createElement("button");
+        trigger.type = "button";
+        trigger.className = "talk-accordion-trigger";
+        trigger.setAttribute("aria-expanded", index === 0 ? "true" : "false");
+        trigger.disabled = isLocked;
+        if (isLocked) {
+            trigger.setAttribute("aria-disabled", "true");
+        }
+
+        const triggerText = document.createElement("span");
+        const kicker = document.createElement("span");
+        kicker.className = "talks-kicker";
+        kicker.textContent = part.part;
+        const title = document.createElement("span");
+        title.className = "talk-accordion-title";
+        title.textContent = part.title;
+        triggerText.append(kicker, title);
+
+        const chevron = document.createElement("span");
+        chevron.className = "talk-chevron";
+        chevron.setAttribute("aria-hidden", "true");
+        trigger.append(triggerText, chevron);
+
+        const panel = document.createElement("div");
+        panel.className = "talk-accordion-panel";
+
+        const intro = document.createElement("p");
+        intro.className = "talk-intro";
+        appendFormattedText(intro, part.intro);
+        panel.appendChild(intro);
+
+        part.examples.forEach(example => {
+            const block = document.createElement("div");
+            block.className = "talk-highlight talk-highlight-rich";
+            const label = document.createElement("span");
+            label.textContent = example.label;
+            const pre = document.createElement("pre");
+            pre.className = "talk-code-block";
+            const code = document.createElement("code");
+            code.className = `language-${example.language}`;
+            if (example.language === "swift") {
+                code.innerHTML = highlightSwiftCode(example.code);
+            } else {
+                code.textContent = example.code;
+            }
+            pre.appendChild(code);
+            block.append(label, pre);
+            panel.appendChild(block);
+        });
+
+        const grid = document.createElement("div");
+        grid.className = "talk-grid";
+        part.sections.forEach(([heading, items]) => {
+            const section = document.createElement("div");
+            const h3 = document.createElement("h3");
+            h3.textContent = heading;
+            const list = document.createElement("ul");
+            items.forEach(item => {
+                const li = document.createElement("li");
+                appendFormattedText(li, item);
+                list.appendChild(li);
+            });
+            section.append(h3, list);
+            grid.appendChild(section);
+        });
+        panel.appendChild(grid);
+
+        if (part.interviewCase) {
+            const interview = document.createElement("div");
+            interview.className = "talk-highlight talk-highlight-rich";
+            const label = document.createElement("span");
+            label.textContent = "Interview case";
+            const question = document.createElement("p");
+            const questionStrong = document.createElement("strong");
+            questionStrong.textContent = `Q: ${part.interviewCase.question}`;
+            question.appendChild(questionStrong);
+            const answer = document.createElement("p");
+            appendFormattedText(answer, `A: ${part.interviewCase.answer}`);
+            interview.append(label, question, answer);
+            panel.appendChild(interview);
+        }
+
+        const highlight = document.createElement("div");
+        highlight.className = "talk-highlight talk-highlight-rich";
+        const highlightLabel = document.createElement("span");
+        highlightLabel.textContent = "Core idea";
+        const highlightText = document.createElement("p");
+        const strong = document.createElement("strong");
+        appendFormattedText(strong, part.highlight);
+        highlightText.appendChild(strong);
+        highlight.append(highlightLabel, highlightText);
+        panel.appendChild(highlight);
+
+        if (part.bonusLinks) {
+            part.bonusLinks.forEach(link => {
+                panel.appendChild(createBonusLinkBlock(link));
+            });
+        }
+
+        panel.appendChild(createTalkFooter(`core-swift-part${index + 1}`, `Feedback on Core Swift ${part.part}`));
+
+        if (isLocked) {
+            const overlay = document.createElement("span");
+            overlay.className = "talk-coming-soon";
+            overlay.textContent = "Coming soon...";
+            article.appendChild(overlay);
+        } else {
+            trigger.addEventListener("click", () => {
+                const isExpanded = article.classList.toggle("is-expanded");
+                trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+            });
+        }
+
+        article.append(trigger, panel);
+        coreSwiftAccordion.appendChild(article);
+    });
+
+    coreSwiftAccordion.dataset.rendered = "true";
+}
+
 function renderToolboxParts() {
     if (!toolboxAccordion || toolboxAccordion.dataset.rendered === "true") {
         return;
@@ -2860,6 +3443,12 @@ function renderToolboxParts() {
         highlightText.appendChild(strong);
         highlight.append(highlightLabel, highlightText);
         panel.appendChild(highlight);
+
+        if (part.bonusLinks) {
+            part.bonusLinks.forEach(link => {
+                panel.appendChild(createBonusLinkBlock(link));
+            });
+        }
 
         panel.appendChild(createTalkFooter(`toolbox-part${index + 1}`, `Feedback on iOS Dev Toolbox ${part.part}`));
 
@@ -3014,7 +3603,7 @@ function createTalkFooter(talkId, subject) {
 
     const feedback = document.createElement("a");
     feedback.className = "talks-button primary";
-    feedback.href = `mailto:andersonnikko1@gmail.com?subject=${encodeURIComponent(subject)}&body=Hi%20Niko%2C%0A%0AI%20read%20this%20Portfolio%20Website%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A`;
+    feedback.href = `mailto:andersonnikko1@gmail.com?subject=${encodeURIComponent(subject)}&body=Hi%20Niko%2C%0A%0AI%20read%20this%20SWIFT%20Talks%20post%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A`;
     feedback.textContent = "Send feedback";
 
     actions.append(copy, translate, feedback);
@@ -3080,6 +3669,11 @@ function buildTrackPost(part, trackTitle, hashtags) {
 ${link.text}
 ${link.href}`)
         .join("\n\n") + "\n\n" : "";
+    const interview = part.interviewCase ? `Interview case:
+Q: ${part.interviewCase.question}
+A: ${part.interviewCase.answer.replace(/`/g, "")}
+
+` : "";
 
     return `🔶 SWIFT Talks
 ${trackTitle}
@@ -3089,7 +3683,7 @@ ${part.intro}
 
 ${sections}
 
-${examples ? `${examples}\n\n` : ""}${bonus}Main idea:
+${examples ? `${examples}\n\n` : ""}${interview}${bonus}Main idea:
 ${part.highlight}
 
 Follow on LinkedIn:
@@ -3115,12 +3709,60 @@ function appendFormattedText(element, text) {
     });
 }
 
+function escapeHTML(text) {
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+
+function highlightSwiftCode(source) {
+    const keywords = /\b(let|var|func|return|if|else|for|in|while|break|continue|struct|class|protocol|extension|get|set|true|false|nil)\b/g;
+    const types = /\b(String|Int|Double|Bool|Set|View|User|ContentView|ProfileView|Displayable)\b/g;
+
+    return source.split("\n").map(line => {
+        const commentStart = line.indexOf("//");
+        const codePart = commentStart >= 0 ? line.slice(0, commentStart) : line;
+        const commentPart = commentStart >= 0 ? line.slice(commentStart) : "";
+        const strings = [];
+
+        const protectedCode = codePart.replace(/"([^"\\]|\\.)*"/g, match => {
+            const key = `__SWIFT_STRING_${strings.length}__`;
+            strings.push(`<span class="syntax-string">${escapeHTML(match)}</span>`);
+            return key;
+        });
+
+        let highlightedCode = escapeHTML(protectedCode)
+            .replace(/(@[A-Za-z_][A-Za-z0-9_]*)/g, '<span class="syntax-attribute">$1</span>')
+            .replace(keywords, '<span class="syntax-keyword">$1</span>')
+            .replace(types, '<span class="syntax-type">$1</span>');
+
+        strings.forEach((stringHTML, index) => {
+            highlightedCode = highlightedCode.replace(`__SWIFT_STRING_${index}__`, stringHTML);
+        });
+
+        const highlightedComment = commentPart
+            ? `<span class="syntax-comment">${escapeHTML(commentPart)}</span>`
+            : "";
+
+        return highlightedCode + highlightedComment;
+    }).join("\n");
+}
+
 function renderToolboxQuiz() {
     if (!toolboxQuizForm || toolboxQuizForm.dataset.rendered === "true") {
         return;
     }
 
     renderQuizQuestions(toolboxQuizForm, toolboxQuizQuestions, "toolbox-quiz");
+}
+
+function renderCoreSwiftQuiz() {
+    if (!coreSwiftQuizForm || coreSwiftQuizForm.dataset.rendered === "true") {
+        return;
+    }
+
+    renderQuizQuestions(coreSwiftQuizForm, coreSwiftQuizQuestions, "core-swift-quiz");
 }
 
 function renderPortfolioQuiz() {
@@ -3175,6 +3817,15 @@ function renderQuizQuestions(form, questions, prefix) {
     });
 
     form.dataset.rendered = "true";
+}
+
+function gradeCoreSwiftQuiz() {
+    renderCoreSwiftQuiz();
+    gradeQuiz(coreSwiftQuizQuestions, "core-swift-quiz", coreSwiftQuizScore, coreSwiftQuizLegend);
+}
+
+function resetCoreSwiftQuiz() {
+    resetQuiz(coreSwiftQuizForm, coreSwiftQuizQuestions, coreSwiftQuizScore, coreSwiftQuizLegend, coreSwiftQuizScreen);
 }
 
 function gradeToolboxQuiz() {
@@ -3263,6 +3914,8 @@ function resetQuiz(form, questions, scoreElement, legendElement, scrollElement) 
     scrollElement?.scrollTo({ top: 0, behavior: "smooth" });
 }
 
+finishCoreSwiftQuizButton?.addEventListener("click", gradeCoreSwiftQuiz);
+resetCoreSwiftQuizButton?.addEventListener("click", resetCoreSwiftQuiz);
 finishToolboxQuizButton?.addEventListener("click", gradeToolboxQuiz);
 resetToolboxQuizButton?.addEventListener("click", resetToolboxQuiz);
 finishPortfolioQuizButton?.addEventListener("click", gradePortfolioQuiz);

@@ -510,7 +510,7 @@ h2 {
 }
 
 .swift-talks-content {
-    width: min(calc(100% - 32px), 980px);
+    width: min(calc(100% - 32px), 1180px);
     margin: 0 auto;
     padding: clamp(18px, 4vw, 42px) 0 clamp(42px, 8vw, 86px);
 }
@@ -593,10 +593,19 @@ h2 {
     gap: 16px;
 }
 
+.core-swift-track,
 .swift-intro-track,
 .toolbox-track,
 .portfolio-track {
     display: none;
+}
+
+.swift-talks-screen.is-viewing-core-swift .talks-topic-hub {
+    display: none;
+}
+
+.swift-talks-screen.is-viewing-core-swift .core-swift-track {
+    display: block;
 }
 
 .swift-talks-screen.is-viewing-intro .talks-topic-hub {
@@ -741,8 +750,41 @@ h2 {
 }
 
 .talk-accordion-item {
+    position: relative;
     padding: 0;
     overflow: hidden;
+}
+
+.talk-accordion-item.is-locked {
+    opacity: 0.58;
+}
+
+.talk-accordion-item.is-locked .talk-accordion-trigger {
+    cursor: not-allowed;
+    filter: blur(1.4px);
+}
+
+.talk-accordion-item.is-locked .talk-accordion-trigger:hover {
+    background: transparent;
+}
+
+.talk-accordion-item.is-locked .talk-chevron {
+    display: none;
+}
+
+.talk-coming-soon {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 18px;
+    background: rgba(5, 5, 6, 0.34);
+    color: var(--text);
+    font-size: clamp(18px, 2.8vw, 28px);
+    font-weight: 820;
+    letter-spacing: 0;
+    pointer-events: none;
 }
 
 .talk-accordion-trigger {
@@ -850,7 +892,7 @@ h2 {
     overflow-x: auto;
     border: 1px solid var(--line);
     border-radius: var(--radius);
-    background: rgba(0, 0, 0, 0.24);
+    background: #0b0f14;
 }
 
 .talk-code-block code {
@@ -860,10 +902,37 @@ h2 {
     border: 0;
     border-radius: 0;
     background: transparent;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.65;
+    color: #d6deeb;
+    font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
+    font-size: 15px;
+    line-height: 1.7;
     white-space: pre;
+    tab-size: 4;
+}
+
+.talk-code-block code span {
+    display: inline;
+    margin: 0;
+}
+
+.talk-code-block .syntax-keyword {
+    color: #fc5fa3;
+}
+
+.talk-code-block .syntax-type {
+    color: #67b7ff;
+}
+
+.talk-code-block .syntax-string {
+    color: #fc6a5d;
+}
+
+.talk-code-block .syntax-comment {
+    color: #78c46f;
+}
+
+.talk-code-block .syntax-attribute {
+    color: #d0a8ff;
 }
 
 .talk-highlight {
