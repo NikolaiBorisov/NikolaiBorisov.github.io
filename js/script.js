@@ -1578,6 +1578,10 @@ Protocol types  any SomeProtocol`
             ["Type Inference", ["Swift can often **infer the type** from the value you assign.", "`let age = 25` → Swift infers `Int`.", "`let price = 9.99` → Swift infers `Double`.", "`let name = \"Neo\"` → Swift infers `String`.", "`let isOnline = true` → Swift infers `Bool`.", "You can still declare the type explicitly when it improves clarity or when Swift needs more information.", "**Beginner tip:** When you're first learning Swift, writing types explicitly can help you understand which types you're working with. As you become more comfortable, you can rely more on type inference."]],
             ["Common Mistakes", ["`\"25\"` is a `String`, while `25` is an `Int`.", "`25` is an `Int`, while `25.0` is inferred as a `Double`.", "`\"A\"` is inferred as a `String`, not a `Character`. Use `let letter: Character = \"A\"` when you specifically need a `Character`.", "`nil` can only be used where Swift expects an `Optional`.", "Swift generally **doesn't implicitly convert between numeric types**. Convert them explicitly when necessary."]]
         ],
+        interviewCase: {
+            question: "When should you write a type explicitly instead of relying on type inference?",
+            answer: "Use type inference when the value makes the type obvious, like `let age = 25`. Write the type explicitly when it improves readability, when Swift needs more information, or when you want a specific type such as `Float`, `Character`, or an `Optional`. In interviews, the key point is that Swift is strongly typed either way: inferred types are still real types checked by the compiler."
+        },
         examples: [
             {
                 label: "Basic Types",
