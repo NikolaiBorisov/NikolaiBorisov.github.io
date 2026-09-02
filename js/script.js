@@ -1572,20 +1572,119 @@ Protocol types  any SomeProtocol`
     {
         part: "Part 2",
         title: "Basic Types",
-        intro: "Types tell Swift what kind of value your code is working with. Beginners should become comfortable with `String`, `Int`, `Double`, `Bool`, and Swift's type inference.",
+        intro: "Types tell Swift **what kind of data a value represents** and what you can do with that value. You usually **don't need to write the type explicitly**. Swift can figure it out from the value you assign. This is called **type inference**. **Beginner tip:** Let Swift infer the type when it's obvious, and specify it explicitly when it makes your intention clearer or Swift needs help determining the type. However, **when you're just starting to learn Swift, writing types explicitly is a good practice** because it helps you understand which types Swift is working with.",
         sections: [
-            ["Core Types", ["`String` stores text.", "`Int` stores whole numbers.", "`Double` stores decimal numbers.", "`Bool` stores `true` or `false`."]],
-            ["Type Inference", ["Swift can often infer the type from the value.", "`let age = 25` becomes an `Int`.", "`let price = 9.99` becomes a `Double`.", "You can still write the type explicitly when clarity helps."]],
-            ["Common Mistakes", ["`\"25\"` is a `String`, not an `Int`.", "`25` and `25.0` are different numeric types.", "Swift does not silently convert types in many places. You must be clear."]]
+            ["Core Types", ["`String` — stores text and sequences of characters.", "`Int` — stores whole numbers.", "`Double` — stores decimal numbers and is Swift's default type for floating-point values.", "`Float` — stores decimal numbers with less precision than `Double`.", "`Bool` — stores either `true` or `false`.", "`Character` — stores a single character.", "`Optional` — represents a value that may exist or may be `nil`."]],
+            ["Type Inference", ["Swift can often **infer the type** from the value you assign.", "`let age = 25` → Swift infers `Int`.", "`let price = 9.99` → Swift infers `Double`.", "`let name = \"Neo\"` → Swift infers `String`.", "`let isOnline = true` → Swift infers `Bool`.", "You can still declare the type explicitly when it improves clarity or when Swift needs more information.", "**Beginner tip:** When you're first learning Swift, writing types explicitly can help you understand which types you're working with. As you become more comfortable, you can rely more on type inference."]],
+            ["Common Mistakes", ["`\"25\"` is a `String`, while `25` is an `Int`.", "`25` is an `Int`, while `25.0` is inferred as a `Double`.", "`\"A\"` is inferred as a `String`, not a `Character`. Use `let letter: Character = \"A\"` when you specifically need a `Character`.", "`nil` can only be used where Swift expects an `Optional`.", "Swift generally **doesn't implicitly convert between numeric types**. Convert them explicitly when necessary."]]
         ],
         examples: [
             {
-                label: "Useful beginner types",
+                label: "Basic Types",
                 language: "swift",
-                code: `let name: String = "Neo"  // String stores text
-let age: Int = 25       // Int stores whole numbers
-let progress = 0.75     // Swift infers Double
-let isOnline = true     // Swift infers Bool`
+                code: `let name: String = "Neo"        // String stores text and characters
+let age: Int = 25               // Int stores whole numbers: -10, 0, 25, 1000
+let progress: Double = 0.75     // Double stores decimal numbers: 3.14, -1.5, 0.75
+let ratio: Float = 0.5          // Float also stores decimal numbers, with less precision
+let grade: Character = "A"      // Character stores a single character
+let isOnline: Bool = true       // Bool stores true or false
+
+let nickname: String? = nil     // Optional can contain a value or nil`
+            },
+            {
+                label: "Double vs Float",
+                language: "swift",
+                code: `let doubleValue: Double = 3.141592653589793 // More precise decimal number
+let floatValue: Float = 3.1415927             // Less precise decimal number
+
+let price = 19.99                            // Swift infers Double by default
+
+let explicitPrice: Float = 19.99             // Use Float when an API requires it`
+            },
+            {
+                label: "Character vs String",
+                language: "swift",
+                code: `let letter: Character = "A"      // Character stores exactly one character
+let name: String = "Neo"          // String stores text with one or more characters
+
+let inferredLetter = "A"          // Swift infers String, not Character`
+            },
+            {
+                label: "Optional",
+                language: "swift",
+                code: `let username: String? = "Neo"     // String? means this can store text or nil
+let middleName: String? = nil   // nil means there is no value right now
+
+var score: Int? = nil           // Int? can store a whole number or nil
+score = 100                     // Later, the optional can receive a real Int value
+
+let name: String = "Neo"        // Normal String must always contain text
+
+var optionalName: String? = "Neo" // Optional String starts with a value
+optionalName = nil                // OK: optionals are allowed to become nil`
+            },
+            {
+                label: "Explicit Numeric Conversion",
+                language: "swift",
+                code: `let count: Int = 25              // count is a whole number
+let price: Double = Double(count) // Convert Int to Double before storing it`
+            },
+            {
+                label: "Swift Types You'll Work With",
+                language: "swift",
+                code: `let text: String = "Hello"                  // Text and characters
+let letter: Character = "A"                  // One single character
+let count: Int = 25                          // Whole numbers
+let smallNumber: Int8 = 127                  // Small signed whole number
+let mediumNumber: Int16 = 32_000             // 16-bit signed whole number
+let largeNumber: Int32 = 2_000_000           // 32-bit signed whole number
+let hugeNumber: Int64 = 9_000_000_000        // 64-bit signed whole number
+let unsigned: UInt = 25                      // Whole number that cannot be negative
+let byte: UInt8 = 255                        // 8-bit unsigned whole number
+let id16: UInt16 = 65_535                    // 16-bit unsigned whole number
+let id32: UInt32 = 4_000_000_000             // 32-bit unsigned whole number
+let id64: UInt64 = 18_000_000_000            // 64-bit unsigned whole number
+let price: Double = 19.99                    // Precise decimal numbers
+let ratio: Float = 0.5                       // Smaller decimal numbers
+let isReady: Bool = true                     // true or false
+
+let username: String? = nil                  // Optional value or nil
+let names: [String] = ["Neo", "Trinity"]     // Array stores ordered values
+let scores: [String: Int] = ["Neo": 100]     // Dictionary stores key-value pairs
+let tags: Set<String> = ["Swift", "iOS"]     // Set stores unique values
+let user: (name: String, age: Int) = ("Neo", 25) // Tuple groups small values
+let halfOpen: Range<Int> = 1..<10            // Range excludes the end value
+let closed: ClosedRange<Int> = 1...10        // ClosedRange includes the end value
+let result: Result<String, Error> = .success("OK") // Success value or failure error
+let nothing: Void = ()                       // Empty return value
+let unknown: Any = "Neo"                     // Any Swift value
+let object: AnyObject? = nil                 // Any class instance
+func stopApp() -> Never { fatalError() }     // Never means this does not return
+
+enum Direction { case up, down }             // Enum lists fixed choices
+struct Profile { let name: String }          // Struct creates a value type
+class Account { var name = "Neo" }           // Class creates a reference type
+protocol IdentifiableUser { var id: Int { get } } // Protocol defines requirements
+
+let transform: (Int) -> String = { String($0) } // Closure stores reusable logic
+func greet(_ name: String) -> String { "Hi, \\(name)" } // Function performs work
+
+let today: Date = Date()                    // Date stores a point in time
+let website: URL? = URL(string: "https://apple.com") // URL stores a web/file address
+let payload: Data = Data()                  // Data stores raw bytes
+let uuid: UUID = UUID()                     // UUID stores a unique identifier
+let spacing: CGFloat = 16                   // CGFloat stores UI measurements
+let point: CGPoint = CGPoint(x: 10, y: 20)  // CGPoint stores an x/y position
+let size: CGSize = CGSize(width: 100, height: 50) // CGSize stores width and height
+let frame: CGRect = CGRect(origin: point, size: size) // CGRect stores position and size`
+            }
+        ],
+        bonusLinks: [
+            {
+                label: "Bonus: Basic Data Types in Swift deep dive",
+                text: "Use this extra walkthrough when you want a deeper explanation of Swift's basic data types.",
+                href: "https://lnkd.in/p/gRS5fwTG",
+                buttonText: "Open data types deep dive"
             }
         ],
         highlight: "Swift types are not decoration. They help the compiler catch wrong assumptions early."
@@ -3260,7 +3359,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 0;
+        const isLocked = index > 1;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
@@ -3664,8 +3763,9 @@ function setupLikeControl(control) {
 }
 
 function buildTrackPost(part, trackTitle, hashtags) {
+    const plainText = value => value.replace(/`|\*\*/g, "");
     const sections = part.sections
-        .map(([heading, items]) => `🔸 ${heading}\n\n${items.map(item => `• ${item.replace(/`/g, "")}`).join("\n")}`)
+        .map(([heading, items]) => `🔸 ${heading}\n\n${items.map(item => `• ${plainText(item)}`).join("\n")}`)
         .join("\n\n");
     const examples = (part.examples || [])
         .map(example => `Example: ${example.label}\n\n${example.code}`)
@@ -3677,7 +3777,7 @@ ${link.href}`)
         .join("\n\n") + "\n\n" : "";
     const interview = part.interviewCase ? `Interview case:
 Q: ${part.interviewCase.question}
-A: ${part.interviewCase.answer.replace(/`/g, "")}
+A: ${plainText(part.interviewCase.answer)}
 
 ` : "";
 
@@ -3685,7 +3785,7 @@ A: ${part.interviewCase.answer.replace(/`/g, "")}
 ${trackTitle}
 ${part.part}: ${part.title}
 
-${part.intro}
+${plainText(part.intro)}
 
 ${sections}
 
@@ -3699,7 +3799,7 @@ ${hashtags}`;
 }
 
 function appendFormattedText(element, text) {
-    text.split(/(`[^`]+`)/g).forEach(part => {
+    text.split(/(`[^`]+`|\*\*[^*]+\*\*)/g).forEach(part => {
         if (!part) {
             return;
         }
@@ -3708,6 +3808,13 @@ function appendFormattedText(element, text) {
             const code = document.createElement("code");
             code.textContent = part.slice(1, -1);
             element.appendChild(code);
+            return;
+        }
+
+        if (part.startsWith("**") && part.endsWith("**")) {
+            const strong = document.createElement("strong");
+            strong.textContent = part.slice(2, -2);
+            element.appendChild(strong);
             return;
         }
 
@@ -3722,12 +3829,51 @@ function escapeHTML(text) {
         .replace(/>/g, "&gt;");
 }
 
+function findSwiftCommentStart(line) {
+    let insideString = false;
+    let isEscaped = false;
+
+    for (let index = 0; index < line.length - 1; index += 1) {
+        const char = line[index];
+        const nextChar = line[index + 1];
+
+        if (insideString) {
+            if (isEscaped) {
+                isEscaped = false;
+                continue;
+            }
+
+            if (char === "\\") {
+                isEscaped = true;
+                continue;
+            }
+
+            if (char === "\"") {
+                insideString = false;
+            }
+
+            continue;
+        }
+
+        if (char === "\"") {
+            insideString = true;
+            continue;
+        }
+
+        if (char === "/" && nextChar === "/") {
+            return index;
+        }
+    }
+
+    return -1;
+}
+
 function highlightSwiftCode(source) {
     const keywords = /\b(let|var|func|return|if|else|for|in|while|break|continue|struct|class|protocol|extension|get|set|true|false|nil)\b/g;
-    const types = /\b(String|Int|Double|Bool|Set|View|User|ContentView|ProfileView|Displayable)\b/g;
+    const types = /\b(String|Int|Int8|Int16|Int32|Int64|UInt|UInt8|UInt16|UInt32|UInt64|Double|Float|Bool|Character|Optional|Array|Dictionary|Set|Range|ClosedRange|Result|Error|Never|Void|Any|AnyObject|Date|URL|Data|UUID|CGFloat|CGPoint|CGSize|CGRect|Direction|Profile|Account|IdentifiableUser|View|User|ContentView|ProfileView|Displayable)\b/g;
 
     return source.split("\n").map(line => {
-        const commentStart = line.indexOf("//");
+        const commentStart = findSwiftCommentStart(line);
         const codePart = commentStart >= 0 ? line.slice(0, commentStart) : line;
         const commentPart = commentStart >= 0 ? line.slice(commentStart) : "";
         const strings = [];
