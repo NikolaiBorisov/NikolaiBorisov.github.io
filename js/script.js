@@ -1696,23 +1696,251 @@ let frame: CGRect = CGRect(origin: point, size: size) // CGRect stores position 
     {
         part: "Part 3",
         title: "Operators and Expressions",
-        intro: "Operators let you calculate, compare, combine logic, and build strings. An expression is code that produces a value, such as `age >= 18` or `\"Hi, \\(name)\"`.",
+        intro: "Operators are symbols or keywords that do work with values: calculate numbers, compare data, combine conditions, assign values, and build strings. An expression is any piece of code that produces a value, such as `age >= 18`, `price * quantity`, or `\"Hi, \\(name)\"`. **Beginner tip:** when reading Swift, ask one small question for every expression: **what value does this produce, and what type is that value?**",
         sections: [
-            ["Arithmetic", ["Use `+`, `-`, `*`, `/`, and `%` for basic math.", "`%` gives the remainder after division.", "Be careful with integer division: `5 / 2` gives `2`, not `2.5`."]],
-            ["Comparison and Logic", ["Comparison operators return `Bool`: `==`, `!=`, `<`, `>`, `<=`, `>=`.", "`&&` means both conditions must be true.", "`||` means at least one condition must be true.", "`!` flips a Boolean value."]],
-            ["String Interpolation", ["Use `\\(value)` inside a string to insert a value.", "Interpolation keeps beginner code readable.", "It is commonly used for labels, logs, and debug messages."]]
+            ["What Is an Expression?", ["An expression is code that evaluates to a result.", "`2 + 3` produces the `Int` value `5`.", "`age >= 18` produces a `Bool` value.", "`\"Hi, \\(name)\"` produces a `String` value.", "Expressions can be stored in constants, passed into functions, used in `if` conditions, or combined with other expressions."]],
+            ["Arithmetic Operators", ["Use `+`, `-`, `*`, `/`, and `%` for basic math.", "`%` gives the remainder after division, which is useful for even/odd checks and repeating patterns.", "Be careful with integer division: `5 / 2` gives `2`, not `2.5`, because both values are `Int`.", "Use `Double(5) / 2` or `5.0 / 2.0` when you want a decimal result."]],
+            ["Assignment and Compound Assignment", ["`=` assigns a value. It does not mean equality in Swift.", "`score = 10` puts `10` into the variable `score`.", "`+=`, `-=`, `*=`, and `/=` update an existing variable using its current value.", "Compound assignment works only with variables created by `var`, not constants created by `let`."]],
+            ["Comparison Operators", ["Comparison operators return `Bool`: `==`, `!=`, `<`, `>`, `<=`, `>=`.", "Use `==` to compare values, not `=`.", "Comparisons are commonly used in `if`, `guard`, filters, validation, and UI state.", "String comparison is possible, but beginners should mainly use `==` and `!=` for text equality."]],
+            ["Logical Operators", ["`&&` means both conditions must be true.", "`||` means at least one condition must be true.", "`!` flips a Boolean value.", "Use parentheses when combining several conditions so your intention is easy to read.", "Swift conditions must be `Bool`. Swift does not treat `0`, empty strings, or empty arrays as false."]],
+            ["Nil-Coalescing and Ternary", ["`??` provides a fallback when an optional is `nil`.", "`nickname ?? \"Guest\"` means use `nickname` if it exists, otherwise use `\"Guest\"`.", "The ternary operator `condition ? valueIfTrue : valueIfFalse` is a compact if/else expression.", "Use ternary only for simple choices. If it becomes hard to read, use normal `if` code."]],
+            ["String Interpolation and Concatenation", ["Use `\\(value)` inside a string to insert a value.", "String concatenation means joining strings with `+`.", "Concatenation works well when all pieces are already `String` values.", "When joining text with numbers, Booleans, or calculations, string interpolation is usually clearer because Swift converts the inserted values into text for you.", "Keep complex logic outside the string first, then insert the final value."]],
+            ["Precedence and Readability", ["Operator precedence decides which operation runs first, such as multiplication before addition.", "`2 + 3 * 4` is `14`, not `20`.", "Parentheses make code clearer: `(2 + 3) * 4`.", "Beginner rule: if you have to pause to understand the order, add parentheses."]],
+            ["Common Mistakes", ["Using `=` when you meant `==`.", "Expecting Swift to automatically convert `Int` to `Double`.", "Forgetting that `/` with two `Int` values performs integer division.", "Writing long Boolean expressions without parentheses or clear names.", "Using `!` in a way that makes the condition harder to read. Sometimes `isEmpty == false` or a named value is clearer."]]
         ],
+        interviewCase: {
+            question: "What is the difference between an operator and an expression in Swift?",
+            answer: "An operator is the symbol or keyword that performs an operation, such as `+`, `>=`, `&&`, or `??`. An expression is the full piece of code that produces a value, such as `price * quantity` or `age >= 18`. In Swift, every expression has a type. That type might be `Int`, `Double`, `Bool`, `String`, or something else."
+        },
         examples: [
             {
-                label: "Expressions",
+                label: "Arithmetic and Remainder",
                 language: "swift",
-                code: `let age = 20                          // number to compare
-let hasTicket = true                  // Boolean condition
-let canEnter = age >= 18 && hasTicket // true only if both pass
-let message = "Allowed: \\(canEnter)" // inserts value into text`
+                code: `let price = 20                  // Price of one item
+let quantity = 3                   // Number of items
+let total = price * quantity       // 60, because 20 multiplied by 3 equals 60
+
+// * is the multiplication operator.
+// price * quantity asks: what is the total price for 3 items?
+// The expression price * quantity produces an Int value: 60.
+
+let points = 17                    // Total number of points
+let groupSize = 5                  // We want to split points into groups of 5
+let leftoverPoints = points % groupSize // 2 points left after making groups of 5
+
+// % is the remainder operator.
+// 17 % 5 asks: after dividing 17 by 5, what is left over?
+// 17 = 5 + 5 + 5 + 2, so the remainder is 2.
+
+let isEven = points % 2 == 0       // false, because 17 has a remainder after division by 2
+let isOdd = points % 2 != 0        // true, because the remainder is not 0`
+            },
+            {
+                label: "Integer Division vs Decimal Division",
+                language: "swift",
+                code: `let integerResult = 5 / 2          // 2
+let decimalResult = 5.0 / 2.0      // 2.5
+
+let count = 5
+let average = Double(count) / 2.0  // 2.5
+
+// Swift stays strict so the result type is predictable.`
+            },
+            {
+                label: "Assignment vs Comparison",
+                language: "swift",
+                code: `var score = 0        // assignment: put 0 into score
+score = 10           // assignment: replace score with 10
+
+let hasWon = score == 10  // comparison: produces true
+let needsPractice = score < 10 // comparison: produces false`
+            },
+            {
+                label: "Compound Assignment",
+                language: "swift",
+                code: `var score = 10
+score += 5       // same as score = score + 5
+score -= 2       // same as score = score - 2
+
+var message = "Hi"
+message += ", Neo" // "Hi, Neo"`
+            },
+            {
+                label: "Logical Operators",
+                language: "swift",
+                code: `let age = 20             // User's age
+let hasTicket = true     // true means the user has a ticket
+let isBanned = false     // false means the user is not banned
+
+let canEnter = age >= 18 && hasTicket && !isBanned
+
+// && means every condition must be true.
+// age >= 18 checks if the user is an adult.
+// hasTicket checks if the user has permission to enter.
+// !isBanned means "not banned".
+// canEnter becomes true only when all three checks pass.
+
+if canEnter {
+    print("Welcome")     // This runs because canEnter is true
+}`
+            },
+            {
+                label: "Parentheses for Clear Conditions",
+                language: "swift",
+                code: `let isAdmin = false
+let ownsProfile = true
+let isVerified = true
+
+let canEdit = isAdmin || (ownsProfile && isVerified)
+
+// Parentheses make the business rule easier to see:
+// admins can edit, or verified users can edit their own profile.`
+            },
+            {
+                label: "Nil-Coalescing",
+                language: "swift",
+                code: `let nickname: String? = nil      // Optional String: it can contain text or nil
+let displayName = nickname ?? "Guest"
+
+// ?? is the nil-coalescing operator.
+// It means: use the value on the left if it exists.
+// If the left side is nil, use the fallback value on the right.
+// nickname is nil here, so displayName becomes "Guest".
+
+print(displayName) // Prints "Guest"`
+            },
+            {
+                label: "Ternary Operator",
+                language: "swift",
+                code: `let unreadCount = 3                  // Number of unread messages
+let badgeText = unreadCount > 0 ? "\\(unreadCount)" : ""
+
+// The ternary operator is a short if/else expression.
+// It has three parts:
+// condition ? valueIfTrue : valueIfFalse
+// unreadCount > 0 checks if there are unread messages.
+// Because unreadCount is 3, the condition is true.
+// badgeText becomes "3".
+
+// Good for small choices.
+// For several branches, use if/else instead.`
+            },
+            {
+                label: "String Interpolation",
+                language: "swift",
+                code: `let name = "Neo"       // String value used in the message
+let score = 42         // Current score
+let maxScore = 50      // Maximum possible score
+let progress = Double(score) / Double(maxScore)
+
+// Double(score) converts Int to Double.
+// Double(maxScore) converts Int to Double.
+// The / operator divides the two Double values.
+// progress becomes 0.84.
+
+let message = "Hi, \\(name). Score: \\(score)/\\(maxScore). Progress: \\(progress)"
+
+// \\(name), \\(score), \\(maxScore), and \\(progress) insert values into the string.
+// This is called string interpolation.
+// message becomes: "Hi, Neo. Score: 42/50. Progress: 0.84"
+
+print(message) // Prints the final message`
+            },
+            {
+                label: "String Concatenation",
+                language: "swift",
+                code: `let firstName = "Neo"       // First part of the user's name
+let lastName = "Anderson"    // Second part of the user's name
+
+let fullName = firstName + " " + lastName
+
+// + joins String values together.
+// " " is a space between the first name and last name.
+// fullName becomes "Neo Anderson".
+
+print(fullName) // Prints "Neo Anderson"
+
+let score = 42             // Int value
+let scoreText = "Score: " + String(score)
+
+// String(score) converts the Int value 42 into the String value "42".
+// Concatenation can join only String values with other String values.
+// scoreText becomes "Score: 42".
+
+print(scoreText) // Prints "Score: 42"
+
+// For mixed values, interpolation is often easier to read:
+let message = "Hi, \\(fullName). Score: \\(score)"
+
+// \\(fullName) inserts the String value.
+// \\(score) inserts the Int value without manually writing String(score).`
+            },
+            {
+                label: "Useful Beginner Pattern",
+                language: "swift",
+                code: `let email = "neo@example.com" // Text entered by the user
+let password = "swift123"       // Password entered by the user
+
+let hasEmail = email.isEmpty == false
+let hasPassword = password.count >= 8
+let canSubmit = hasEmail && hasPassword
+
+// email.isEmpty checks whether the email string has no characters.
+// email.isEmpty == false means the email is not empty.
+// password.count >= 8 checks whether the password has at least 8 characters.
+// && means both checks must be true.
+// canSubmit becomes true only when the email exists and the password is long enough.
+
+// Naming expressions makes app logic easier to read.
+// hasEmail is clearer than writing email.isEmpty == false everywhere.
+// hasPassword is clearer than repeating password.count >= 8 everywhere.`
+            },
+            {
+                label: "Expressions Produce Values",
+                language: "swift",
+                code: `let age = 20                       // This expression produces an Int value: 20
+let minimumAge = 18                // This expression produces an Int value: 18
+let isAdult = age >= minimumAge    // This expression produces a Bool value: true
+
+let price = 19.99                  // This expression produces a Double value: 19.99
+let quantity = 3                   // This expression produces an Int value: 3
+let total = price * Double(quantity) // This expression produces a Double value: 59.97
+
+let firstName = "Neo"              // This expression produces a String value: "Neo"
+let lastName = "Anderson"          // This expression produces a String value: "Anderson"
+let fullName = firstName + " " + lastName // This expression produces a String value: "Neo Anderson"
+
+let unreadMessages = 5             // This expression produces an Int value: 5
+let hasUnreadMessages = unreadMessages > 0 // This expression produces a Bool value: true
+let badgeText = hasUnreadMessages ? "\\(unreadMessages)" : "" // This expression produces a String value: "5"
+
+let nickname: String? = nil        // This expression produces an optional String with no value
+let displayName = nickname ?? fullName // This expression produces a String value: "Neo Anderson"
+
+let canShowProfile = isAdult && hasUnreadMessages // This expression produces a Bool value: true
+let profileTitle = "Profile: \\(displayName)"     // This expression produces a String value
+
+// Beginner reading habit:
+// 1. Find the operator: >=, *, +, >, ?, ??, &&, or \\(...)
+// 2. Ask what value the expression produces.
+// 3. Ask what type that value has: Int, Double, Bool, String, or Optional.`
             }
         ],
-        highlight: "Expressions are small pieces of logic. Learn to read what value each line produces."
+        bonusLinks: [
+            {
+                label: "Bonus: Swift Operators",
+                text: "Use Apple's operator documentation as a reference when you want the complete list of Swift operators and their behavior.",
+                href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators/",
+                buttonText: "Open operators guide"
+            },
+            {
+                label: "Bonus: 40+ Operators in Swift",
+                text: "Use this bonus post as a practical overview of many Swift operators beginners will see in real code and interview prep.",
+                href: "https://www.linkedin.com/posts/niko-anderson-36269333b_swift-ios-iosinterviewprep-ugcPost-7449388423536082944-lK-F/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                buttonText: "Open 40+ operators post"
+            }
+        ],
+        highlight: "Operators are tools. Expressions are results. Learn to read every expression by asking: what value does this produce, and what type is that value?"
     },
     {
         part: "Part 4",
@@ -1920,6 +2148,34 @@ const coreSwiftQuizQuestions = [
 coreSwiftParts.forEach((part, index) => {
     swiftTalkPosts[`core-swift-part${index + 1}`] = buildTrackPost(part, "Core Swift", "#Swift #iOS #SwiftTalks #LearnSwift");
 });
+
+swiftTalkPosts["core-swift-part3"] = `🔶 SWIFT Talks
+
+Beginner Track: Operators and Expressions
+
+Beginner-friendly core theory about Swift operators, expressions, and small pieces of logic.
+
+Operators let Swift calculate values, compare data, combine conditions, work with optionals, and build strings.
+
+An expression is code that produces a value.
+
+The goal is simple:
+
+1. Understand what common Swift operators do.
+2. Learn how expressions produce values like Int, Double, Bool, and String.
+3. Read beginner code more confidently by asking: what value does this expression produce?
+
+Check out Beginner Track: Operators and Expressions
+
+🔗 https://lnkd.in/gxJ5qX-Y
+
+⭐️ Bonus - 40+ Operators in Swift
+🔗 https://www.linkedin.com/posts/niko-anderson-36269333b_swift-ios-iosinterviewprep-ugcPost-7449388423536082944-lK-F/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q
+
+---
+Follow for more
+Drop feedback to improve #SwiftTalks
+#SwiftTalks #Swift #iOS #iOSDeveloper`;
 
 const toolboxParts = [
     {
@@ -3363,7 +3619,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 1;
+        const isLocked = index > 2;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
