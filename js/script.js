@@ -2149,34 +2149,6 @@ coreSwiftParts.forEach((part, index) => {
     swiftTalkPosts[`core-swift-part${index + 1}`] = buildTrackPost(part, "Core Swift", "#Swift #iOS #SwiftTalks #LearnSwift");
 });
 
-swiftTalkPosts["core-swift-part3"] = `🔶 SWIFT Talks
-
-Beginner Track: Operators and Expressions
-
-Beginner-friendly core theory about Swift operators, expressions, and small pieces of logic.
-
-Operators let Swift calculate values, compare data, combine conditions, work with optionals, and build strings.
-
-An expression is code that produces a value.
-
-The goal is simple:
-
-1. Understand what common Swift operators do.
-2. Learn how expressions produce values like Int, Double, Bool, and String.
-3. Read beginner code more confidently by asking: what value does this expression produce?
-
-Check out Beginner Track: Operators and Expressions
-
-🔗 https://lnkd.in/gxJ5qX-Y
-
-⭐️ Bonus - 40+ Operators in Swift
-🔗 https://www.linkedin.com/posts/niko-anderson-36269333b_swift-ios-iosinterviewprep-ugcPost-7449388423536082944-lK-F/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q
-
----
-Follow for more
-Drop feedback to improve #SwiftTalks
-#SwiftTalks #Swift #iOS #iOSDeveloper`;
-
 const toolboxParts = [
     {
         part: "Part 1",
