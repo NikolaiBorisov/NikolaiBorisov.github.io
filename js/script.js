@@ -53,6 +53,7 @@ const translateTalkButtons = document.querySelectorAll(".translate-talk");
 const likeControls = document.querySelectorAll(".talk-like");
 const likesStorageKey = "swiftTalkLikes";
 const swiftTalksHash = "#swift-talks";
+const coreSwiftHash = "#core-swift";
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const coreSwiftQuizHash = "#core-swift-quiz";
@@ -3316,7 +3317,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -3333,6 +3334,10 @@ openSwiftTalksButton?.addEventListener("click", () => {
 });
 closeSwiftTalksButton?.addEventListener("click", closeSwiftTalks);
 openCoreSwiftTrackButton?.addEventListener("click", () => {
+    if (window.location.hash !== coreSwiftHash) {
+        window.location.hash = coreSwiftHash.slice(1);
+    }
+
     showCoreSwiftTrack();
 });
 openSwiftIntroTrackButton?.addEventListener("click", () => {
@@ -3434,6 +3439,9 @@ function syncSwiftTalksWithHash() {
         openCoreSwiftQuiz();
     } else if (isSwiftQuizHash()) {
         openSwiftQuiz();
+    } else if (window.location.hash === coreSwiftHash) {
+        openSwiftTalks();
+        showCoreSwiftTrack();
     } else if (window.location.hash === swiftTalksHash) {
         openSwiftTalks();
         showSwiftTalkTopics();
