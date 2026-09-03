@@ -66,7 +66,7 @@ const languageLabels = {
 };
 
 const swiftTalkPosts = {
-    part1: `🔶 SWIFT Talks
+    part1: `🔶 Swift Code
 What is Swift? Why Swift? What for?
 
 Swift is Apple’s modern programming language for building apps across:
@@ -138,8 +138,8 @@ Swift sits at the intersection of design, engineering, safety, and creativity.
 
 🔶 Follow for the next part: Swift Under the Hood
 🔗 https://www.linkedin.com/in/niko-anderson-36269333b/
-#SwiftTalks`,
-    part2: `🔶 SWIFT Talks
+#SwiftCode`,
+    part2: `🔶 Swift Code
 
 Swift Under the Hood
 
@@ -242,8 +242,8 @@ Swift helps developers build reliable software with less accidental complexity.
 
 🔶 Follow for the next part: Swift Type System
 
-#Swift #SwiftTalks #iOS`,
-    part3: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part3: `🔶 Swift Code
 
 iOS Development & iOS Developer
 
@@ -396,8 +396,8 @@ You are building software people carry in their hands every day.
 
 🔶 Follow for the next part: Swift Type System
 
-#Swift #SwiftTalks #iOS`,
-    part4: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part4: `🔶 Swift Code
 
 How to Become an iOS Developer
 
@@ -530,8 +530,8 @@ That loop is how a beginner becomes someone who can ship real iOS products.
 Do not only watch tutorials.
 Build, break, debug, and ship.
 
-#Swift #SwiftTalks #iOS`,
-    part5: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part5: `🔶 Swift Code
 
 iOS Beginner Roadmap
 
@@ -567,8 +567,8 @@ Daily rule:
 Swift → SwiftUI → UIKit → pet project.
 One small feature at a time.
 
-#Swift #SwiftTalks #iOS`,
-    part6: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part6: `🔶 Swift Code
 
 No IT Experience? How to Start
 
@@ -687,8 +687,8 @@ Explore programming languages:
 Learn Swift and mobile development theory step by step.
 https://apps.apple.com/th/app/isolid-learn-programming/id6752113008
 
-#Swift #SwiftTalks #iOS`,
-    part7: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part7: `🔶 Swift Code
 
 Tutorials, Books, AI Tools
 
@@ -786,8 +786,8 @@ https://developer.apple.com/documentation/
 Take a Swift & Mobile Development QUIZ:
 https://apps.apple.com/th/app/isolid-learn-programming/id6752113008
 
-#Swift #SwiftTalks #iOS`,
-    part8: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part8: `🔶 Swift Code
 
 Git & GitHub & GitFlow for iOS Developers
 
@@ -975,8 +975,8 @@ Core idea:
 Commit small, clear changes.
 A good Git history shows your growth as a developer.
 
-#Swift #SwiftTalks #iOS`,
-    part9: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part9: `🔶 Swift Code
 
 Pet Project. How to Start?
 
@@ -1124,8 +1124,8 @@ Build the first useful version.
 You do not need a perfect idea.
 You need a project you care enough to finish.
 
-#Swift #SwiftTalks #iOS`,
-    part10: `🔶 Swift Talks
+#Swift #SwiftCode #iOS`,
+    part10: `🔶 Swift Code
 
 First iOS App Checklist
 
@@ -1263,7 +1263,7 @@ Screenshots.
 When version 1 works, stop adding features.
 Polish it, document it, share it, then start version 2.
 
-#Swift #SwiftTalks #iOS`
+#Swift #SwiftCode #iOS`
 };
 
 const swiftIntroQuizQuestions = [
@@ -2147,7 +2147,7 @@ const coreSwiftQuizQuestions = [
 ];
 
 coreSwiftParts.forEach((part, index) => {
-    swiftTalkPosts[`core-swift-part${index + 1}`] = buildTrackPost(part, "Core Swift", "#Swift #iOS #SwiftTalks #LearnSwift");
+    swiftTalkPosts[`core-swift-part${index + 1}`] = buildTrackPost(part, "Core Swift", "#Swift #iOS #SwiftCode #LearnSwift");
 });
 
 const toolboxParts = [
@@ -2360,7 +2360,7 @@ const toolboxQuizQuestions = [
 ];
 
 toolboxParts.forEach((part, index) => {
-    swiftTalkPosts[`toolbox-part${index + 1}`] = buildTrackPost(part, "iOS Dev Toolbox", "#Swift #iOS #DeveloperTools #SwiftTalks");
+    swiftTalkPosts[`toolbox-part${index + 1}`] = buildTrackPost(part, "iOS Dev Toolbox", "#Swift #iOS #DeveloperTools #SwiftCode");
 });
 
 const portfolioParts = [
@@ -2847,7 +2847,7 @@ const portfolioQuizQuestions = [
 ];
 
 portfolioParts.forEach((part, index) => {
-    swiftTalkPosts[`portfolio-part${index + 1}`] = buildTrackPost(part, "Let's Build Your Portfolio Website", "#HTML #CSS #JavaScript #Portfolio #SwiftTalks");
+    swiftTalkPosts[`portfolio-part${index + 1}`] = buildTrackPost(part, "Let's Build Your Portfolio Website", "#HTML #CSS #JavaScript #Portfolio #SwiftCode");
 });
 
 const translations = {
@@ -2891,7 +2891,7 @@ const translations = {
         projectSoliddsDescription: "Reusable SwiftUI design system",
         projectTextModerationDescription: "Native Swift Package for rule-based, on-device moderation of user-generated text",
         projectSolidfolioDescription: "Portfolio website builder",
-        projectSwiftTalksDescription: "Swift & iOS learning notes for beginners",
+        projectSwiftCodeDescription: "Swift & iOS learning notes for beginners",
         privateAppsTitle: "3 Private Apps by request*",
         privateAppsDescription: "Educational & Corporate Apps",
         connectTitle: "Connect"
@@ -2936,7 +2936,7 @@ const translations = {
         projectSoliddsDescription: "Sistema de diseño reutilizable en SwiftUI",
         projectTextModerationDescription: "Paquete nativo de Swift para la moderación de texto generado por usuarios, basada en reglas y realizada en el dispositivo",
         projectSolidfolioDescription: "Constructor de sitios de portafolio",
-        projectSwiftTalksDescription: "Notas de Swift e iOS para principiantes",
+        projectSwiftCodeDescription: "Notas de Swift e iOS para principiantes",
         privateAppsTitle: "3 apps privadas por solicitud*",
         privateAppsDescription: "Apps educativas y corporativas",
         connectTitle: "Conecta"
@@ -2981,7 +2981,7 @@ const translations = {
         projectSoliddsDescription: "ระบบดีไซน์ SwiftUI ที่นำกลับมาใช้ซ้ำได้",
         projectTextModerationDescription: "Swift Package แบบเนทีฟสำหรับการตรวจสอบข้อความที่ผู้ใช้สร้างขึ้นตามกฎ โดยประมวลผลบนอุปกรณ์",
         projectSolidfolioDescription: "เครื่องมือสร้างเว็บไซต์พอร์ตโฟลิโอ",
-        projectSwiftTalksDescription: "โน้ตการเรียนรู้ Swift และ iOS สำหรับผู้เริ่มต้น",
+        projectSwiftCodeDescription: "โน้ตการเรียนรู้ Swift และ iOS สำหรับผู้เริ่มต้น",
         privateAppsTitle: "3 แอปส่วนตัวตามคำขอ*",
         privateAppsDescription: "แอปด้านการศึกษาและองค์กร",
         connectTitle: "ช่องทางออนไลน์"
@@ -4021,7 +4021,7 @@ A: ${plainText(part.interviewCase.answer)}
 
 ` : "";
 
-    return `🔶 SWIFT Talks
+    return `🔶 Swift Code
 ${trackTitle}
 ${part.part}: ${part.title}
 
