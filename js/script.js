@@ -1530,18 +1530,57 @@ struct UserProfile {}          // UpperCamelCase: Swift types
             },
             {
                 label: "What Can let and var Store?",
-                language: "text",
-                code: `let and var can be used with essentially any Swift type.
+                language: "swift",
+                code: `// let and var can store almost any Swift type.
 
-Category        Examples
-Basic types     String, Int, Double, Bool, Character
-Collections     Array, Dictionary, Set
-Optionals       String?, Int?
-Tuples          (String, Int)
-Custom types    struct, class, enum instances
-Functions       (Int, Int) -> Int
-Closures        () -> Void
-Protocol types  any SomeProtocol`
+// Basic types
+let name: String = "Neo"                 // String stores text
+let age: Int = 25                        // Int stores whole numbers
+let progress: Double = 0.75              // Double stores decimal numbers
+let isOnline: Bool = true                // Bool stores true or false
+let grade: Character = "A"               // Character stores one character
+
+// Collections
+let names: [String] = ["Neo", "Trinity"] // Array stores ordered values
+let scores: [String: Int] = ["Neo": 100] // Dictionary stores key-value pairs
+let tags: Set<String> = ["Swift", "iOS"] // Set stores unique values
+
+// Optionals
+let nickname: String? = nil              // String? can store text or nil
+let bonusPoints: Int? = 10               // Int? can store a number or nil
+
+// Tuples
+let user: (String, Int) = ("Neo", 25)    // Tuple groups small values together
+
+// Custom types
+struct Profile {                         // struct creates your own value type
+    let username: String                 // Stored property inside Profile
+}
+
+enum ScreenState {                       // enum lists fixed possible values
+    case loading                         // One possible screen state
+    case success                         // Another possible screen state
+}
+
+class Session {                          // class creates a reference type
+    var token: String = "abc123"         // Mutable property inside Session
+}
+
+// Functions and closures
+let add: (Int, Int) -> Int = { a, b in   // Closure takes two Int values
+    a + b                                // Returns an Int result
+}
+
+func greet(_ name: String) -> String {   // Function takes a String
+    "Hi, \\(name)"                       // Returns a String
+}
+
+// Protocol types
+protocol Displayable {                   // Protocol defines requirements
+    var title: String { get }            // Required read-only property
+}
+
+let value: any Displayable? = nil        // Protocol type can store any matching type`
             }
         ],
         interviewCase: {
@@ -1946,28 +1985,377 @@ let profileTitle = "Profile: \\(displayName)"     // This expression produces a 
     {
         part: "Part 4",
         title: "Control Flow",
-        intro: "Control flow lets your program choose different paths. Beginners should understand `if`, `else`, `switch`, and the ternary operator before moving into app UI logic.",
+        intro: "Control flow decides **which code runs, how many times it runs, and when a function should stop early**. In Swift, beginners should focus on `if`, `else`, `guard`, `switch`, `for-in`, `while`, `break`, `continue`, and `defer`.",
         sections: [
-            ["if and else", ["Use `if` when code should run only for a condition.", "Use `else` for the fallback path.", "Conditions must be Boolean expressions. Swift does not treat `0` as false."]],
-            ["switch", ["Use `switch` when one value has several possible cases.", "Swift switches must be exhaustive, so every possible value is handled.", "`default` is useful when you do not want to list every case."]],
-            ["Ternary", ["The ternary operator is a compact if/else expression.", "Use it for simple choices only.", "If it becomes hard to read, use normal `if` code."]]
+            ["Core Idea", ["Control flow is how your program makes decisions and repeats work.", "`if` handles simple true/false decisions.", "`guard` exits early when required data is missing or invalid.", "`switch` handles many possible values clearly.", "`for-in` and `while` repeat code.", "`break`, `continue`, and `defer` change when code stops, skips, or cleans up."]],
+            ["Branches", ["Use `if` / `else if` / `else` for a few conditions.", "Use `guard` at the start of a function to protect the main path.", "Use `switch` when one value has several possible cases.", "Swift `switch` must be exhaustive, so every possible value is handled."]],
+            ["Loops and Exits", ["Use `for-in` when you know the collection or range you want to loop over.", "Use `while` when you repeat until a condition changes.", "`break` stops a loop immediately.", "`continue` skips the current loop step and moves to the next one.", "`defer` runs cleanup code when the current scope ends."]],
+            ["Common Mistakes", ["Forgetting that Swift conditions must be `Bool`.", "Using long nested `if` blocks instead of `guard` for early exits.", "Forgetting `default` in a `switch` when not all values are covered.", "Creating a `while` loop where the condition never changes.", "Using `break` or `continue` too often, which can make code harder to follow."]]
         ],
+        interviewCase: {
+            question: "When should you use if, guard, and switch in Swift?",
+            answer: "Use `if` for simple decisions, `guard` for early exits when required data is missing or invalid, and `switch` when one value can match several clear cases. A good beginner habit is to use `guard` to keep the happy path less nested and use `switch` when many `else if` branches would become hard to read."
+        },
         examples: [
             {
-                label: "Choosing a path",
+                label: "if, else if, else",
                 language: "swift",
-                code: `let score = 82              // value we want to check
+                code: `let score = 82              // Test score from 0 to 100
 
-if score >= 90 {             // first condition
-    print("Excellent")       // runs for 90 or higher
-} else if score >= 70 {      // second condition
-    print("Good")            // runs from 70 to 89
-} else {                     // fallback path
-    print("Keep practicing") // runs below 70
+if score >= 90 {             // First check: is score 90 or higher?
+    print("Excellent")       // Runs only for scores from 90 to 100
+} else if score >= 70 {      // Second check: runs if the first check was false
+    print("Good")            // Runs for scores from 70 to 89
+} else {                     // Fallback branch when all checks above are false
+    print("Keep practicing") // Runs for scores below 70
+}
+
+// if, else if, else is a Swift control flow tool.
+// It lets your code choose one path from several possible paths.
+// Swift checks conditions from top to bottom.
+// The first true condition runs, then Swift skips the rest.
+// else is the fallback path when no condition is true.
+// Remember it like this: check each condition in order; run the first one that is true, or use the fallback.`
+            },
+            {
+                label: "guard for Early Exit",
+                language: "swift",
+                code: `func openProfile(name: String?) {
+    guard let name else {              // Try to unwrap the optional name
+        print("Name is missing")       // Runs if name is nil
+        return                         // Stop the function early
+    }
+
+    print("Open profile for \\(name)") // Runs only when name has a real String value
+}
+
+openProfile(name: nil)                 // Prints "Name is missing"
+openProfile(name: "Neo")               // Prints "Open profile for Neo"
+
+// Remember it like this: make sure the condition after guard is true.
+// If it is true, keep going and run the code after the guard closing brace.
+// If it is not true, run the else block and exit early.
+// You can add custom logic inside else before return.`
+            },
+            {
+                label: "switch for Clear Cases",
+                language: "swift",
+                code: `// String-based state
+let appState = "loading"       // Current screen state
+
+switch appState {                  // Check one value against several cases
+case "loading":                    // Matches when appState is "loading"
+    print("Show spinner")          // Code for the loading state
+case "success":                    // Matches when appState is "success"
+    print("Show content")          // Code for the success state
+case "error":                      // Matches when appState is "error"
+    print("Show error message")    // Code for the error state
+default:                           // Fallback for any value not listed above
+    print("Unknown state")         // Keeps the switch exhaustive
+}
+
+// Problem with this approach:
+// appState is just a String, so any typo can break the logic.
+// "loading", "Loading", and "loadng" are three different String values.
+// Swift cannot protect you from writing an unsupported state.
+// As the app grows, this becomes fragile and harder to support.
+
+// Better approach: Type-Safe Modeling
+
+enum ScreenState {                 // Enum lists all valid screen states in one place
+    case loading                    // Screen is loading data
+    case success                    // Screen has data to show
+    case error                      // Screen has an error to show
+}
+
+let screenState: ScreenState = .loading // Only valid enum cases are allowed
+
+switch screenState {                // Switch over a real ScreenState value
+case .loading:                      // Matches the loading case
+    print("Show spinner")           // Code for the loading state
+case .success:                      // Matches the success case
+    print("Show content")           // Code for the success state
+case .error:                        // Matches the error case
+    print("Show error message")     // Code for the error state
+}
+
+// Why enum is better:
+// You cannot accidentally write .loadng because that case does not exist.
+// Swift shows a compile-time error instead of letting the bug reach users.
+// If you add a new case later, Swift can warn you to update the switch.
+// This makes the code safer, easier to expand, and easier to maintain.
+// We call this Type-Safe Modeling, or modeling state with enums.
+// First approach: String-based state.
+// Better approach: enum-based state with type safety.
+// Remember it like this: switch is a control flow statement that checks a value against multiple possible cases and runs the code for the first matching case.
+// It works with many Swift types and is useful when you have several possible values or conditions to handle.`
+            },
+            {
+                label: "switch with Ranges",
+                language: "swift",
+                code: `let batteryLevel = 18          // Current battery percentage
+
+switch batteryLevel {
+case 0...20:                      // Matches values from 0 through 20
+    print("Low battery")          // Runs because 18 is inside this range
+case 21...80:                     // Matches values from 21 through 80
+    print("Battery is okay")
+case 81...100:                    // Matches values from 81 through 100
+    print("Battery is high")
+default:                          // Handles unexpected values like -1 or 150
+    print("Invalid battery level")
 }`
+            },
+            {
+                label: "for-in Loop",
+                language: "swift",
+                code: `let names = ["Ana", "Ben", "Mia"] // Array of names
+
+for name in names {                    // Loop once for each name in the array
+    print("Hi, \\(name)")              // Runs 3 times: Ana, Ben, Mia
+}
+
+for number in 1...3 {                  // Closed range includes 1, 2, and 3
+    print("Step \\(number)")           // Runs once for each number
+}
+
+// Remember it like this: for-in repeats code once for each item in a collection or range.
+// Use it when you know what list, string, dictionary, or range you want to loop through.`
+            },
+            {
+                label: "while Loop",
+                language: "swift",
+                code: `var attempts = 0                 // Start with zero attempts
+let maxAttempts = 3              // Stop after three attempts
+
+while attempts < maxAttempts {   // Repeat while this condition is true
+    attempts += 1                // Increase attempts so the loop can finish
+    print("Attempt \\(attempts)") // Runs for attempt 1, 2, and 3
+}
+
+print("Done")                    // Runs after the loop condition becomes false
+
+// Remember it like this: while repeats code as long as its condition is true.
+// Use it when you do not know the exact number of repeats before the loop starts.`
+            },
+            {
+                label: "break and continue",
+                language: "swift",
+                code: `let numbers = [1, 2, 3, 4, 5] // Values to inspect
+
+for number in numbers {
+    if number == 2 {
+        continue                 // Skip 2 and move to the next loop step
+    }
+
+    if number == 5 {
+        break                    // Stop the whole loop when number is 5
+    }
+
+    print(number)                // Prints 1, 3, and 4
+}
+
+// Remember it like this: continue skips only the current loop step.
+// break stops the whole loop immediately.`
+            },
+            {
+                label: "defer for Cleanup",
+                language: "swift",
+                code: `func saveDraft() {
+    print("Start saving")        // Runs first
+
+    defer {
+        print("Hide loading")    // Runs when the function is about to finish
+    }
+
+    print("Save data")           // Runs before defer
+}
+
+saveDraft()
+// Output:
+// Start saving
+// Save data
+// Hide loading
+
+// Remember it like this: defer saves cleanup code for the end of the current scope.
+// Use it when something should always happen before the function leaves.`
+            },
+            {
+                label: "Control Flow Tools You Will Use",
+                language: "swift",
+                code: `// if: run code only when one condition is true.
+let isLoggedIn = true                  // User already signed in
+if isLoggedIn {                        // Check one Bool condition
+    print("Show home screen")          // Real use: open the main app screen
+}
+
+// if - else: choose between two paths.
+let hasInternet = false                // Current network status
+if hasInternet {                       // First path when internet exists
+    print("Load data from API")        // Real use: make a network request
+} else {                               // Fallback path when internet is missing
+    print("Show offline message")      // Real use: explain why data cannot load
+}
+
+// if - else if - else: choose one path from several ordered checks.
+let statusCode = 404                   // HTTP response code from a server
+if statusCode == 200 {                 // Success response
+    print("Show content")              // Real use: render downloaded data
+} else if statusCode == 401 {          // Unauthorized response
+    print("Ask user to log in again")  // Real use: handle expired session
+} else {                               // Any other response
+    print("Show error screen")         // Real use: handle unknown server errors
+}
+
+// guard: stop early when required data is missing or invalid.
+func submit(username: String?) {
+    guard let username else {          // Make sure username is not nil
+        print("Show username error")   // Real use: tell user what is missing
+        return                         // Exit early before submit logic
+    }
+
+    print("Submit \\(username)")       // Runs only when username exists
+}
+
+// switch: handle many known cases clearly.
+enum PaymentState {                    // Type-safe list of payment states
+    case idle                          // Nothing started yet
+    case processing                    // Payment is in progress
+    case paid                          // Payment succeeded
+    case failed                        // Payment failed
+}
+
+let paymentState: PaymentState = .paid // Current payment state
+switch paymentState {                  // Check one value against known cases
+case .idle:
+    print("Show Pay button")           // Real use: initial checkout UI
+case .processing:
+    print("Show loading")              // Real use: prevent duplicate payment taps
+case .paid:
+    print("Show receipt")              // Real use: payment success screen
+case .failed:
+    print("Show retry button")         // Real use: let user try again
+}
+
+// switch + where: match a case only when an extra condition is true.
+let orderTotal = 120                   // Current cart total
+switch orderTotal {
+case let total where total >= 100:     // Match values 100 or higher
+    print("Apply free shipping")       // Real use: business rule with a condition
+default:
+    print("Use normal shipping")       // Real use: fallback for smaller orders
+}
+
+// for-in: repeat work for each item in a collection or range.
+let products = ["Book", "Course"]      // Items from a cart
+for product in products {              // Visit each product once
+    print("Render \\(product)")        // Real use: show each cell in a list
+}
+
+// for-in + where: loop only through items that match a condition.
+let prices = [0, 19, 49]               // Product prices from a cart
+for price in prices where price > 0 {  // Skip free or invalid prices
+    print("Charge \\(price)")          // Real use: process only paid items
+}
+
+// while: repeat while a condition stays true.
+var retryCount = 0                     // How many times we tried
+while retryCount < 3 {                 // Continue until 3 attempts
+    retryCount += 1                    // Update condition so loop can finish
+    print("Retry request")             // Real use: retry a failed operation
+}
+
+// repeat-while: run once first, then check the condition.
+var syncAttempts = 0                   // How many sync attempts happened
+repeat {
+    syncAttempts += 1                  // Runs at least once
+    print("Sync local changes")        // Real use: try one sync before deciding to retry
+} while syncAttempts < 1               // Check condition after the first run
+
+// break: stop a loop when you already found what you need.
+let ids = [10, 20, 30]                 // Values to search
+for id in ids {
+    if id == 20 {                      // Found the target id
+        print("Found user")            // Real use: stop searching after match
+        break                          // Exit the loop immediately
+    }
+}
+
+// continue: skip one item and keep looping.
+let files = ["photo.png", "notes.txt"] // Files selected by user
+for file in files {
+    if file.hasSuffix(".txt") {        // Text files are not image uploads
+        continue                       // Skip this file only
+    }
+
+    print("Upload \\(file)")           // Real use: upload only allowed files
+}
+
+// defer: run cleanup before leaving the current scope.
+func uploadImage() {
+    print("Show loading")              // Real use: show progress UI
+
+    defer {
+        print("Hide loading")          // Always runs before function exits
+    }
+
+    print("Upload image data")         // Real use: perform the main work
+}
+
+// return: leave a function immediately.
+func validate(age: Int) {
+    if age < 18 {                      // User is too young
+        print("Block registration")    // Real use: stop invalid registration
+        return                         // Exit before success logic
+    }
+
+    print("Allow registration")        // Runs only for valid age
+}
+
+// throw: leave a throwing function with an error.
+enum LoginError: Error {
+    case emptyPassword                 // Error case for invalid input
+}
+
+func login(password: String) throws {
+    if password.isEmpty {              // Password is missing
+        throw LoginError.emptyPassword // Real use: stop and report a specific error
+    }
+
+    print("Send login request")        // Runs only when password is valid
+}
+
+// fallthrough: continue into the next switch case manually.
+let accessLevel = 2                    // User permission level
+switch accessLevel {
+case 2:
+    print("Show admin tools")          // Real use: extra permissions
+    fallthrough                        // Also run the next case
+case 1:
+    print("Show user tools")           // Shared permissions
+default:
+    print("Show public tools")         // Basic permissions
+}
+
+// Use fallthrough rarely. Swift normally stops after the first matching case.
+// Use it only when you intentionally want to run the next case too.`
             }
         ],
-        highlight: "Control flow is how your app decides what should happen next."
+        bonusLinks: [
+            {
+                label: "Bonus: Swift Control Flow",
+                text: "Use Apple's control flow guide as a reference when you want the full details for branches, loops, switch patterns, and early exits.",
+                href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow/",
+                buttonText: "Open control flow guide"
+            },
+            {
+                label: "Bonus: A Deep Dive into Control Flow in Swift",
+                text: "Use this 3-part series and PDF presentation for a deeper beginner-friendly walkthrough of Swift control flow.",
+                href: "https://www.linkedin.com/feed/update/urn:li:activity:7454344057922957312/",
+                buttonText: "Open control flow deep dive"
+            }
+        ],
+        highlight: "Control flow is your program's traffic system: choose a path, repeat work, skip a step, stop early, or clean up before leaving."
     },
     {
         part: "Part 5",
@@ -3599,7 +3987,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 2;
+        const isLocked = index > 3;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
