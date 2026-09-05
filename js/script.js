@@ -2359,25 +2359,212 @@ default:
     },
     {
         part: "Part 5",
-        title: "Loops",
-        intro: "Loops repeat work. In Swift, beginners use `for-in` most often because it reads clearly and works well with ranges and collections.",
+        title: "Loops Deep Dive",
+        intro: "Loops let Swift repeat a small piece of code without copying it again and again. Think of a loop as a simple flow: choose what you want to go through, run the code body, move to the next step, then stop when the work is done. Beginners should master `for-in`, `while`, and `repeat-while` first, then learn `break`, `continue`, `where`, ranges, `stride`, and `enumerated()` as practical tools for real app code.",
         sections: [
-            ["for-in", ["Use `for-in` to repeat code for each item.", "Ranges like `1...5` include the last number.", "Ranges like `1..<5` stop before the last number."]],
-            ["while", ["Use `while` when you do not know the exact number of repetitions in advance.", "The condition is checked before each loop run.", "Make sure the condition eventually changes, or the loop may never stop."]],
-            ["break and continue", ["`break` exits the loop immediately.", "`continue` skips the current iteration and moves to the next one.", "Use both sparingly so loops stay easy to follow."]]
+            ["Core Idea", [
+                "A loop has three mental parts: the source, the body, and the stop rule.",
+                "The source tells Swift where values come from, such as an array, range, async stream, or changing condition.",
+                "The body is the code that runs each time, so keep it small and easy to scan.",
+                "The stop rule decides when the loop is finished; make it obvious so the code is easy to trust."
+            ]],
+            ["Usage", [
+                "Use `for-in` when you already have items to go through, such as products, files, rows, or numbers in a range.",
+                "Use `while` when the loop depends on a condition that changes over time, such as retrying a request or waiting for valid input.",
+                "Use `repeat-while` when the body must run at least once before Swift checks the condition.",
+                "Use `break` when the job is done early, and use `continue` when only the current item should be skipped."
+            ]]
         ],
         examples: [
             {
-                label: "Loop over values",
+                label: "for-in over an Array",
                 language: "swift",
-                code: `let names = ["Ana", "Ben", "Mia"] // array of names
+                code: `let names = ["Ana", "Ben", "Mia"]     // Array with three names
 
-for name in names {                 // loop through each name
-    print("Hi, \\(name)")           // runs once per item
-}`
+for name in names {                     // Take one name at a time from the array
+    print("Hi, \\(name)")               // Runs once for Ana, once for Ben, once for Mia
+}
+
+// Flow:
+// 1. name becomes "Ana", then the body runs.
+// 2. name becomes "Ben", then the body runs again.
+// 3. name becomes "Mia", then the body runs again.
+// 4. No names are left, so the loop stops.`
+            },
+            {
+                label: "for-in with Ranges",
+                language: "swift",
+                code: `for number in 1...5 {                  // Closed range: includes 1, 2, 3, 4, and 5
+    print(number)                      // Real use: show page numbers from 1 through 5
+}
+
+for index in 0..<5 {                   // Half-open range: includes 0, 1, 2, 3, and 4
+    print("Cell \\(index)")            // Real use: work with zero-based indexes
+}
+
+// Remember:
+// 1...5 includes the last number.
+// 1..<5 stops before the last number.
+// Half-open ranges are common with indexes because many collections start at 0.`
+            },
+            {
+                label: "for-in over a Dictionary",
+                language: "swift",
+                code: `let scores = ["Ana": 90, "Ben": 82]    // Dictionary: name is the key, score is the value
+
+for (name, score) in scores {          // Read each key-value pair from the dictionary
+    print("\\(name): \\(score)")       // Real use: render labels and values from stored data
+}
+
+// Dictionary order is not the main idea.
+// Use dictionaries when lookup by key matters more than position.`
+            },
+            {
+                label: "for-in with where",
+                language: "swift",
+                code: `let files = ["photo.png", "notes.txt", "avatar.png"] // Files selected by a user
+
+for file in files where file.hasSuffix(".png") { // Loop only over files that pass the filter
+    print("Upload \\(file)")                     // Real use: upload only allowed image files
+}
+
+// The where clause keeps the condition beside the loop.
+// It reads like: for each file in files, but only where the file ends with .png.`
+            },
+            {
+                label: "while Loop",
+                language: "swift",
+                code: `var retryCount = 0                    // Number of attempts made so far
+let maxRetries = 3                    // Highest number of attempts we allow
+
+while retryCount < maxRetries {       // Check the condition before every loop run
+    retryCount += 1                   // Change the value so the loop can eventually stop
+    print("Retry \\(retryCount)")      // Real use: retry a failed request a limited number of times
+}
+
+// Use while when you do not know the exact number of repetitions in advance.
+// Remember it like this: check first, run only while the condition is true.`
+            },
+            {
+                label: "repeat-while Loop",
+                language: "swift",
+                code: `var pin = ""                          // User has not entered a PIN yet
+
+repeat {                                // Run the body at least once
+    pin = "1234"                        // Real use: ask the user for input
+    print("Check PIN")                  // This runs before the condition is checked
+} while pin.isEmpty                     // Repeat only if the PIN is still empty
+
+// Use repeat-while when one attempt should always happen.
+// Remember it like this: run first, check after.`
+            },
+            {
+                label: "for await over Async Values",
+                language: "swift",
+                code: `func listenForMessages(stream: AsyncStream<String>) async {
+    for await message in stream {       // Wait for each new async value as it arrives
+        print("New message: \\(message)") // Real use: read live chat, notifications, or server events
+    }
+}
+
+// This is the async version of for-in.
+// You will use it later when learning Swift concurrency.`
+            },
+            {
+                label: "break and continue",
+                language: "swift",
+                code: `let userIds = [10, 20, 30]            // Values we want to search
+
+for id in userIds {                      // Check each id one by one
+    if id == 20 {                        // Found the id we needed
+        print("Found user")              // Real use: stop after finding a match
+        break                            // Exit the whole loop immediately
+    }
+}
+
+let uploads = ["photo.png", "draft.txt"] // Files selected by user
+
+for file in uploads {                    // Visit each file one by one
+    if file.hasSuffix(".txt") {          // Text files are not allowed here
+        continue                         // Skip this item only and move to the next file
+    }
+
+    print("Upload \\(file)")             // Runs only for files that were not skipped
+}
+
+// break means: stop the loop now.
+// continue means: skip this turn, then keep looping.`
+            },
+            {
+                label: "Advanced Loops",
+                language: "swift",
+                code: `for _ in 1...3 {                       // Use _ when you do not need the loop value
+    print("Show loading dot")          // Real use: repeat a visual effect three times
+}
+
+for (index, name) in names.enumerated() { // Get position and value together
+    print("\\(index + 1). \\(name)")      // Real use: render numbered rows
+}
+
+for (index, name) in names.enumerated() where index < 2 { // Combine position with filtering
+    print("Top user: \\(name)")          // Real use: show only the first featured items
+}
+
+for number in stride(from: 0, through: 10, by: 2) { // Count by 2: 0, 2, 4, 6, 8, 10
+    print(number)                      // Real use: build stepped values for a slider or chart
+}
+
+for number in stride(from: 10, through: 0, by: -2) { // Count down by 2: 10, 8, 6, 4, 2, 0
+    print(number)                      // Real use: countdowns, reverse progress, or decreasing values
+}
+
+for name in names.reversed() {          // Walk through the array from last to first
+    print(name)                         // Real use: show newest items first when data is already ordered
+}
+
+for name in names.sorted() {            // Sort first, then loop through the sorted result
+    print(name)                         // Real use: show names alphabetically
+}
+
+let activeNames = names.filter { !$0.isEmpty } // Build a filtered array before looping
+for name in activeNames {                      // Loop through already-clean data
+    print("Active: \\(name)")                  // Real use: keep the loop body focused
+}
+
+// These are still loops over sequences.
+// The helper changes the sequence before the loop body runs.`
+            },
+            {
+                label: "Common Mistakes",
+                language: "swift",
+                code: `// Mistake 1: creating an infinite while loop.
+var count = 0
+while count < 3 {
+    count += 1                         // Without this update, count stays 0 forever
+}
+
+// Mistake 2: using indexes when you only need values.
+for name in names {                    // Cleaner than looping over 0..<names.count
+    print(name)                        // Less code, fewer index mistakes
+}
+
+// Mistake 3: hiding too much logic inside one loop.
+// If the loop becomes hard to read, move part of the work into a clearly named function.`
             }
         ],
-        highlight: "Loops are for repeated patterns. Keep each loop small and obvious."
+        bonusLinks: [
+            {
+                label: "Bonus: Swift Loops Tutorial",
+                text: "Use Apple's Control Flow guide as the best reference for Swift loops, ranges, while loops, repeat-while, break, and continue.",
+                href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow/",
+                buttonText: "Open loops guide"
+            }
+        ],
+        interviewCase: {
+            question: "When should you choose `for-in` instead of `while`?",
+            answer: "Use `for-in` when you already have a clear sequence, such as an array, dictionary, range, or async stream. Use `while` when the loop should continue until a changing condition becomes false."
+        },
+        highlight: "Loops are for repeated work. Choose a clear source, keep the body small, and make the stop rule obvious."
     },
     {
         part: "Part 6",
@@ -3987,7 +4174,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 3;
+        const isLocked = index > 4;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
@@ -4042,22 +4229,24 @@ function renderCoreSwiftParts() {
             panel.appendChild(block);
         });
 
-        const grid = document.createElement("div");
-        grid.className = "talk-grid";
-        part.sections.forEach(([heading, items]) => {
-            const section = document.createElement("div");
-            const h3 = document.createElement("h3");
-            h3.textContent = heading;
-            const list = document.createElement("ul");
-            items.forEach(item => {
-                const li = document.createElement("li");
-                appendFormattedText(li, item);
-                list.appendChild(li);
+        if (part.sections.length > 0) {
+            const grid = document.createElement("div");
+            grid.className = "talk-grid";
+            part.sections.forEach(([heading, items]) => {
+                const section = document.createElement("div");
+                const h3 = document.createElement("h3");
+                h3.textContent = heading;
+                const list = document.createElement("ul");
+                items.forEach(item => {
+                    const li = document.createElement("li");
+                    appendFormattedText(li, item);
+                    list.appendChild(li);
+                });
+                section.append(h3, list);
+                grid.appendChild(section);
             });
-            section.append(h3, list);
-            grid.appendChild(section);
-        });
-        panel.appendChild(grid);
+            panel.appendChild(grid);
+        }
 
         if (part.interviewCase) {
             const interview = document.createElement("div");
