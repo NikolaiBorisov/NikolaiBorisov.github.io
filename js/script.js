@@ -2569,24 +2569,335 @@ for name in names {                    // Cleaner than looping over 0..<names.co
     {
         part: "Part 6",
         title: "Functions",
-        intro: "Functions let you name reusable behavior. A good function has a clear job, clear inputs, and a clear output.",
+        intro: "Functions are named blocks of code that define a specific behavior or perform a specific task. They let you take a useful action, give it a clear name, and reuse it anywhere your app needs that job. Think of a function as a small tool: it can receive input, do work inside its body, and optionally return a result. Beginners should learn to read every function by asking: what is its job, what does it need, what does it return, and where can its values be used?",
         sections: [
-            ["Parameters and Returns", ["Parameters are values the function receives.", "`return` sends a value back to the caller.", "If a function returns nothing, its return type is `Void`, usually written by omission."]],
-            ["Argument Labels", ["Swift function calls often read like sentences.", "The external label is used at the call site.", "The internal name is used inside the function body."]],
-            ["Beginner Habits", ["Make functions small enough to explain in one sentence.", "Use names that describe behavior, such as `calculateTotal`.", "Avoid hiding many unrelated actions inside one function."]]
+            ["Naming", [
+                "Name functions with verbs or verb phrases because a function describes an action or a task it performs.",
+                "Good names explain the job: `calculateTotal`, `sendLoginRequest`, `formatPrice`.",
+                "Weak names hide the job: `doStuff`, `handleData`, `process`.",
+                "If a name needs a long explanation, the function is probably doing too much."
+            ]],
+            ["Parameters and Arguments", [
+                "A parameter is the placeholder written in the function definition.",
+                "An argument is the real value passed when the function is called.",
+                "External parameter names make the call site read clearly.",
+                "Internal parameter names make the function body read clearly."
+            ]],
+            ["Scope and Body", [
+                "The function body is the code between `{` and `}`.",
+                "Values created inside a function live only inside that function scope.",
+                "`return` sends a value back to the caller.",
+                "If a function returns nothing, Swift treats it as returning `Void`."
+            ]]
         ],
         examples: [
             {
-                label: "Function with a result",
+                label: "Function Structure and Body",
                 language: "swift",
-                code: `func greeting(for name: String) -> String { // receives a name, returns text
-    return "Hi, \\(name)"                    // output of the function
+                code: `// func is the Swift keyword used to declare a function.
+// Structure: access level + func + name + parameters + return type + body
+internal func calculateTotal(price: Int, quantity: Int) -> Int { // internal is the default access level in Swift
+    let total = price * quantity                                // Function body: code that belongs to this function
+    return total                                                // Sends the Int result back to the caller
+}                                                               // Function scope ends here
+
+let finalPrice = calculateTotal(price: 20, quantity: 3)         // Arguments: real values passed into parameters
+
+// Access levels you will see:
+// public: code outside the module can use it.
+// internal: code inside the same module can use it.
+// private: only the surrounding scope can use it.
+// fileprivate: only the same file can use it.
+// open: public, and subclasses outside the module can override it.
+
+// Naming rule:
+// Good: calculateTotal(price:quantity:) because it clearly describes what the function does.
+// Bad: calculate() because it doesn't tell the reader what is being calculated.`
+            },
+            {
+                label: "Simple Function",
+                language: "swift",
+                code: `func showWelcomeMessage() {                 // Function with no parameters and no return value
+    print("Welcome")                         // Work done when the function is called
+}                                            // Body ends here
+
+showWelcomeMessage()                         // Call the function to run its body
+
+// Think of this as a named command.
+// Use it when the same action may happen in more than one place.`
+            },
+            {
+                label: "Function with Parameters",
+                language: "swift",
+                code: `func greet(name: String) {                  // name is a parameter: the function needs a String
+    print("Hi, \\(name)")                    // Use the parameter inside the function body
+}                                            // The parameter stops existing after this brace
+
+greet(name: "Neo")                           // "Neo" is an argument: the real value passed in
+
+// Parameter = placeholder in the function definition.
+// Argument = real value at the call site.`
+            },
+            {
+                label: "Function with a Return Value",
+                language: "swift",
+                code: `func greeting(for name: String) -> String { // Receives a name and promises to return a String
+    let text = "Hi, \\(name)"                 // Create the value this function will return
+    return text                              // Return sends the value back to the caller
+}                                            // Function ends after returning a String
+
+let message = greeting(for: "Neo")           // Store the returned String in a constant
+print(message)                               // Use the returned value later
+
+// Think of this as a question with an answer.
+// The call produces a value, so you can store it, print it, or pass it onward.`
+            },
+            {
+                label: "External and Internal Parameter Names",
+                language: "swift",
+                code: `func move(from start: String, to end: String) { // from and to are external names at the call site
+    print("Move from \\(start) to \\(end)")     // start and end are internal names inside the body
+}                                             // Function body ends here
+
+move(from: "Login", to: "Home")               // Call reads like a sentence
+
+// External name: what callers see.
+// Internal name: what the function body uses.
+// Swift uses this to make function calls expressive and readable.`
+            },
+            {
+                label: "Omit External Parameter Name",
+                language: "swift",
+                code: `func square(_ number: Int) -> Int {          // _ removes the external argument label
+    return number * number                    // Return the number multiplied by itself
+}                                             // Function body ends here
+
+let result = square(4)                        // Call is shorter because there is no label before 4
+
+// Use _ only when the value is obvious from the function name.
+// Good: square(4)
+// Often worse: save("Neo") because save what?`
+            },
+            {
+                label: "Default Parameter Value",
+                language: "swift",
+                code: `func makeButtonTitle(_ title: String, isLoading: Bool = false) -> String { // isLoading has a default
+    if isLoading {                                             // Check whether the button is busy
+        return "Loading..."                                    // Return loading text when work is in progress
+    }                                                          // End loading branch
+
+    return title                                               // Return the normal title when not loading
+}                                                              // Function body ends here
+
+let normal = makeButtonTitle("Send")                           // Uses default isLoading: false
+let loading = makeButtonTitle("Send", isLoading: true)         // Overrides the default value
+
+// Default parameters keep simple calls short.
+// They also let callers opt into extra behavior only when needed.`
+            },
+            {
+                label: "Function with guard",
+                language: "swift",
+                code: `func submit(email: String?) {               // email is optional: it may contain a String or nil
+    guard let email else {                    // Make sure email exists before continuing
+        print("Show email error")             // Explain what is missing
+        return                                // Exit early because submit cannot continue
+    }                                         // After guard, email is a real String
+
+    print("Submit \\(email)")                 // Runs only when email exists
+}                                             // Function body ends here
+
+submit(email: "neo@example.com")              // Valid input reaches submit logic
+submit(email: nil)                            // Missing input exits early
+
+// Use guard when the rest of the function requires a valid value.
+// It keeps the main path less nested and easier to read.`
+            },
+            {
+                label: "inout Parameter",
+                language: "swift",
+                code: `func applyDiscount(to price: inout Double) { // inout means this function can change the caller's value
+    price = price * 0.9                       // Update the original value by applying 10% off
+}                                             // Function body ends here
+
+var cartTotal = 100.0                         // var is required because the value will change
+applyDiscount(to: &cartTotal)                 // & shows that cartTotal can be modified by the function
+
+// Use inout rarely.
+// Prefer returning a new value unless changing the original value is clearer.`
+            },
+            {
+                label: "Function as a Value",
+                language: "swift",
+                code: `func formatName(_ name: String) -> String { // Function receives a String and returns a String
+    return name.uppercased()                  // Transform the text into uppercase
+}                                             // Function body ends here
+
+let formatter: (String) -> String = formatName // Store the function itself in a constant
+let displayName = formatter("Neo")             // Call the stored function through the constant
+
+// Functions can be values in Swift.
+// This becomes useful for callbacks, sorting, mapping, and dependency injection.`
+            },
+            {
+                label: "Advanced: Throwing Function",
+                language: "swift",
+                code: `enum LoginError: Error {                    // Error type for login problems
+    case emptyPassword                       // Case for one specific failure
+}                                            // Enum body ends here
+
+func validate(password: String) throws -> String { // throws means the function can fail with an error
+    if password.isEmpty {                          // Check invalid input
+        throw LoginError.emptyPassword             // Stop and send an error to the caller
+    }                                              // End failure check
+
+    return password                                // Return valid password when there is no error
+}                                                  // Function body ends here
+
+do {                                               // Start error-handling scope
+    let password = try validate(password: "swift123") // try marks the call that can throw
+    print(password)                                // Runs only when validation succeeds
+} catch {                                          // Runs if validate throws an error
+    print("Show password error")                   // Real use: show a helpful message to the user
+}                                                  // Error-handling scope ends here
+
+// Use throwing functions when failure is part of the function's job.
+// The caller must handle success and failure clearly.`
+            },
+            {
+                label: "Advanced: Async Function",
+                language: "swift",
+                code: `func loadProfileName() async -> String {    // async means the function may wait for work to finish
+    return "Neo"                              // Pretend this value came from a server
+}                                             // Function body ends here
+
+Task {                                        // Start asynchronous work from regular code
+    let name = await loadProfileName()        // await pauses until the async function returns
+    print("Profile: \\(name)")                // Runs after the name is loaded
+}                                             // Task body ends here
+
+// Use async functions for work that takes time.
+// Real examples: network requests, database reads, file loading, or delays.`
+            },
+            {
+                label: "Function Syntax Sugar",
+                language: "swift",
+                code: `func isAdult(_ age: Int) -> Bool {          // _ removes the external label because isAdult(20) reads clearly
+    age >= 18                                // Single-expression functions can return without writing return
+}                                            // Function body ends here
+
+let canVote = isAdult(20)                    // Short call because the external label was omitted
+
+func greet(_ name: String = "Guest") {       // Default value makes the argument optional at the call site
+    print("Hi, \\(name)")                    // Uses the passed name or the default value
+}                                            // Function body ends here
+
+greet()                                      // Uses default value: "Guest"
+greet("Neo")                                 // Overrides the default value
+
+func sum(_ numbers: Int...) -> Int {         // ... makes a variadic parameter: accept many Int values
+    numbers.reduce(0, +)                     // Add all values from the numbers array
+}                                            // Function body ends here
+
+let total = sum(2, 4, 6)                     // Call with as many numbers as needed
+
+let names = ["Mia", "Ana", "Ben"]            // Array that we want to sort
+let sortedNames = names.sorted { $0 < $1 }   // Trailing closure with shorthand names $0 and $1
+
+func animate(duration: Double, animations: () -> Void) { // Function receives another function as a parameter
+    print("Start animation")                 // Real use: setup work before animation
+    animations()                             // Run the function passed by the caller
+}                                            // Function body ends here
+
+animate(duration: 0.3) {                     // Trailing closure keeps the call clean
+    print("Fade button")                     // Code passed into the animations parameter
+}                                            // Closure body ends here
+
+// Use syntax sugar when it makes the call easier to read.
+// Avoid it when shorter code becomes harder for beginners to understand.`
+            },
+            {
+                label: "Clear Function Checklist",
+                language: "swift",
+                code: `// 1. Start with the job.
+// Ask: what problem should this function solve?
+// Example job: calculate a total price, validate a form, format text, load data, save a draft.
+
+// 2. Decide where the function should be used.
+// public: other modules can use it.
+// internal: only this app/module can use it.
+// private: only this type or scope can use it.
+// Beginner rule: keep functions private until other code really needs them.
+
+// 3. Give the function a clear verb name.
+// Good: calculateTotal(price:quantity:)
+// Good: validate(email:)
+// Good: formatDisplayName(firstName:lastName:)
+// Bad: doWork()
+// Bad: handle()
+// Bad: calculate()
+
+// 4. Choose the inputs.
+// Ask: what values does the function need to do the job?
+// These values become parameters with clear names and types.
+func calculateTotal(price: Double, quantity: Int) -> Double {
+    let total = price * Double(quantity)      // Body: write the logic step by step
+    return total                              // Output: send the calculated value back
 }
 
-let text = greeting(for: "Neo")             // call the function`
+// 5. Choose external and internal parameter names.
+// External names make the call site read well.
+// Internal names make the body easy to understand.
+func sendMessage(_ text: String, to recipient: String) {
+    print("Send \\(text) to \\(recipient)")   // text and recipient are internal names
+}
+
+sendMessage("Hi", to: "Neo")                 // The call reads naturally
+
+// 6. Choose the return type.
+// Return Int, Double, String, Bool, an array, a model, or any value the caller needs.
+// Return Bool when the answer is yes/no.
+// Return a collection when the result is many values.
+// Return Void when the function performs an action and does not need to give back a value.
+
+// 7. Keep the body focused.
+// One function should do one clear job.
+// If the body becomes long, split helper steps into smaller named functions.
+
+// 8. Think about failure.
+// Use guard for missing required values.
+// Use optional return when "no result" is normal.
+// Use throws when failure must be handled by the caller.
+
+// 9. Read the function like a sentence.
+// calculateTotal(price:quantity:) -> calculates a Double.
+// validate(email:) -> returns whether an email is valid.
+// loadProfileName() async -> waits for profile data and returns a String.
+
+// Remember it like this:
+// A function is a named tool with input, logic, and output.
+// Good function = clear name + clear parameters + clear body + clear result.`
             }
         ],
-        highlight: "Functions turn repeated code into named ideas."
+        interviewCase: {
+            question: "What is the difference between a parameter and an argument?",
+            answer: "A parameter is the named placeholder in the function definition, such as `name` in `func greet(name: String)`. An argument is the real value you pass at the call site, such as `\"Neo\"` in `greet(name: \"Neo\")`."
+        },
+        bonusLinks: [
+            {
+                label: "Bonus: Swift Functions",
+                text: "Use Apple's Functions chapter when you want the full reference for parameters, return values, argument labels, default values, variadic parameters, inout, and function types.",
+                href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/",
+                buttonText: "Open functions guide"
+            },
+            {
+                label: "Bonus: Swift Function Breakdown",
+                text: "Use this breakdown as a compact visual reference for reading a Swift function signature and understanding each part.",
+                href: "https://lnkd.in/p/gNtTXAyQ",
+                buttonText: "Open function breakdown"
+            }
+        ],
+        highlight: "Functions turn repeated code into named tools: clear input, clear job, clear output."
     },
     {
         part: "Part 7",
@@ -4174,7 +4485,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 4;
+        const isLocked = index > 5;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
