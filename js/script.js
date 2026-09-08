@@ -2902,25 +2902,208 @@ sendMessage("Hi", to: "Neo")                 // The call reads naturally
     {
         part: "Part 7",
         title: "Collections",
-        intro: "Collections store multiple values. Swift gives beginners three important collection types: `Array`, `Dictionary`, and `Set`.",
+        intro: "A single value describes one thing; a collection lets you work with a whole group: songs in a playlist, users indexed by ID, or a set of selected tags. The useful question is not just “how do I store these values?” but “how will I find, change, and present them?” Swift’s three everyday choices answer different needs: `Array` preserves order and duplicates, `Dictionary` connects unique keys to values, and `Set` keeps unique members. Think of a playlist, labeled lockers, and a guest list. Choosing the right shape makes your intent clearer and avoids unnecessary searching or duplicate checks. Each collection has defined element types, and `var` or `let` controls whether you can change the collection value. Start with the three core types, practice safe access and transformations, then explore the wider collection family below.",
         sections: [
-            ["Array", ["An `Array` stores ordered values.", "Use arrays for lists where position matters.", "Access items by index, but remember indexes start at `0`."]],
-            ["Dictionary", ["A `Dictionary` stores values by key.", "Use dictionaries when you want to look something up by name, id, or code.", "Dictionary lookup returns an optional because the key may not exist."]],
-            ["Set", ["A `Set` stores unique values.", "Use sets when duplicates should be impossible.", "Sets are useful for selected ids, tags, and fast membership checks."]]
+            ["Choose by the question you ask", ["“What comes next?” → `Array`: ordered elements, repeated values allowed, direct indexed access.", "“What belongs to this ID?” → `Dictionary`: unique `Hashable` keys, optional lookup, no promised iteration order.", "“Have I already seen this?” → `Set`: unique `Hashable` elements, membership checks, no promised iteration order."]],
+            ["Performance that matters", ["Array indexed access is O(1); searching with `contains` is O(n). Appending is amortized O(1), while insertion or removal near the front shifts elements and is O(n).", "Dictionary lookup and Set membership are expected O(1) with good hashing; collisions can degrade operations to O(n). Hashing and equality also have a cost.", "Sorting generally costs O(n log n). Sort explicitly for presentation; converting an array to a set discards its ordering."]],
+            ["Safe access and predictable changes", ["Use `first`, `last`, or a bounds check when an array may be empty or an index may be invalid. An invalid array subscript traps.", "Use `if let` or a meaningful fallback for a missing dictionary key. Missing data is not always the same thing as zero.", "Do not remove elements from a collection while traversing its saved indices. Prefer `filter` or a suitable mutation method such as `removeAll(where:)`."]],
+            ["The wider Swift collection family", ["The examples cover the core containers plus `ArraySlice`, `ContiguousArray`, integer ranges, `String`, `Substring`, type erasure, and lazy or reversed views. This is a practical map, not an exhaustive list of every conforming type.", "`Collection` refines `Sequence` with indexed, repeatable traversal; `BidirectionalCollection` adds backward traversal and `RandomAccessCollection` adds efficient index movement. Do not assume every collection uses integer indices.", "Tuples group a fixed number of fields and are not collections. Foundation types and the separately installed Swift Collections package belong to the wider ecosystem; they are not required for these examples."]]
         ],
         examples: [
             {
-                label: "Three collection types",
+                label: "1. Choose the shape of your data",
                 language: "swift",
-                code: `let names = ["Ana", "Ben"]          // Array keeps order
-let scores = ["Ana": 90, "Ben": 82] // Dictionary uses keys
-let selectedIds: Set<Int> = [1, 3, 5] // Set keeps unique values
-
-print(names[0])                       // first array item
-print(scores["Ana"] ?? 0)             // fallback if key is missing`
+                code: `// Imagine building a music app: each feature needs a different way to organize values.
+let playlist: [String] = ["Intro", "Home", "Home"] // Array: playback order matters; repeats are allowed.
+let tracksByID: [Int: String] = [101: "Intro", 102: "Home"] // Dictionary: each unique ID finds a title.
+let favorites: Set<Int> = [101, 102, 101] // Set: favorite IDs are unique, so this holds two IDs.
+print(playlist.count) // Prints 3 because an array counts repeated entries too.
+print(tracksByID[102] ?? "Unknown track") // Prints Home; ?? supplies a value if the key is absent.
+print(favorites.contains(101)) // Prints true: ask about membership without needing a position.
+let emptyQueue: [String] = [] // An empty literal needs enough context to know its element type.
+let emptyCatalog: [Int: String] = [:] // [:] creates an empty dictionary, with key and value types here.
+let emptyFavorites = Set<Int>() // Create an empty set; [] alone would normally infer an array.`
+            },
+            {
+                label: "2. Array — think of a playlist with numbered positions",
+                language: "swift",
+                code: `// Imagine adding songs, changing one entry, and removing the last song.
+var songs = ["Intro", "Home", "Home"] // var lets us change this array of String values.
+songs.append("Finale") // Add at the end: ["Intro", "Home", "Home", "Finale"].
+songs.insert("Interlude", at: 1) // Insert at a valid position; later elements shift right.
+songs[0] = "Opening" // Replace the first entry; index 0 is valid in this nonempty array.
+let removed = songs.removeLast() // Remove and return Finale; this requires a nonempty array.
+print(songs.first ?? "Nothing queued") // first returns an optional, so this also handles an empty array.
+let requestedIndex = 20 // Imagine receiving a row index from somewhere else in the app.
+if songs.indices.contains(requestedIndex) { // Validate the index before using an array subscript.
+    print(songs[requestedIndex]) // Runs only for a valid index; subscripts do not return nil on failure.
+} // End the bounds check; index 20 is absent, so nothing was printed here.
+for (offset, song) in songs.enumerated() { // Read a zero-based counter and the value on each iteration.
+    print("\\(offset + 1). \\(song)") // Show user-facing numbers starting at 1.
+} // End the loop; enumerated offsets are not general-purpose collection indices.
+songs.removeAll() // Empty the playlist while keeping its [String] type.
+print(songs.isEmpty) // Prints true; use isEmpty when you only need to know whether anything exists.`
+            },
+            {
+                label: "3. Dictionary — think of labeled lockers",
+                language: "swift",
+                code: `// Imagine each username labels a locker containing that player's score.
+var scores: [String: Int] = ["Ana": 90, "Ben": 82] // Keys are unique; different keys may hold equal values.
+scores["Ana"] = 95 // Replace the value under an existing key.
+scores["Mia"] = 88 // Add a new key and its value.
+if let score = scores["Ana"] { // Unwrap the optional lookup only when this key exists.
+    print(score) // Prints 95 as an Int, not an optional.
+} // End the successful-lookup branch.
+print(scores["Zoe"] ?? 0) // Prints 0 as a display fallback; this does not insert Zoe.
+scores["Zoe", default: 0] += 10 // Start a missing score at 0, then store the incremented value 10.
+let previous = scores.updateValue(100, forKey: "Ana") // Store 100 and return the old value as Int?.
+print(previous ?? 0) // Prints 95, the score before the update.
+scores["Ben"] = nil // Assigning nil through this subscript removes Ben's entry.
+for name in scores.keys.sorted() { // Sort the keys explicitly when display order matters.
+    print("\\(name): \\(scores[name] ?? 0)") // Look up each score in alphabetical username order.
+} // End the loop; a dictionary itself promises no insertion or sorted order.`
+            },
+            {
+                label: "4. Set — think of a guest list with no duplicate invitations",
+                language: "swift",
+                code: `// Imagine comparing the people invited to two events.
+var morning: Set<String> = ["Ana", "Ben", "Ana"] // Duplicate Ana collapses into a single member.
+let evening: Set<String> = ["Ben", "Mia"] // Set elements must be Hashable; String already is.
+let invitation = morning.insert("Mia") // Insert Mia and receive a tuple describing the result.
+print(invitation.inserted) // Prints true because Mia was not already in morning.
+print(morning.insert("Mia").inserted) // Prints false: inserting a duplicate does not grow the set.
+morning.remove("Mia") // Remove Mia so morning is back to Ana and Ben.
+print(morning.contains("Ana")) // Prints true; membership is the main question a set answers.
+print(morning.union(evening).sorted()) // All invitees: ["Ana", "Ben", "Mia"], sorted for display.
+print(morning.intersection(evening).sorted()) // Shared invitees: ["Ben"].
+print(morning.subtracting(evening).sorted()) // Morning only: ["Ana"].
+print(morning.symmetricDifference(evening).sorted()) // In exactly one event: ["Ana", "Mia"].
+print(morning.isSubset(of: morning.union(evening))) // Prints true: every morning guest is in the union.`
+            },
+            {
+                label: "5. Transform collections — a small data pipeline",
+                language: "swift",
+                code: `// Imagine prices arriving as text and becoming a useful total.
+let rawPrices = ["12", "sold out", "8", "20"] // Start with four String values from a data source.
+let prices = rawPrices.compactMap { Int($0) } // Convert text to Int and discard failed conversions: [12, 8, 20].
+let affordable = prices.filter { $0 <= 12 } // Keep matching prices: [12, 8]; $0 is the current element.
+let labels = affordable.map { "$\\($0)" } // Transform every remaining price: ["$12", "$8"].
+let total = affordable.reduce(0) { $0 + $1 } // Fold into 20; $0 is the running total and $1 the next price.
+let ascending = prices.sorted() // Return [8, 12, 20] without changing prices.
+let rows = [[1, 2], [3, 4]] // A nested array can represent rows of values.
+let flattened = rows.flatMap { $0 } // Flatten one level into [1, 2, 3, 4].
+let grouped = Dictionary(grouping: prices) { $0 <= 12 ? "budget" : "premium" } // Group prices by a derived key.
+print(grouped["budget"] ?? []) // Prints [12, 8]; each dictionary value is an array.
+let uniquePrices = Set(prices) // Convert to a set when uniqueness matters and order does not.
+print(uniquePrices.sorted()) // Convert back to a sorted array for predictable presentation.`
+            },
+            {
+                label: "6. Value semantics — a separate playlist after editing",
+                language: "swift",
+                code: `// Think of sharing a snapshot of a playlist, then editing your own copy.
+let original = ["Intro", "Home"] // let prevents changing the contents of this array value.
+var edited = original // Assign an independent array value; storage may be shared until a write.
+edited.append("Finale") // Copy-on-write preserves the original when this value changes.
+print(original) // Prints ["Intro", "Home"].
+print(edited) // Prints ["Intro", "Home", "Finale"].
+// Array, Dictionary, and Set have value semantics; copying them does not deep-copy class instances.
+final class Track { // Define a reference type to make that distinction visible.
+    var title = "Demo" // This property belongs to the shared Track object.
+} // End the class definition.
+let firstList = [Track()] // The constant array holds one reference to a mutable object.
+let secondList = firstList // Copy the array value; both arrays still reference the same Track.
+secondList[0].title = "Remix" // Change the object, without replacing an array element.
+print(firstList[0].title) // Prints Remix because the referenced object is shared.`
+            },
+            {
+                label: "7. ArraySlice and ranges — work with part of a collection",
+                language: "swift",
+                code: `// Imagine showing a preview of the middle of a list.
+let numbers = [10, 20, 30, 40, 50] // An Array uses zero-based Int indices.
+let preview: ArraySlice<Int> = numbers[1..<4] // A half-open range selects indices 1, 2, 3: [20, 30, 40].
+print(preview.startIndex) // Prints 1: a slice preserves indices from its source array.
+print(preview[preview.startIndex]) // Prints 20; preview[0] would be invalid.
+let standalone = Array(preview) // Materialize a new zero-based array for independent long-term storage.
+print(standalone[0]) // Prints 20; index 0 belongs to this new array.
+let pageIndices: Range<Int> = 0..<3 // Include 0, 1, 2 but exclude the upper bound 3.
+let ratings: ClosedRange<Int> = 1...5 // Include both endpoints: ratings 1 through 5.
+for rating in ratings { // Int ranges can be iterated without first building an array.
+    print(rating) // Prints each rating in ascending order.
+} // End the range loop.
+print(Array(pageIndices)) // Materialize [0, 1, 2] only when an actual array is useful.
+// A small slice can retain the original array's storage; avoid keeping it around unnecessarily.`
+            },
+            {
+                label: "8. String and Substring — collections of characters",
+                language: "swift",
+                code: `// Imagine reading a greeting that contains an emoji.
+let greeting = "Hi 👋" // String is a collection of Character values, including extended grapheme clusters.
+let firstIndex = greeting.startIndex // String uses String.Index, not integer offsets for subscripting.
+print(greeting[firstIndex]) // Prints H; greeting is known to be nonempty here.
+let nextIndex = greeting.index(after: firstIndex) // Move to the next character boundary safely.
+print(greeting[nextIndex]) // Prints i; do not assume one character means one byte.
+let prefix: Substring = greeting.prefix(2) // Take up to two characters: Hi.
+let savedPrefix = String(prefix) // Create an owned String when storing the extracted text long term.
+print(savedPrefix) // Prints Hi.
+for character in greeting { // Iterate over user-perceived characters rather than UTF-8 bytes.
+    print(character) // Prints H, i, a space, then the waving-hand emoji on separate lines.
+} // End character iteration.
+print(Array(greeting.utf8).count) // Counts UTF-8 code units; this differs from the character count.`
+            },
+            {
+                label: "9. Specialized arrays and collection views",
+                language: "swift",
+                code: `// These standard-library tools extend the basics; use them when their behavior helps.
+var samples: ContiguousArray<Double> = [0.2, 0.4] // An array-like value that guarantees contiguous element storage.
+samples.append(0.6) // Append a Double using familiar array operations.
+print(samples[0]) // Prints 0.2; ordinary Array is usually the right default.
+let flags: [Bool] = [true, false, true] // Create a normal typed array to illustrate type erasure.
+let erased: AnyCollection<Bool> = AnyCollection(flags) // Hide the concrete collection type, keeping Bool elements.
+print(erased.first ?? false) // Access through the common Collection interface.
+let reversed = flags.reversed() // Create a reversed view of this array, without mutating flags.
+print(Array(reversed)) // Materialize the view as [true, false, true].
+let doubled = [1, 2, 3].lazy.map { $0 * 2 } // Defer transformations until elements are requested.
+print(Array(doubled)) // Evaluate the lazy mapping and materialize [2, 4, 6].
+// Collection is a protocol, not a single storage type; a Sequence need not support repeated traversal.
+// Foundation collections and the separate Swift Collections package add more specialized choices.`
+            },
+            {
+                label: "10. Tuples — one record with named pieces",
+                language: "swift",
+                code: `// Think of a tuple as one scorecard, and an array as a stack of scorecards.
+let player: (name: String, score: Int) = (name: "Ana", score: 95) // One fixed-shape value with mixed field types.
+print(player.name) // Read the named String field: Ana.
+let (name, score) = player // Destructure the tuple into two local constants.
+print("\\(name): \\(score)") // Prints Ana: 95.
+let leaderboard = [player, (name: "Ben", score: 82)] // An array whose elements share the same tuple type.
+for entry in leaderboard { // Iterate the array, not the individual fields of a tuple.
+    print(entry.score) // Read the Int score from each record.
+} // End the leaderboard loop.
+// A tuple is not a Collection: it has fixed fields and no general collection iteration API.
+// Prefer a named struct when a record needs reuse, behavior, or a clearer domain identity.`
+            },
+            {
+                label: "11. Interview solution — remove duplicates without losing order",
+                language: "swift",
+                code: `// Imagine duplicate track IDs arriving from an API; keep only each ID's first appearance.
+func uniqueInOrder(_ ids: [Int]) -> [Int] { // Accept an ordered list and return an ordered list.
+    var seen = Set<Int>() // Use a set to remember IDs already encountered.
+    var result: [Int] = [] // Use an array to preserve the order of first appearances.
+    for id in ids { // Visit each input ID once, from left to right.
+        if seen.insert(id).inserted { // True only when this ID is newly added to the set.
+            result.append(id) // Keep the first occurrence in the result.
+        } // Skip repeated IDs without moving the earlier entry.
+    } // Finish scanning all input IDs.
+    return result // Return the stable, deduplicated array.
+} // End the function.
+print(uniqueInOrder([3, 1, 3, 2, 1])) // Prints [3, 1, 2], preserving first-seen order.
+print(uniqueInOrder([])) // Prints []; empty input needs no special branch.
+print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.`
             }
         ],
-        highlight: "Choose the collection based on how you need to access the data."
+        interviewCase: {"question": "An API returns [3, 1, 3, 2, 1]. How would you remove duplicates while preserving their first-seen order, and explain the complexity?", "answer": "Use a `Set` to track membership and an `Array` to build the ordered result, as in the solution above. The result is `[3, 1, 2]`. `Array(Set(ids))` removes duplicates but does not preserve the original order. Scanning once with expected constant-time set insertion gives expected O(n) time and O(k) additional space for k distinct IDs; pathological hash collisions can worsen the time. Repeatedly calling `result.contains` can take O(n²) overall. Check empty input, all duplicates, and already-unique input. Follow-up: a generic version needs an element type conforming to `Hashable`."},
+        bonusLinks: [{"label": "Bonus: Apple’s Collections Documentation", "text": "Explore Apple’s reference for collection protocols, arrays, dictionaries, sets, and the operations available on them.", "href": "https://developer.apple.com/documentation/swift/collections", "buttonText": "Open Apple collections docs"}, {"label": "Bonus: Collection Types & Tuples in Swift", "text": "Use this breakdown as a compact visual reference for reading a Swift Collection Types & Tuples  and understanding each part.", "href": "https://lnkd.in/p/g-c4VhHu", "buttonText": "Open Collection Types & Tuples"}],
+        highlight: "Choose by access pattern: Array for order, Dictionary for lookup, Set for uniqueness. Use safe access, understand value semantics, and make display order explicit."
     },
     {
         part: "Part 8",
@@ -4485,7 +4668,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 5;
+        const isLocked = index > 6;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
