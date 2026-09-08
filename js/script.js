@@ -3101,7 +3101,7 @@ print(uniqueInOrder([])) // Prints []; empty input needs no special branch.
 print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.`
             }
         ],
-        interviewCase: {"question": "An API returns [3, 1, 3, 2, 1]. How would you remove duplicates while preserving their first-seen order, and explain the complexity?", "answer": "Use a `Set` to track membership and an `Array` to build the ordered result, as in the solution above. The result is `[3, 1, 2]`. `Array(Set(ids))` removes duplicates but does not preserve the original order. Scanning once with expected constant-time set insertion gives expected O(n) time and O(k) additional space for k distinct IDs; pathological hash collisions can worsen the time. Repeatedly calling `result.contains` can take O(n²) overall. Check empty input, all duplicates, and already-unique input. Follow-up: a generic version needs an element type conforming to `Hashable`."},
+        interviewCase: {"question": "An API returns [3, 1, 3, 2, 1]. How would you remove duplicates while preserving their first-seen order, and explain the complexity?", "answer": "Use a `Set` to track IDs that have already been seen and an `Array` to store the result in order. Scan the input from left to right and append an ID only when it is inserted into the set for the first time.", "code": "var seen = Set<Int>()\nvar result: [Int] = []\n\nfor id in ids {\n    if seen.insert(id).inserted {\n        result.append(id)\n    }\n}", "explanation": ["For `[3, 1, 3, 2, 1]`, the result is `[3, 1, 2]`.", "Do not use `Array(Set(ids))` because a `Set` does not guarantee the input's original order.", "With expected constant-time set insertion, the algorithm takes **O(n)** expected time and **O(k)** additional space, where **k** is the number of distinct IDs. A generic implementation requires the element type to conform to `Hashable`."]},
         bonusLinks: [{"label": "Bonus: Apple’s Collections Documentation", "text": "Explore Apple’s reference for collection protocols, arrays, dictionaries, sets, and the operations available on them.", "href": "https://developer.apple.com/documentation/swift/collections", "buttonText": "Open Apple collections docs"}, {"label": "Bonus: Collection Types & Tuples in Swift", "text": "Use this breakdown as a compact visual reference for reading a Swift Collection Types & Tuples  and understanding each part.", "href": "https://lnkd.in/p/g-c4VhHu", "buttonText": "Open Collection Types & Tuples"}],
         highlight: "Choose by access pattern: Array for order, Dictionary for lookup, Set for uniqueness. Use safe access, understand value semantics, and make display order explicit."
     },
@@ -4754,6 +4754,20 @@ function renderCoreSwiftParts() {
             const answer = document.createElement("p");
             appendFormattedText(answer, `A: ${part.interviewCase.answer}`);
             interview.append(label, question, answer);
+            if (part.interviewCase.code) {
+                const pre = document.createElement("pre");
+                pre.className = "talk-code-block";
+                const code = document.createElement("code");
+                code.className = "language-swift";
+                code.innerHTML = highlightSwiftCode(part.interviewCase.code);
+                pre.appendChild(code);
+                interview.appendChild(pre);
+            }
+            (part.interviewCase.explanation || []).forEach(text => {
+                const paragraph = document.createElement("p");
+                appendFormattedText(paragraph, text);
+                interview.appendChild(paragraph);
+            });
             panel.appendChild(interview);
         }
 
@@ -5088,7 +5102,7 @@ ${link.href}`)
         .join("\n\n") + "\n\n" : "";
     const interview = part.interviewCase ? `Interview case:
 Q: ${part.interviewCase.question}
-A: ${plainText(part.interviewCase.answer)}
+A: ${plainText(part.interviewCase.answer)}${part.interviewCase.code ? `\n\n${part.interviewCase.code}` : ""}${(part.interviewCase.explanation || []).map(text => `\n\n${plainText(text)}`).join("")}
 
 ` : "";
 
