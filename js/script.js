@@ -3106,28 +3106,135 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         highlight: "Choose by access pattern: Array for order, Dictionary for lookup, Set for uniqueness. Use safe access, understand value semantics, and make display order explicit."
     },
     {
-        part: "Part 8",
-        title: "Optionals",
-        intro: "Optionals are one of Swift's most important safety features. An optional means a value can exist, or it can be `nil`.",
-        sections: [
-            ["Why Optionals Exist", ["Real apps have missing data: no username, no image, no token, no network response.", "Swift makes missing values visible in the type system.", "`String?` means maybe there is a string, maybe there is `nil`."]],
-            ["Safe Unwrapping", ["Use `if let` when you want to run code only if the value exists.", "Use `guard let` when the rest of the function needs the value.", "Use `??` to provide a fallback value."]],
-            ["Common Mistakes", ["Avoid force unwrap `!` while learning unless you can prove the value exists.", "Do not ignore optionals by guessing.", "Handle the nil case like a real app state, not an inconvenience."]]
-        ],
-        examples: [
+        "part": "Part 8",
+        "title": "Optionals",
+        "intro": "Imagine a profile screen before someone chooses a nickname. What should the app store? An empty string could mean they entered blank text; \"Guest\" is a display choice, not their actual name. An optional lets you represent the missing value honestly. Think of `String?` as a labeled box with two possible states: it contains a String, or it contains nothing (`nil`). The label still tells you what belongs inside. Before using the contents, decide what your app should do if the box is empty: skip an action, ask for input, return early, or show a fallback. That decision is unwrapping. Swift makes it visible in your code so missing data becomes a state you handle deliberately. A present value can still be empty, zero, false, or invalid for your app; checking presence is only the first step.",
+        "examples": [
             {
-                label: "Unwrap safely",
-                language: "swift",
-                code: `let nickname: String? = "Neo" // optional String: value or nil
-
-if let nickname {              // safely unwrap if value exists
-    print("Hi, \\(nickname)")  // use unwrapped String
-} else {                       // nil case
-    print("No nickname")       // fallback behavior
-}`
+                "label": "Optionals under the hood — two cases, one type",
+                "language": "swift",
+                "code": "// A teaching model of Swift.Optional, renamed to avoid shadowing the real type.\n// The standard library adds protocols, methods, and compiler integration.\n// Wrapped is a placeholder NAME for the type of value this optional can hold.\n// Think of a box label: choose String, and this box can hold a String or be empty.\n// <Wrapped> declares that placeholder so the same enum can work with many types.\n// TeachingOptional<String> uses String wherever Wrapped appears below.\n// TeachingOptional<Int> uses Int instead; it is a different concrete type.\n// Wrapped is not a value or a function: it does not wrap or unwrap anything.\nenum TeachingOptional<Wrapped> { // Declare an enum parameterized by a payload type.\n    case none                   // No associated value: there is nothing to extract.\n    case some(Wrapped)          // Require a payload of the chosen type: String, Int, etc.\n}                               // End of the simplified enum declaration.\nlet model = TeachingOptional<String>.some(\"Neo\") // Wrapped becomes String here.\nlet empty = TeachingOptional<String>.none        // Same type, but no String inside.\nlet count = TeachingOptional<Int>.some(42)       // Here Wrapped is Int; the payload is 42.\n// TeachingOptional<String>.some(42)             // Compile error: 42 is not a String.\n// Wrapped keeps the payload type consistent, even when the optional is empty.\n\n// These next lines use the REAL Swift.Optional provided by the standard library.\nlet nickname: String? = \"Neo\"                    // ? is shorthand for Optional<String>.\nlet explicit: Optional<String> = .some(\"Neo\")    // Same type and state, spelled out.\nlet missing: String? = nil                       // nil represents Optional.none.\nlet blank: String? = \"\"                          // .some(\"\"): a present, empty String.\nswitch nickname {                               // Inspect which enum case is present.\ncase .some(let value):                           // Match some and bind its payload.\n    print(value)                                // value is String; prints Neo.\ncase .none:                                     // Handle the state with no payload.\n    print(\"Choose a nickname\")                   // Runs only when nickname is nil.\n}                                               // Both cases have been handled.\n// Unwrapping extracts the payload from .some; it cannot extract one from .none.\n// Binding does not permanently change nickname: its type is still String?.\n// The box analogy describes states, not a separately allocated heap object."
+            },
+            {
+                "label": "Optional binding — if let and if var",
+                "language": "swift",
+                "code": "let nickname: String? = \"Neo\"            // The original value has an optional type.\nif let name = nickname {                  // Continue in this branch only for .some.\n    print(\"Hi, \\(name)\")                  // name is a non-optional String here.\n} else {                                 // No payload was available to bind.\n    print(\"Hi, Guest\")                    // Give the missing state useful behavior.\n}\nif let nickname {                        // Shorthand: reuse the original name locally.\n    print(nickname.uppercased())          // Inside this scope, nickname is String.\n}\nif var editableName = nickname {          // Bind a mutable local copy of the String.\n    editableName += \"!\"                   // This does not modify the original optional.\n    print(editableName)                   // Prints Neo!.\n}"
+            },
+            {
+                "label": "Early exit — guard let and multiple conditions",
+                "language": "swift",
+                "code": "func showScore(name: String?, text: String?) { // Both inputs can be missing.\n    guard let name, !name.isEmpty,             // Require a present, nonempty name.\n          let text, let score = Int(text),    // Require text and successful conversion.\n          score >= 0 else {                   // A present Int also needs validation.\n        print(\"Enter a name and valid score\") // Explain why this path cannot continue.\n        return                                // guard's else must leave this scope.\n    }\n    print(\"\\(name): \\(score)\")                // Both bindings remain available after guard.\n}\nshowScore(name: \"Neo\", text: \"42\")             // Prints Neo: 42.\nshowScore(name: nil, text: \"42\")               // Takes the early exit.\nshowScore(name: \"Neo\", text: \"hello\")          // Conversion returns nil; early exit.\n// guard var is also available when a mutable local binding is needed."
+            },
+            {
+                "label": "Optional chaining — reach through a value safely",
+                "language": "swift",
+                "code": "struct Profile {                           // A small model with an optional property.\n    let nickname: String?                  // A profile can exist without a nickname.\n}\nlet profile: Profile? = Profile(nickname: \"Neo\") // The profile itself is optional too.\nlet count: Int? = profile?.nickname?.count  // Each ? stops the chain if its value is nil.\nprint(count ?? 0)                          // Prints 3; count still has type Int?.\nlet absent: Profile? = nil                 // No profile is available.\nprint(absent?.nickname?.uppercased() ?? \"Guest\") // Skips access and uses Guest.\n// Chaining lets you use a payload without binding a local non-optional value.\n// It propagates absence; it does not make the final result non-optional.\n// An already optional property does not gain an extra layer just from chaining."
+            },
+            {
+                "label": "Nil coalescing — choose a meaningful fallback",
+                "language": "swift",
+                "code": "let preferred: String? = nil               // No preferred display name was supplied.\nlet saved: String? = \"Trinity\"              // A saved name is available.\nlet displayName: String = preferred ?? saved ?? \"Guest\" // First present value wins.\nprint(displayName)                         // Prints Trinity.\nlet blank: String? = \"\"                     // Empty text is still a present value.\nprint(blank ?? \"Guest\")                    // Prints an empty line, not Guest.\n// The right side of ?? is evaluated only when the left side is nil.\n// A non-optional final fallback gives a non-optional result here.\n// Do not substitute 0 for missing money or IDs unless that is valid app behavior."
+            },
+            {
+                "label": "Pattern matching — switch, if case, and for case",
+                "language": "swift",
+                "code": "let score: Int? = 0                       // Zero is a valid payload, not nil.\nswitch score {                            // Make the different states explicit.\ncase .some(let value) where value > 0:     // Match a payload with an extra condition.\n    print(\"Positive score: \\(value)\")      // Runs for positive scores.\ncase .some(let value):                    // Handle every remaining present value.\n    print(\"Score: \\(value)\")               // Prints Score: 0 for this input.\ncase .none:                               // Handle missing data separately.\n    print(\"No score yet\")                 // Never confuse missing with zero.\n}\nif case let value? = score {              // Optional pattern: shorthand for .some.\n    print(value)                          // Prints the unwrapped Int, 0.\n}\nfor case let value? in [1, nil, 3] {       // Match present values, skipping nil entries.\n    print(value)                          // Prints 1 and then 3.\n}"
+            },
+            {
+                "label": "Transforming optionals — map, flatMap, and compactMap",
+                "language": "swift",
+                "code": "let text: String? = \"42\"                   // There may be text to transform.\nlet length: Int? = text.map { $0.count }    // map receives String and wraps the result.\nlet nested: Int?? = text.map { Int($0) }    // Int returns Int?; map adds an outer layer.\nlet number: Int? = text.flatMap { Int($0) } // flatMap keeps a single optional layer.\nprint(length ?? 0, number ?? 0)            // Prints 2 42.\nlet absent: String? = nil                  // No input value exists.\nlet skipped = absent.map { $0.count }      // The closure is not called; result is nil.\nlet numbers = [\"1\", \"oops\", \"3\"].compactMap { Int($0) } // Array operation drops nil results.\nprint(numbers)                            // Prints [1, 3]; only use if discarding is intended.\n// map and flatMap transform a payload; their results remain optional.\n// Use binding or a fallback when you need a non-optional final value."
+            },
+            {
+                "label": "Force unwrapping — a local proof and a dangerous guess",
+                "language": "swift",
+                "code": "let fixedText = \"42\"                      // A fixed, known-valid integer literal string.\nlet fixedNumber = Int(fixedText)!          // Defensible: this exact conversion succeeds.\nprint(fixedNumber)                        // Prints 42; writing let fixedNumber = 42 is simpler.\n\nlet userInput = \"forty-two\"                // External input can be invalid or missing.\n// let unsafeNumber = Int(userInput)!     // BAD: nil would trap and terminate execution.\nif let number = Int(userInput) {          // GOOD: check the conversion at the use site.\n    print(number)                         // Only use a successfully parsed Int.\n} else {\n    print(\"Please enter digits\")          // Recover from expected invalid input.\n}\n// ! is a runtime assertion, not error handling. do/catch cannot recover from this trap.\n// A network response, a previous screen, or \"it worked once\" is not proof.\n// Prefer binding even after a nil check: it captures the value you actually use."
+            },
+            {
+                "label": "Implicitly unwrapped optionals — the same responsibility",
+                "language": "swift",
+                "code": "var title: String! = \"Welcome\"            // Still optional storage; initialized here.\nlet heading: String = title               // A String context implicitly forces unwrapping.\nprint(heading)                            // Prints Welcome because a value is present.\ntitle = nil                               // String! can still become nil.\n// let crash: String = title              // BAD: implicit force unwrap would now trap.\nif let safeTitle = title {                // GOOD: normal optional binding still works.\n    print(safeTitle)                       // Skipped because title is nil.\n}\n// String! is for tightly controlled initialization lifecycles, not uncertain app data.\n// Prefer String? when absence is possible, or String when a value is always required."
+            },
+            {
+                "label": "Repeated binding — while let, and error-to-optional conversion",
+                "language": "swift",
+                "code": "var iterator = [\"Neo\", \"Trinity\"].makeIterator() // next() will eventually return nil.\nwhile let name = iterator.next() {         // Bind each element until the optional is nil.\n    print(name)                           // Prints Neo, then Trinity; the loop terminates.\n}\nenum ReadError: Error { case unavailable } // A sample recoverable error.\nfunc readName() throws -> String {         // This function can throw instead of returning.\n    throw ReadError.unavailable            // Simulate a failed read.\n}\nlet name = try? readName()                 // Convert a thrown error to nil; loses error detail.\nprint(name ?? \"Guest\")                     // Handle the resulting optional with a fallback.\n// try? creates an optional result; it does not unwrap one. Use do/catch for error details.\n// try! asserts that no error is thrown; it is not an optional-unwrapping technique."
             }
         ],
-        highlight: "Optionals make absence explicit, which makes Swift code safer."
+        "sections": [
+            [
+                "What the enum actually means",
+                [
+                    "`Wrapped` is a placeholder name for a type, not the stored value and not an operation. Think of it as the label on the optional box: String, Int, or Profile. In `Optional<String>`, Wrapped means String, and the actual value might be \"Neo\".",
+                    "`<Wrapped>` declares a generic type parameter: it lets one enum definition work with different payload types. `case some(Wrapped)` requires a value of that chosen type. `Optional<Int>.some(42)` is valid; supplying a String there is a compile-time error. `.none` stores no payload, but the optional still has its chosen type.",
+                    "The name Wrapped describes the role of the type. It could be named T in a custom enum without changing how generics work. It does not perform wrapping or unwrapping: `.some(value)` represents a present value, and binding or pattern matching extracts that value.",
+                    "`String?` and `Optional<String>` name the same type. Assigning a String to String? wraps it; assigning `nil` selects the absent state. You do not implement this enum yourself.",
+                    "The first example is a deliberately simplified teaching model. The real standard-library type also has protocol conformances, operations, and special compiler support.",
+                    "The box is a mental model, not a promised memory layout or heap allocation. Do not infer the size or allocation behavior of an optional from this sketch."
+                ]
+            ],
+            [
+                "Choose by the missing-value behavior",
+                [
+                    "Use `if let` for a conditional branch and `guard let` when continued work requires the value. A guard failure must exit its enclosing scope, for example with return or throw.",
+                    "Use `?.` to access members only when a value exists; follow it with binding or `??` if the caller needs a concrete result.",
+                    "Use `??` when a fallback has a legitimate meaning. Keeping missing data visible can be more useful than inventing a default.",
+                    "Use switch for explicit case handling, optional patterns to select present values, and while let for operations that signal completion with nil."
+                ]
+            ],
+            [
+                "Presence, validity, and scope",
+                [
+                    "`nil`, `.some(\"\")`, `.some(0)`, and `.some(false)` describe different states. An empty collection can also be a present value.",
+                    "A successful binding proves presence, not validity. Check ranges, empty names, and other business rules separately.",
+                    "if let bindings live inside the successful branch; guard let bindings remain available after the guard. Neither changes the original optional type.",
+                    "if var and guard var create mutable local bindings. A copied struct value is independent; a class payload still refers to the same object."
+                ]
+            ],
+            [
+                "Transformations and nested states",
+                [
+                    "Optional.map runs only for a present payload and wraps its output. flatMap is useful when the transformation already returns an optional, such as parsing text.",
+                    "`Int??` has more than two distinguishable states: outer nil, a present inner nil, or a present inner Int. Avoid accidental nesting, but preserve it when the distinction matters.",
+                    "Array.compactMap transforms elements and removes nil results. It is convenient for filtering invalid conversions, but inappropriate if every invalid item needs an error message.",
+                    "try? discards thrown error details by turning failure into nil. Prefer do/catch when you need to explain or recover from a particular failure."
+                ]
+            ],
+            [
+                "When force unwrapping is justified",
+                [
+                    "A defensible `!` needs a specific invariant you can explain at the use site, such as a fixed known-valid conversion. Prefer a non-optional representation when possible.",
+                    "User input, network data, missing dictionary keys, and empty collections are expected sources of nil. Give them recoverable behavior instead of forcing a value.",
+                    "An earlier check of changing shared state does not guarantee a later read. Bind the value once and use that binding.",
+                    "Implicitly unwrapped optionals can trap too. Advanced `unsafelyUnwrapped` access is not a safer alternative and has no place in routine beginner code."
+                ]
+            ]
+        ],
+        "interviewCase": {
+            "question": "An API supplies an optional age as text. Return \"Age unavailable\" for missing, unparseable, or out-of-range input; otherwise display the age. Why is a fallback of zero incorrect?",
+            "answer": "Bind the text, parse it with the failable Int initializer, and validate the allowed range. Each step answers a different question: is it present, is it an integer, and is it acceptable? Zero is a real age, so substituting it for missing data would change the meaning.",
+            "code": "func ageLabel(_ rawAge: String?) -> String { // The API field can be absent.\n    guard let rawAge,                      // Step 1: require a String payload.\n          let age = Int(rawAge),           // Step 2: require successful integer parsing.\n          (0...130).contains(age) else {    // Step 3: apply this app's chosen age range.\n        return \"Age unavailable\"           // One deliberate fallback for all invalid states.\n    }\n    return \"Age: \\(age)\"                    // age is a validated, non-optional Int.\n}\nprint(ageLabel(nil))                        // Age unavailable: absent.\nprint(ageLabel(\"hello\"))                    // Age unavailable: conversion failed.\nprint(ageLabel(\"-1\"))                       // Age unavailable: out of range.\nprint(ageLabel(\"0\"))                        // Age: 0 — present and valid.\nprint(ageLabel(\"28\"))                       // Age: 28.",
+            "explanation": [
+                "The guard conditions run in order, stopping at the first failure. Later conditions can use bindings established earlier.",
+                "`Int(rawAge)!` would crash on malformed input. `Int(rawAge) ?? 0` would make invalid input indistinguishable from the valid age zero.",
+                "Follow-up: if the UI needs a different message for each failure, split the guards or model explicit error cases. Optional communicates absence, not its cause."
+            ]
+        },
+        "highlight": "An optional asks two questions: is there a value, and what should happen if there is not? Unwrap to establish presence, validate to establish meaning, and make the missing path intentional. Use ! only when you can prove the value exists at that exact point.",
+        "bonusLinks": [
+            {
+                "label": "Bonus: Apple’s Optional Documentation",
+                "text": "Explore the official Optional reference, including its enum cases, safe access patterns, and transformation methods. Revisit each example above and identify the payload type and the behavior for nil.",
+                "href": "https://developer.apple.com/documentation/swift/optional",
+                "buttonText": "Open Apple Optional docs"
+            },
+            {
+                "label": "Bonus: Optionals in Swift Breakdown",
+                "text": "Continue exploring optionals with this Swift breakdown.",
+                "href": "https://lnkd.in/p/dzK_v8AC",
+                "buttonText": "Open Optionals in Swift Breakdown"
+            }
+        ]
     },
     {
         part: "Part 9",
@@ -4668,7 +4775,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 6;
+        const isLocked = index > 7;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
