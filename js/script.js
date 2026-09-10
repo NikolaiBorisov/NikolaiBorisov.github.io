@@ -52,7 +52,8 @@ const copyTalkButtons = document.querySelectorAll(".copy-talk");
 const translateTalkButtons = document.querySelectorAll(".translate-talk");
 const likeControls = document.querySelectorAll(".talk-like");
 const likesStorageKey = "swiftTalkLikes";
-const swiftTalksHash = "#swift-talks";
+const swiftTalksHash = "#swift-code";
+const legacySwiftTalksHash = "#swift-talks";
 const coreSwiftHash = "#core-swift";
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
@@ -4456,7 +4457,7 @@ function closeCoreSwiftQuiz(options = {}) {
     document.body.classList.remove("quiz-open");
 
     if (!options.keepHash && window.location.hash === coreSwiftQuizHash) {
-        window.location.hash = "swift-talks";
+        window.location.hash = swiftTalksHash.slice(1);
     }
 }
 
@@ -4484,7 +4485,7 @@ function closeSwiftQuiz(options = {}) {
     document.body.classList.remove("quiz-open");
 
     if (!options.keepHash && isSwiftQuizHash()) {
-        window.location.hash = "swift-talks";
+        window.location.hash = swiftTalksHash.slice(1);
     }
 
     openSwiftQuizButtons[0]?.focus();
@@ -4514,7 +4515,7 @@ function closeToolboxQuiz(options = {}) {
     document.body.classList.remove("quiz-open");
 
     if (!options.keepHash && window.location.hash === toolboxQuizHash) {
-        window.location.hash = "swift-talks";
+        window.location.hash = swiftTalksHash.slice(1);
     }
 }
 
@@ -4542,7 +4543,7 @@ function closePortfolioQuiz(options = {}) {
     document.body.classList.remove("quiz-open");
 
     if (!options.keepHash && window.location.hash === portfolioQuizHash) {
-        window.location.hash = "swift-talks";
+        window.location.hash = swiftTalksHash.slice(1);
     }
 }
 
@@ -4572,7 +4573,7 @@ function closeSwiftTalks(options = {}) {
 
 openSwiftTalksButton?.addEventListener("click", () => {
     if (window.location.hash !== swiftTalksHash) {
-        window.location.hash = "swift-talks";
+        window.location.hash = swiftTalksHash.slice(1);
     }
 
     openSwiftTalks();
@@ -4677,6 +4678,11 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    // Preserve previously shared links without adding a browser history entry.
+    if (window.location.hash === legacySwiftTalksHash) {
+        history.replaceState(null, document.title, window.location.pathname + window.location.search + swiftTalksHash);
+    }
+
     if (window.location.hash === portfolioQuizHash) {
         openPortfolioQuiz();
     } else if (window.location.hash === toolboxQuizHash) {
