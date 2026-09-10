@@ -3237,29 +3237,99 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         ]
     },
     {
-        part: "Part 9",
-        title: "Structs and Classes",
-        intro: "Structs and classes let you create your own types. They can store properties, define methods, and use initializers.",
-        sections: [
-            ["Structs", ["A `struct` is a value type.", "When assigned or passed around, it behaves like a separate value.", "SwiftUI views and many models are structs."]],
-            ["Classes", ["A `class` is a reference type.", "Multiple variables can point to the same object.", "Classes are useful for shared identity, inheritance, and reference-based objects."]],
-            ["What To Learn First", ["Start with structs for simple data models.", "Use methods for behavior that belongs to the type.", "Learn value vs reference semantics because interviews ask about it often."]]
-        ],
-        examples: [
+        "part": "Part 9",
+        "title": "Structs and Classes",
+        "intro": "Imagine you are building a game. A player has a name and a score, and can earn points. Instead of passing unrelated strings and numbers everywhere, you can describe that idea as one custom type. Think of the type as a blueprint and an instance as a particular player made from it. Properties describe what it knows, methods describe what it does, and an initializer gives it a starting state. Both structs and classes provide these building blocks. The key difference appears when you assign an instance to another variable or pass it into a function: a struct gives you a value that can be edited independently, while a class gives you a reference to an object that can be shared. Think of copying a player card versus handing someone another remote control for the same scoreboard. Ask what your app needs: a separate snapshot, or access to the same changing thing?",
+        "examples": [
             {
-                label: "Custom type",
-                language: "swift",
-                code: `struct User {                   // custom value type
-    let name: String            // stored constant property
-    var score: Int              // stored variable property
-
-    func greeting() -> String { // method belongs to User
-        "Hi, \\(name)"          // implicit return
-    }
-}`
+                "label": "Struct breakdown — a player card you can copy and edit",
+                "language": "swift",
+                "code": "// Imagine a player card: it groups a player's name and score into one value.\nstruct Player {                          // Define a new value type, not a player yet.\n    let name: String                     // Stored property: fixed after initialization.\n    var score: Int                       // Stored property: changeable on a mutable Player.\n\n    var summary: String {                // Computed property: derives text when accessed.\n        return \"\\(name): \\(score)\"         // Read this instance's stored values.\n    }\n\n    init(name: String, score: Int = 0) {  // Build a valid starting value; score defaults to 0.\n        self.name = name                 // self.name is the property; name is the input.\n        self.score = score               // Initialize the other stored property.\n    }                                    // Every stored property now has a value.\n\n    mutating func earnPoint() {          // mutating allows this method to change the struct.\n        score += 1                       // Change the score of the value being called on.\n    }\n}                                        // End of the type definition.\n\nvar original = Player(name: \"Neo\")        // Create an instance; var permits value mutation.\nvar edited = original                    // A separate Player value starts with the same data.\nedited.earnPoint()                       // Change edited, not original.\nprint(original.summary)                  // Neo: 0.\nprint(edited.summary)                    // Neo: 1.\nlet snapshot = edited                    // A constant struct value cannot be mutated.\n// snapshot.earnPoint()                  // Compile error: snapshot is a let constant.\n// edited.name = \"Trinity\"               // Compile error: name is a let property.\nprint(snapshot.summary)                  // Reading a constant value is fine: Neo: 1.\n// A simple struct can get a memberwise initializer automatically.\n// Here we wrote init ourselves to make the initialization steps visible."
+            },
+            {
+                "label": "Class breakdown — two references, one shared counter",
+                "language": "swift",
+                "code": "// Imagine two screens holding a remote control for the SAME score counter.\nfinal class ScoreCounter {               // Reference type; final prevents subclassing.\n    let playerName: String               // This object's name stays fixed after init.\n    private(set) var score: Int           // Anyone can read; only this type can set it here.\n\n    var summary: String {                // A computed property works on classes too.\n        return \"\\(playerName): \\(score)\"   // Read the current state of this object.\n    }\n\n    init(playerName: String, score: Int = 0) { // Classes have no automatic memberwise init.\n        self.playerName = playerName     // Store the name supplied by the caller.\n        self.score = score               // Establish the object's initial score.\n    }\n\n    func earnPoint() {                   // Class methods do not need the mutating keyword.\n        score += 1                       // Update the shared object's stored state.\n    }\n}                                        // Define the type before creating its instances.\n\nlet firstScreen = ScoreCounter(playerName: \"Neo\") // Create one object.\nlet secondScreen = firstScreen           // Copy its reference, not the object itself.\nsecondScreen.earnPoint()                 // Both references observe this mutation.\nprint(firstScreen.summary)               // Neo: 1.\nprint(secondScreen.summary)              // Neo: 1.\nprint(firstScreen === secondScreen)      // true: exactly the same object (identity).\nlet another = ScoreCounter(playerName: \"Neo\", score: 1) // A separate object, same data.\nprint(firstScreen === another)           // false: matching properties do not mean identity.\n// firstScreen = another                 // Compile error: let fixes this reference.\n// firstScreen.score = 99                 // Compile error: the setter is private.\n// let does NOT freeze a class object; its allowed methods can still change var properties."
             }
         ],
-        highlight: "Use structs for clear values. Use classes when shared identity matters."
+        "sections": [
+            [
+                "Read the blueprint before the instance",
+                [
+                    "`struct Player` and `class ScoreCounter` declare types. Calling `Player(name: \"Neo\")` creates an instance of a type; the declaration alone does not create a player.",
+                    "A stored property keeps data. A computed property calculates a result when accessed. A method is a function attached to the type that works with its instances.",
+                    "`init` establishes the starting state. In `self.name = name`, self.name is the instance property and name is the initializer parameter.",
+                    "Both structs and classes can have properties, methods, initializers, access control, extensions, and protocol conformances. A struct is not limited to passive data."
+                ]
+            ],
+            [
+                "Structs — independent values",
+                [
+                    "Think of copying a form before editing it. Assigning a struct or passing it into a function gives value semantics: changes to the receiving value do not change the original struct value.",
+                    "Use `var` when you need to edit a struct. A `let` struct prevents changing even its var properties. A let property stays fixed even inside a var instance.",
+                    "A method that changes a struct property must be marked `mutating`. This makes the possibility of changing the value visible at its declaration.",
+                    "A simple struct receives a memberwise initializer when you do not define your own initializer in its main declaration. Writing init explicitly lets you control how callers construct it."
+                ]
+            ],
+            [
+                "Classes — shared identity",
+                [
+                    "Think of two remotes controlling one TV. Assigning a class instance copies a reference: either name can reach the same object, so mutations can be visible through both.",
+                    "A `let` class binding prevents replacing its reference. It does not freeze the object: accessible var properties and methods can still change its state.",
+                    "`===` asks whether two references identify the very same object. `==` compares equality only when the type supports it; equal content and object identity are different questions.",
+                    "Classes can inherit from one superclass; final prevents subclassing. Choose inheritance when it models a real relationship or a framework requires it, not just to reuse a few methods."
+                ]
+            ],
+            [
+                "Choose the behavior your app needs",
+                [
+                    "Start with a struct for values such as coordinates, settings snapshots, or independently editable drafts. Ask: should changing this copy affect the original?",
+                    "Use a class when several owners intentionally need the same object, its identity, or a framework-required superclass. A shared counter or connection can have that requirement.",
+                    "Keep mutation controlled. `private(set)` allows callers to read a property while changes go through the type’s own behavior, such as earnPoint().",
+                    "A class does not automatically notify the UI of changes or make shared access safe across concurrent tasks. Observation and concurrency control are separate design decisions."
+                ]
+            ],
+            [
+                "Avoid misleading shortcuts",
+                [
+                    "A struct containing a class reference copies that reference as part of its value. The nested object can still be shared: copying a struct is not a recursive deep copy of every object it reaches.",
+                    "Do not memorize “struct means stack, class means heap” as the definition. Value and reference semantics describe observable behavior; storage and optimizations are implementation details.",
+                    "Swift manages class lifetimes with Automatic Reference Counting (ARC). Strong reference cycles can keep objects alive; weak and unowned references require a deliberate ownership design.",
+                    "Do not choose a class because a model is large or a struct because it is small. Decide the ownership and mutation behavior first, then measure performance when needed."
+                ]
+            ]
+        ],
+        "interviewCase": {
+            "question": "What does each print statement output: 0 or 10?",
+            "answer": "The struct example prints 0 because changing the copy does not change the first value. The class example prints 10 because both variables refer to the same object.",
+            "code": "// STRUCT: copying gives us a separate player value.\nstruct PlayerValue {\n    var score: Int                       // Each player value stores a score.\n}\n\nlet firstValue = PlayerValue(score: 0)    // The first player's score starts at 0.\nvar secondValue = firstValue             // Copy the value into a second variable.\nsecondValue.score = 10                   // Change only the second value.\nprint(firstValue.score)                  // Prints 0: the first value is unchanged.\n\n// CLASS: assigning gives us another reference to the same player object.\nfinal class PlayerObject {\n    var score: Int                       // The shared object stores a score.\n    init(score: Int) {                    // Set the score when creating the object.\n        self.score = score\n    }\n}\n\nlet firstObject = PlayerObject(score: 0)  // Create one player object with score 0.\nlet secondObject = firstObject           // Both names now refer to that same object.\nsecondObject.score = 10                  // Change the shared object's score.\nprint(firstObject.score)                 // Prints 10: firstObject sees the change too.",
+            "explanation": [
+                "Think of the struct example as two separate scorecards. Copying a card and writing 10 on the copy leaves the first card at 0.",
+                "Think of the class example as two people looking at one scoreboard. When its score changes to 10, both people see 10.",
+                "Try it: change both assignments from 10 to 20 and run the code again. The outputs become 0 and 20."
+            ]
+        },
+        "highlight": "Choose a struct when you want an independent value. Choose a class when you intentionally need shared object identity. Before copying or changing anything, ask: who should see this change, and who owns this state?",
+        "bonusLinks": [
+            {
+                "label": "Bonus: Apple’s Structures and Classes Reference",
+                "text": "Read Apple’s guidance on choosing between structures and classes, and connect the choice to value semantics, identity, and your app’s needs.",
+                "href": "https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes",
+                "buttonText": "Open Apple structures and classes guide"
+            },
+            {
+                "label": "Bonus: Struct breakdown",
+                "text": "Continue with the struct breakdown as a companion to the annotated example above.",
+                "href": "https://www.linkedin.com/posts/activity-7448639049579384832-fN0r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                "buttonText": "Open Struct breakdown"
+            },
+            {
+                "label": "Bonus: Class breakdown",
+                "text": "Continue with the class breakdown as a companion to the shared-reference example above.",
+                "href": "https://www.linkedin.com/posts/activity-7448977379143741440-94_j?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
+                "buttonText": "Open Class breakdown"
+            }
+        ]
     },
     {
         part: "Part 10",
@@ -4775,7 +4845,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 7;
+        const isLocked = index > 8;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
