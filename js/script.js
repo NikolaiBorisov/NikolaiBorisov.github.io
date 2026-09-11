@@ -5799,21 +5799,80 @@ function bindCopyButton(button) {
     });
 }
 
+function splitTranslationText(text) {
+    const chunks = [];
+    let chunk = "";
+    // Bound the encoded payload as well as the visible character count.
+    for (const character of text) {
+        const candidate = chunk + character;
+        if (chunk && encodeURIComponent(candidate).length > 1400) {
+            chunks.push(chunk);
+            chunk = character;
+        } else {
+            chunk = candidate;
+        }
+    }
+    if (chunk) chunks.push(chunk);
+    return chunks;
+}
+
 function bindTranslateButton(button) {
     button.addEventListener("click", () => {
         const post = swiftTalkPosts[button.dataset.talkId];
+        if (!post) return;
 
-        if (!post) {
-            return;
+        const dialog = document.createElement("dialog");
+        dialog.className = "translation-dialog";
+        dialog.setAttribute("aria-label", "Translate lesson");
+        const heading = document.createElement("h2");
+        heading.textContent = "Translate lesson";
+        const description = document.createElement("p");
+        description.textContent = "Choose a language, then open a part in Google Translate. Long lessons are split into smaller parts so every section remains available.";
+        const label = document.createElement("label");
+        label.textContent = "Translate to ";
+        const select = document.createElement("select");
+        const languages = { es: "Spanish", th: "Thai", ru: "Russian", fr: "French", de: "German", it: "Italian", pt: "Portuguese", uk: "Ukrainian", ja: "Japanese", ko: "Korean", "zh-CN": "Chinese (Simplified)", ar: "Arabic", hi: "Hindi", en: "English" };
+        Object.entries(languages).forEach(([code, name]) => {
+            const option = document.createElement("option");
+            option.value = code;
+            option.textContent = name;
+            select.appendChild(option);
+        });
+        const preferred = document.documentElement.lang !== "en"
+            ? document.documentElement.lang : navigator.language.split("-")[0];
+        if (languages[preferred]) select.value = preferred;
+        label.appendChild(select);
+        const parts = document.createElement("div");
+        parts.className = "translation-parts";
+        const chunks = splitTranslationText(post);
+        function renderLinks() {
+            parts.replaceChildren();
+            chunks.forEach((chunk, index) => {
+                const url = new URL("https://translate.google.com/");
+                url.search = new URLSearchParams({ sl: "en", tl: select.value, text: chunk, op: "translate" });
+                const link = document.createElement("a");
+                link.className = "talks-button";
+                link.href = url.toString();
+                link.target = "_blank";
+                link.rel = "noopener noreferrer";
+                link.textContent = chunks.length === 1 ? "Open in Google Translate" : `Part ${index + 1} of ${chunks.length}`;
+                parts.appendChild(link);
+            });
         }
-
-        const translateUrl = new URL("https://translate.google.com/");
-        translateUrl.searchParams.set("sl", "en");
-        translateUrl.searchParams.set("tl", "auto");
-        translateUrl.searchParams.set("text", post);
-        translateUrl.searchParams.set("op", "translate");
-
-        window.open(translateUrl.toString(), "_blank", "noopener,noreferrer");
+        select.addEventListener("change", renderLinks);
+        renderLinks();
+        const close = document.createElement("button");
+        close.type = "button";
+        close.className = "talks-button";
+        close.textContent = "Close";
+        close.addEventListener("click", () => dialog.close());
+        dialog.addEventListener("close", () => {
+            dialog.remove();
+            button.focus({ preventScroll: true });
+        });
+        dialog.append(heading, description, label, parts, close);
+        document.body.appendChild(dialog);
+        dialog.showModal();
     });
 }
 
