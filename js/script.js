@@ -55,7 +55,19 @@ const likesStorageKey = "swiftTalkLikes";
 const swiftTalksHash = "#swift-code";
 const legacySwiftTalksHash = "#swift-talks";
 const coreSwiftHash = "#core-swift";
-const protocolsAndExtensionsHash = "#core-swift/#protocols-and-extensions";
+const coreSwiftSectionSlugs = [
+    "variables-and-constants",
+    "basic-types",
+    "operators-and-expressions",
+    "control-flow",
+    "loops-deep-dive",
+    "functions",
+    "collections",
+    "optionals",
+    "structs-and-classes",
+    "protocols-and-extensions"
+];
+const coreSwiftSectionHashes = coreSwiftSectionSlugs.map(slug => `${coreSwiftHash}/#${slug}`);
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const coreSwiftQuizHash = "#core-swift-quiz";
@@ -4675,7 +4687,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || window.location.hash === protocolsAndExtensionsHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4802,16 +4814,18 @@ function syncSwiftTalksWithHash() {
         openCoreSwiftQuiz();
     } else if (isSwiftQuizHash()) {
         openSwiftQuiz();
-    } else if (window.location.hash === protocolsAndExtensionsHash) {
+    } else if (coreSwiftSectionHashes.includes(window.location.hash)) {
+        const sectionHash = window.location.hash;
+        const sectionIndex = coreSwiftSectionHashes.indexOf(sectionHash);
         openSwiftTalks();
         showCoreSwiftTrack();
-        const section = coreSwiftAccordion?.querySelector('[data-talk-id="core-swift-part10"]');
+        const section = coreSwiftAccordion?.querySelector(`[data-talk-id="core-swift-part${sectionIndex + 1}"]`);
         if (section) {
             section.classList.add("is-expanded");
             const trigger = section.querySelector(".talk-accordion-trigger");
             trigger?.setAttribute("aria-expanded", "true");
             requestAnimationFrame(() => {
-                if (window.location.hash !== protocolsAndExtensionsHash) return;
+                if (window.location.hash !== sectionHash) return;
                 trigger?.focus({ preventScroll: true });
                 section.scrollIntoView({ block: "start", behavior: "instant" });
             });
@@ -5107,8 +5121,9 @@ function renderCoreSwiftParts() {
             trigger.addEventListener("click", () => {
                 const isExpanded = article.classList.toggle("is-expanded");
                 trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
-                if (index === 9 && (isExpanded || window.location.hash === protocolsAndExtensionsHash)) {
-                    const hash = isExpanded ? protocolsAndExtensionsHash : coreSwiftHash;
+                const sectionHash = coreSwiftSectionHashes[index];
+                if (sectionHash && (isExpanded || window.location.hash === sectionHash)) {
+                    const hash = isExpanded ? sectionHash : coreSwiftHash;
                     // Update the shareable address without re-opening or scrolling the accordion.
                     history.replaceState(null, document.title, window.location.pathname + window.location.search + hash);
                 }
