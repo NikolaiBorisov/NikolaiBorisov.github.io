@@ -1750,3 +1750,28 @@ h2 {
     font-size: clamp(30px, 4.5vw, 52px);
     line-height: 1.1;
 }
+
+/* Purple surfaces complement the Swift-orange label in both themes. */
+.nav-pill.swift-code-brand::after {
+    background: linear-gradient(135deg, #302044 0%, #251c36 52%, #1c1829 100%);
+    background-size: 160% 160%;
+    background-position: 0% 50%;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: background-position 450ms ease, box-shadow 300ms ease;
+}
+
+:root[data-theme="light"] .nav-pill.swift-code-brand::after {
+    background-image: linear-gradient(135deg, #f5efff 0%, #ece2fa 52%, #e5def8 100%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.nav-pill.swift-code-brand:hover::after,
+.nav-pill.swift-code-brand:focus-visible::after {
+    background-position: 100% 50%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-pill.swift-code-brand::after {
+        transition: none;
+    }
+}
