@@ -1730,3 +1730,23 @@ h2 {
 .translation-dialog p { margin: 16px 0; }
 .translation-dialog select { font: inherit; padding: 8px; max-width: 100%; }
 .translation-parts { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+
+/* Swift orange for the learning hub label. */
+.swift-code-brand,
+.nav-pill.swift-code-brand:hover {
+    color: #f05138;
+}
+
+:root[data-theme="light"] .swift-code-brand,
+:root[data-theme="light"] .nav-pill.swift-code-brand:hover {
+    color: #bf3823;
+}
+
+#swift-talks > .swift-talks-content {
+    padding-top: 8px;
+}
+
+#swift-talks > .swift-talks-content > .talks-header .swift-code-brand {
+    font-size: clamp(30px, 4.5vw, 52px);
+    line-height: 1.1;
+}
