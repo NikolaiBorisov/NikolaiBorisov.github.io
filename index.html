@@ -145,7 +145,7 @@
 
         <div class="core-swift-track" id="core-swift-track">
             <div class="talks-track-header">
-                <button type="button" class="talks-button back-to-talk-topics">All topics</button>
+                <button type="button" class="talks-button back-to-talk-topics topics-back" aria-label="Back to all topics">← Back</button>
                 <div>
                     <h2>Core Swift</h2>
                 </div>
@@ -163,7 +163,7 @@
 
         <div class="swift-intro-track" id="swift-intro-track">
             <div class="talks-track-header">
-                <button type="button" class="talks-button" id="back-to-talk-topics">All topics</button>
+                <button type="button" class="talks-button topics-back" id="back-to-talk-topics" aria-label="Back to all topics">← Back</button>
                 <div>
                     <h2>Swift Intro</h2>
                 </div>
@@ -1379,7 +1379,7 @@
 
         <div class="toolbox-track" id="toolbox-track">
             <div class="talks-track-header">
-                <button type="button" class="talks-button back-to-talk-topics">All topics</button>
+                <button type="button" class="talks-button back-to-talk-topics topics-back" aria-label="Back to all topics">← Back</button>
                 <div>
                     <h2>iOS Dev Toolbox</h2>
                 </div>
@@ -1397,7 +1397,7 @@
 
         <div class="portfolio-track" id="portfolio-track">
             <div class="talks-track-header">
-                <button type="button" class="talks-button back-to-talk-topics">All topics</button>
+                <button type="button" class="talks-button back-to-talk-topics topics-back" aria-label="Back to all topics">← Back</button>
                 <div>
                     <h2>Let's Build Your Portfolio Website</h2>
                 </div>
@@ -1416,14 +1416,16 @@
 </section>
 
 <section id="core-swift-quiz" class="swift-quiz-screen" aria-hidden="true">
-    <button type="button" id="close-core-swift-quiz" class="talks-button talks-close" aria-label="Close Core Swift Quiz">Close</button>
+    <nav class="quiz-navigation" aria-label="Quiz navigation">
+        <button type="button" class="talks-button" id="back-to-core-swift-topics" aria-label="Back to Core Swift Topics">← Back</button>
+        <button type="button" id="close-core-swift-quiz" class="talks-button talks-close" aria-label="Close Core Swift Quiz">Close</button>
+    </nav>
     <div class="swift-talks-content swift-quiz-content">
         <div class="talks-header">
             <div>
-                <span class="talks-kicker">Swift Code</span>
                 <h2>Core Swift Quiz</h2>
             </div>
-            <div class="quiz-score-pill" id="core-swift-quiz-score" aria-live="polite">30 questions</div>
+            <div class="quiz-score-pill" id="core-swift-quiz-score" aria-live="polite"></div>
         </div>
 
         <div class="talk-card swift-quiz-card">
@@ -1453,14 +1455,16 @@
 </section>
 
 <section id="swift-intro-quiz" class="swift-quiz-screen" aria-hidden="true">
-    <button type="button" id="close-swift-quiz" class="talks-button talks-close" aria-label="Close Swift Intro Quiz">Close</button>
+    <nav class="quiz-navigation" aria-label="Quiz navigation">
+        <button type="button" class="talks-button" id="back-to-swift-intro-topics" aria-label="Back to Swift Intro Topics">← Back</button>
+        <button type="button" id="close-swift-quiz" class="talks-button talks-close" aria-label="Close Swift Intro Quiz">Close</button>
+    </nav>
     <div class="swift-talks-content swift-quiz-content">
         <div class="talks-header">
             <div>
-                <span class="talks-kicker">Swift Code</span>
                 <h2>Swift Intro Quiz</h2>
             </div>
-            <div class="quiz-score-pill" id="swift-quiz-score" aria-live="polite">30 questions</div>
+            <div class="quiz-score-pill" id="swift-quiz-score" aria-live="polite"></div>
         </div>
 
         <div class="talk-card swift-quiz-card">
@@ -1490,14 +1494,16 @@
 </section>
 
 <section id="toolbox-quiz" class="swift-quiz-screen" aria-hidden="true">
-    <button type="button" id="close-toolbox-quiz" class="talks-button talks-close" aria-label="Close iOS Dev Toolbox Quiz">Close</button>
+    <nav class="quiz-navigation" aria-label="Quiz navigation">
+        <button type="button" class="talks-button" id="back-to-toolbox-topics" aria-label="Back to iOS Dev Toolbox Topics">← Back</button>
+        <button type="button" id="close-toolbox-quiz" class="talks-button talks-close" aria-label="Close iOS Dev Toolbox Quiz">Close</button>
+    </nav>
     <div class="swift-talks-content swift-quiz-content">
         <div class="talks-header">
             <div>
-                <span class="talks-kicker">Swift Code</span>
                 <h2>iOS Dev Toolbox Quiz</h2>
             </div>
-            <div class="quiz-score-pill" id="toolbox-quiz-score" aria-live="polite">30 questions</div>
+            <div class="quiz-score-pill" id="toolbox-quiz-score" aria-live="polite"></div>
         </div>
 
         <div class="talk-card swift-quiz-card">
@@ -1527,14 +1533,16 @@
 </section>
 
 <section id="portfolio-quiz" class="swift-quiz-screen" aria-hidden="true">
-    <button type="button" id="close-portfolio-quiz" class="talks-button talks-close" aria-label="Close Portfolio Website Quiz">Close</button>
+    <nav class="quiz-navigation" aria-label="Quiz navigation">
+        <button type="button" class="talks-button" id="back-to-portfolio-topics" aria-label="Back to Portfolio Website Topics">← Back</button>
+        <button type="button" id="close-portfolio-quiz" class="talks-button talks-close" aria-label="Close Portfolio Website Quiz">Close</button>
+    </nav>
     <div class="swift-talks-content swift-quiz-content">
         <div class="talks-header">
             <div>
-                <span class="talks-kicker">Swift Code</span>
                 <h2>Portfolio Website Quiz</h2>
             </div>
-            <div class="quiz-score-pill" id="portfolio-quiz-score" aria-live="polite">30 questions</div>
+            <div class="quiz-score-pill" id="portfolio-quiz-score" aria-live="polite"></div>
         </div>
 
         <div class="talk-card swift-quiz-card">

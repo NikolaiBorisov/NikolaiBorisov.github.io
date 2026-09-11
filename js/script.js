@@ -4687,7 +4687,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4719,15 +4719,16 @@ openToolboxTrackButton?.addEventListener("click", () => {
 openPortfolioTrackButton?.addEventListener("click", () => {
     showPortfolioTrack();
 });
-backToTalkTopicsButton?.addEventListener("click", () => {
+function returnToAllTopics() {
     showSwiftTalkTopics();
-    openCoreSwiftTrackButton?.focus();
-});
+    window.location.hash = swiftTalksHash.slice(1);
+    swiftTalksScreen?.scrollTo({ top: 0, behavior: "instant" });
+    openCoreSwiftTrackButton?.focus({ preventScroll: true });
+}
+
+backToTalkTopicsButton?.addEventListener("click", returnToAllTopics);
 backToTalkTopicsButtons.forEach(button => {
-    button.addEventListener("click", () => {
-        showSwiftTalkTopics();
-        openCoreSwiftTrackButton?.focus();
-    });
+    button.addEventListener("click", returnToAllTopics);
 });
 openCoreSwiftQuizButtons.forEach(button => {
     button.addEventListener("click", () => {
@@ -4766,6 +4767,21 @@ openPortfolioQuizButtons.forEach(button => {
     });
 });
 closeCoreSwiftQuizButton?.addEventListener("click", closeCoreSwiftQuiz);
+[
+    ["core-swift", closeCoreSwiftQuiz, showCoreSwiftTrack, coreSwiftHash, "core-swift-track"],
+    ["swift-intro", closeSwiftQuiz, showSwiftIntroTrack, "#swift-intro", "swift-intro-track"],
+    ["toolbox", closeToolboxQuiz, showToolboxTrack, "#ios-dev-toolbox", "toolbox-track"],
+    ["portfolio", closePortfolioQuiz, showPortfolioTrack, "#portfolio-website", "portfolio-track"]
+].forEach(([name, closeQuiz, showTrack, hash, trackId]) => {
+    document.querySelector(`#back-to-${name}-topics`)?.addEventListener("click", () => {
+        closeQuiz({ keepHash: true });
+        openSwiftTalks();
+        showTrack();
+        window.location.hash = hash.slice(1);
+        swiftTalksScreen?.scrollTo({ top: 0, behavior: "instant" });
+        document.querySelector(`#${trackId} .topics-back`)?.focus({ preventScroll: true });
+    });
+});
 closeSwiftQuizButton?.addEventListener("click", closeSwiftQuiz);
 closeToolboxQuizButton?.addEventListener("click", closeToolboxQuiz);
 closePortfolioQuizButton?.addEventListener("click", closePortfolioQuiz);
@@ -4830,6 +4846,14 @@ function syncSwiftTalksWithHash() {
                 section.scrollIntoView({ block: "start", behavior: "instant" });
             });
         }
+    } else if (["#swift-intro", "#ios-dev-toolbox", "#portfolio-website"].includes(window.location.hash)) {
+        openSwiftTalks();
+        const showTrack = {
+            "#swift-intro": showSwiftIntroTrack,
+            "#ios-dev-toolbox": showToolboxTrack,
+            "#portfolio-website": showPortfolioTrack
+        }[window.location.hash];
+        showTrack();
     } else if (window.location.hash === coreSwiftHash) {
         openSwiftTalks();
         showCoreSwiftTrack();
@@ -4975,7 +4999,7 @@ function resetSwiftQuiz() {
         feedback.textContent = "";
     });
     if (swiftQuizScore) {
-        swiftQuizScore.textContent = `${swiftIntroQuizQuestions.length} questions`;
+        swiftQuizScore.textContent = "";
     }
     swiftQuizLegend?.classList.remove("is-visible");
     swiftQuizScreen?.scrollTo({ top: 0, behavior: "smooth" });
@@ -5713,7 +5737,7 @@ function resetQuiz(form, questions, scoreElement, legendElement, scrollElement) 
         feedback.textContent = "";
     });
     if (scoreElement) {
-        scoreElement.textContent = `${questions.length} questions`;
+        scoreElement.textContent = "";
     }
     legendElement?.classList.remove("is-visible");
     scrollElement?.scrollTo({ top: 0, behavior: "smooth" });

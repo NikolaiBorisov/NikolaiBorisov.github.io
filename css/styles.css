@@ -1667,3 +1667,49 @@ h2 {
         transform: none;
     }
 }
+
+/* Keep the result badge out of the header until a quiz has been graded. */
+.quiz-score-pill:empty {
+    display: none;
+}
+
+.quiz-navigation {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+    right: max(16px, env(safe-area-inset-right));
+    z-index: 121;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.quiz-navigation .talks-button {
+    min-height: 44px;
+    pointer-events: auto;
+}
+
+.quiz-navigation .talks-close {
+    position: static;
+    flex-shrink: 0;
+}
+
+.quiz-navigation > :first-child {
+    min-width: 0;
+    padding-block: 8px;
+    text-align: center;
+}
+
+.topics-back {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    left: max(16px, env(safe-area-inset-left));
+    z-index: 101;
+    min-height: 44px;
+}
+
+#close-swift-talks {
+    min-height: 44px;
+}
