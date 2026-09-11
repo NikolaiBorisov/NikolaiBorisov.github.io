@@ -1500,6 +1500,17 @@ h2 {
         min-width: 58px;
     }
 
+    .lang-options {
+        flex-direction: column;
+        border-radius: 28px;
+    }
+
+    .lang-options button {
+        min-width: 44px;
+        min-height: 44px;
+        padding: 0;
+    }
+
     .top-nav {
         top: max(62px, calc(env(safe-area-inset-top) + 62px));
     }

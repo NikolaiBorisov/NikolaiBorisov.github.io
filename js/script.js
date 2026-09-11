@@ -55,6 +55,7 @@ const likesStorageKey = "swiftTalkLikes";
 const swiftTalksHash = "#swift-code";
 const legacySwiftTalksHash = "#swift-talks";
 const coreSwiftHash = "#core-swift";
+const protocolsAndExtensionsHash = "#core-swift/#protocols-and-extensions";
 const swiftQuizHash = "#swift-intro-quiz";
 const legacySwiftQuizHash = "#swift-talks/#swift-intro-quiz";
 const coreSwiftQuizHash = "#core-swift-quiz";
@@ -3333,30 +3334,140 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         ]
     },
     {
-        part: "Part 10",
-        title: "Protocols and Extensions",
-        intro: "Protocols describe what a type can do. Extensions add behavior to existing types. Together, they are a huge part of idiomatic Swift.",
-        sections: [
-            ["Protocols", ["A protocol is a contract.", "It can require properties and methods.", "Types conform to a protocol by implementing its requirements."]],
-            ["Extensions", ["An extension adds methods, computed properties, or protocol conformance.", "Use extensions to organize related behavior.", "Extensions help keep models and utility code readable."]],
-            ["Beginner Interview Idea", ["Protocols reduce coupling because code can depend on behavior, not a concrete type.", "Extensions make types easier to evolve without rewriting the original declaration.", "This prepares you for delegation, repositories, testing, and SwiftUI patterns."]]
-        ],
-        examples: [
+        "part": "Part 10",
+        "title": "Protocols and Extensions",
+        "intro": "Imagine a screen that needs to show a greeting. It does not need to know whether the name comes from a player, a profile, or a preview model; it needs something that can provide the right information. Think of a protocol as a checklist of capabilities: a type that adopts it promises to provide certain properties or methods, and Swift checks that promise. The type still decides how to do the work. Now imagine several types repeating the same greeting logic. An extension can attach useful behavior to an existing type, or provide shared behavior for types that adopt a protocol. A protocol tells callers what they can rely on; an extension supplies or organizes code that does the work. Learn them separately first, then combine them to make small, reusable pieces you can understand and test.",
+        "examples": [
             {
-                label: "Protocol plus extension",
-                language: "swift",
-                code: `protocol Displayable {              // contract for conforming types
-    var title: String { get }        // read-only required property
-}
-
-extension String {                  // add behavior to String
-    var trimmed: String {            // computed property
-        trimmingCharacters(in: .whitespaces) // removes outer spaces
-    }
-}`
+                "label": "Protocol breakdown — declare a capability, then fulfill it",
+                "language": "swift",
+                "code": "// Imagine a checklist for anything that can provide a greeting.\nprotocol GreetingProviding {             // protocol declares requirements, not an object.\n    var name: String { get }              // Require readable String access; no storage here.\n    func greeting() -> String             // Require a method with this name and return type.\n}                                        // No implementation bodies in this checklist.\n\nstruct Person: GreetingProviding {        // : declares that Person adopts this protocol.\n    let name: String                     // A stored constant satisfies the get requirement.\n    func greeting() -> String {          // Supply the required method's implementation.\n        return \"Hello, \\(name)!\"           // Use this particular person's name.\n    }                                    // End of the method implementation.\n}                                        // Compiler checks that every requirement is met.\nlet person = Person(name: \"Neo\")          // Create a concrete Person, not a protocol object.\nlet speaker: any GreetingProviding = person // Store a conforming value behind the protocol.\nprint(speaker.greeting())                 // Calls Person's implementation: Hello, Neo!.\n// GreetingProviding() would not create an instance: the protocol is a contract.\n// Merely having matching members is not enough; conformance must be declared.\n// Under the hood, Swift records how a type satisfies its protocol requirements.\n// Requirement implementations are called witnesses; a witness table maps the conformance.\n// An `any` value carries a concrete value plus type/conformance information.\n// Protocol calls can use that information to find the matching implementation.\n// Optimization can specialize calls; not every call performs a runtime table lookup."
+            },
+            {
+                "label": "Protocols in practice — replace a dependency for testing",
+                "language": "swift",
+                "code": "protocol NameLoading {                    // Describe the one capability the caller needs.\n    func loadName() -> String              // Keep this teaching example synchronous.\n}\nstruct SavedNameLoader: NameLoading {      // One implementation used by the app.\n    func loadName() -> String { \"Neo\" }    // A stand-in for reading saved data.\n}\nstruct PreviewNameLoader: NameLoading {    // A predictable substitute for tests/previews.\n    func loadName() -> String { \"Preview\" }// No storage or network needed.\n}\nfunc welcome(using loader: any NameLoading) -> String { // Accept either implementation.\n    return \"Welcome, \\(loader.loadName())\" // Depend on the required behavior only.\n}\nprint(welcome(using: SavedNameLoader()))   // Welcome, Neo.\nprint(welcome(using: PreviewNameLoader())) // Welcome, Preview.\n// This is dependency injection: the caller supplies the collaborator.\n// Real network-loading requirements commonly use async throws for waiting and failure."
+            },
+            {
+                "label": "Protocols in practice — delegation sends an event back",
+                "language": "swift",
+                "code": "protocol DownloadDelegate: AnyObject {    // Restrict adopters to classes, allowing weak refs.\n    func downloadDidFinish()              // The event the receiver promises to handle.\n}\nfinal class DownloadScreen: DownloadDelegate { // A screen-like receiver for this example.\n    func downloadDidFinish() {            // Fulfill the notification requirement.\n        print(\"Show the downloaded file\") // Real UI code would update the screen here.\n    }\n}\nfinal class Downloader {                  // The sender does not need a concrete screen type.\n    weak var delegate: (any DownloadDelegate)? // Optional, non-owning reference to receiver.\n    func finish() {                       // Simulate a completed download.\n        delegate?.downloadDidFinish()     // Notify if the receiver still exists.\n    }\n}\nlet screen = DownloadScreen()             // Keep a strong owner of the receiver alive.\nlet downloader = Downloader()             // Create the event sender.\ndownloader.delegate = screen              // Connect the receiver to the sender.\ndownloader.finish()                       // Prints Show the downloaded file.\n// weak avoids retaining the delegate; another owner must keep it alive.\n// A protocol does not choose a thread: real UI updates need appropriate actor isolation."
+            },
+            {
+                "label": "Protocols in practice — use Swift’s existing contracts",
+                "language": "swift",
+                "code": "struct Player: Equatable, Codable {       // Adopt equality and encoding/decoding contracts.\n    let name: String                     // String supports both, enabling synthesis here.\n    var score: Int                       // Int supports both too.\n}\nlet first = Player(name: \"Neo\", score: 1)  // Create one value.\nlet second = Player(name: \"Neo\", score: 1) // Create another with identical stored data.\nprint(first == second)                    // true: synthesized equality compares properties.\n// Codable combines Encodable and Decodable; use an encoder/decoder to serialize data.\n// Swift can synthesize these conformances for suitable models, not every protocol.\nfunc containsMatch<T: Equatable>(_ value: T, in values: [T]) -> Bool { // T is one chosen type.\n    return values.contains(value)         // The Equatable constraint makes equality usable.\n}\nprint(containsMatch(first, in: [second]))  // true; the generic T is Player for this call.\n// `any P` can hold different conforming types; T: P preserves one concrete type per call."
+            },
+            {
+                "label": "Extension breakdown — add behavior to an existing type",
+                "language": "swift",
+                "code": "// Imagine attaching a useful tool to String instead of making a new String subclass.\nextension String {                        // Add members to the existing String type.\n    var greetingLine: String {            // Computed property: does not add stored state.\n        return \"Hello, \\(self)!\"           // self is the String receiving this property access.\n    }                                    // End of the computed property's getter.\n    func repeatedTwice() -> String {      // Add an instance method, callable with dot syntax.\n        return self + self               // Return a new value; leave the original untouched.\n    }                                    // End of the method.\n}                                        // The extended type is still String.\nlet name = \"Neo\"                          // An ordinary String can use the added members.\nprint(name.greetingLine)                  // Hello, Neo!.\nprint(name.repeatedTwice())               // NeoNeo.\n// An extension is compiled as part of your module, not a runtime patch.\n// It does not create a subclass or a wrapper around each instance.\n// Extensions cannot add stored instance properties or override existing functionality."
+            },
+            {
+                "label": "Extensions in practice — text cleanup and focused organization",
+                "language": "swift",
+                "code": "import Foundation                        // Provides trimmingCharacters(in:).\nextension String {                       // Put a reusable text operation near its type.\n    var trimmedForDisplay: String {      // A computed value, not an extra stored String.\n        return trimmingCharacters(in: .whitespacesAndNewlines) // Remove outer whitespace.\n    }\n}\nprint(\"  Neo  \".trimmedForDisplay)         // Neo; internal spaces would remain intact.\n\nstruct Profile {                         // Keep the model's stored data easy to scan.\n    let firstName: String                // Each instance stores a first name.\n    let lastName: String                 // Each instance stores a last name.\n}\nextension Profile {                      // Group display-related behavior separately.\n    var displayName: String {            // Compute the text from existing stored data.\n        return \"\\(firstName) \\(lastName)\"  // Interpolate both names.\n    }\n}\nprint(Profile(firstName: \"Neo\", lastName: \"Anderson\").displayName) // Neo Anderson.\n// Use focused names; avoid adding unrelated helpers to widely used types."
+            },
+            {
+                "label": "Extensions in practice — limit a helper to matching types",
+                "language": "swift",
+                "code": "extension Collection where Element == Int { // Only collections whose elements are Int.\n    var total: Int {                       // A read-only computed property.\n        return reduce(0) { sum, value in   // Start at zero; visit each element once.\n            sum + value                   // Add this element to the accumulated sum.\n        }\n    }\n}\nprint([2, 3, 4].total)                     // 9; Array<Int> meets the constraint.\nprint([Int]().total)                       // 0; the empty collection keeps the initial value.\n// [\"2\", \"3\"].total                       // Compile error: these elements are String.\n// where restricts availability; it does not convert String elements to Int.\n// This small teaching example assumes the sum fits in Int."
+            },
+            {
+                "label": "Protocol + extension — a requirement with a useful default",
+                "language": "swift",
+                "code": "protocol Greeting {                      // State the shared capability first.\n    var name: String { get }              // Each conforming type supplies a readable name.\n    func message() -> String              // Declare a requirement for customizable behavior.\n}\nextension Greeting {                     // Add a default implementation for conformers.\n    func message() -> String {            // This body can satisfy the message requirement.\n        return \"Hello, \\(name)!\"           // Use only what the protocol guarantees.\n    }\n}\nstruct Guest: Greeting {                  // Adopt the protocol with the default behavior.\n    let name: String                     // Supply the remaining requirement.\n}\nstruct Host: Greeting {                   // Another adopter needs a different message.\n    let name: String                     // Supply its readable name.\n    func message() -> String {            // Provide its own requirement implementation.\n        return \"Welcome back, \\(name)!\"    // Customize the shared capability.\n    }\n}\nlet people: [any Greeting] = [Guest(name: \"Neo\"), Host(name: \"Trinity\")] // Mixed types.\nfor person in people {                   // Work through the common protocol interface.\n    print(person.message())              // Hello, Neo! then Welcome back, Trinity!.\n}\n// Protocol-oriented programming shares capabilities and defaults across different types.\n// Keep customizable operations in the protocol's requirements.\n// An extension-only helper is not a requirement: same-named concrete methods do not\n// dynamically replace it when called through the protocol type."
+            },
+            {
+                "label": "Protocol + extension — add conformance without mixing concerns",
+                "language": "swift",
+                "code": "struct Lesson {                          // Define the model and its stored data first.\n    let title: String                    // The name displayed to a learner.\n    let minutes: Int                     // Estimated reading duration.\n}\nextension Lesson: CustomStringConvertible { // Declare conformance in a focused extension.\n    var description: String {            // Fulfill the protocol's required computed property.\n        return \"\\(title) — \\(minutes) min\" // Describe this instance using its stored data.\n    }\n}\nlet lesson = Lesson(title: \"Protocols\", minutes: 10) // Create a normal Lesson value.\nprint(lesson)                             // Protocols — 10 min.\n// This is the same Lesson type; the extension adds a conformance, not a new type.\n// Prefer conforming your own types; conforming a foreign type to a foreign protocol\n// can conflict with conformances introduced by another module."
             }
         ],
-        highlight: "Protocols define capabilities. Extensions attach useful behavior where it belongs."
+        "sections": [
+            [
+                "Protocols — read the promise",
+                [
+                    "The `protocol` keyword declares a contract. A struct, class, or enum adopts it explicitly and must satisfy its requirements, either directly, through defaults, or through supported compiler synthesis.",
+                    "`var title: String { get }` requires readable access, not a stored variable. A let property, var property, or computed getter can satisfy it. `{ get set }` also requires writable access.",
+                    "Protocol requirements can include methods, initializers, subscripts, and type-level members. A mutating method requirement allows value-type conformers to change their state.",
+                    "Protocol inheritance combines requirements; it does not create a superclass relationship between the conforming types. Use small protocols that describe a coherent capability."
+                ]
+            ],
+            [
+                "Under the hood — enough to understand calls",
+                [
+                    "A conformance connects a concrete type to the implementations satisfying each requirement. Witness tables are part of Swift’s implementation machinery for representing those connections.",
+                    "`any NameLoading` is an existential type: it can hold a value of a conforming concrete type while exposing the protocol interface. It is not an instance created from a protocol blueprint.",
+                    "`T: NameLoading` is a generic constraint: the caller chooses a concrete T and the function preserves that type relationship. It is useful when inputs and outputs need to share a type.",
+                    "Do not assume every protocol call uses the same dispatch path or that every existential allocates on the heap. Representation and specialization depend on the value and compiler."
+                ]
+            ],
+            [
+                "Development uses — give the abstraction a job",
+                [
+                    "Dependency injection lets a caller supply a real service or a predictable substitute. Start with the capability the caller actually needs rather than mirroring an entire concrete class.",
+                    "Delegation sends an event to a receiver without hard-coding its concrete class. An AnyObject constraint enables weak delegate references, but another owner must keep the receiver alive.",
+                    "Standard protocols such as Equatable, Hashable, Codable, and Identifiable connect your models to existing Swift APIs. Check each protocol’s requirements and synthesis rules.",
+                    "Protocols do not automatically provide error handling, asynchronous execution, UI observation, or thread safety. Express those needs explicitly in the API and its implementation."
+                ]
+            ],
+            [
+                "Extensions — attach behavior thoughtfully",
+                [
+                    "An extension adds members or protocol conformance to an existing type. Callers use the same type and ordinary dot syntax; there is no new subclass to instantiate.",
+                    "Use computed properties, methods, and focused conformance blocks to organize useful behavior. Extensions can also add subscripts, nested types, and certain initializers.",
+                    "Extensions cannot add stored instance properties or replace existing implementations by overriding them. Keep persistent state in the original type definition.",
+                    "A where clause restricts a generic extension to matching types. Access control still applies: an extension does not grant unlimited access to another type’s internals."
+                ]
+            ],
+            [
+                "Together — share behavior without hiding the contract",
+                [
+                    "A protocol extension can provide a default implementation for a requirement. A conforming type can supply its own implementation when its behavior differs.",
+                    "Declare behavior as a protocol requirement when calls through the protocol need to select the conformer’s implementation. An extension-only helper does not gain that dispatch behavior.",
+                    "POP means protocol-oriented programming: organize code around capabilities, composition, and reusable implementations. It does not mean every type needs a protocol or every class must disappear.",
+                    "Use a concrete type when it is already clear and sufficient. Introduce a protocol when interchangeable behavior or a reusable constraint makes the code easier to work with."
+                ]
+            ]
+        ],
+        "interviewCase": {
+            "question": "What does this code print, and why can Learner call sayHello() even though the method is not inside its struct?",
+            "answer": "It prints Hello, Neo!. Learner provides the name required by Named. The Named extension makes sayHello() available to conforming types, so Learner can use that shared helper.",
+            "code": "protocol Named {                         // A conforming type must provide a name.\n    var name: String { get }\n}\nextension Named {                        // Share a helper built on that requirement.\n    func sayHello() -> String {\n        return \"Hello, \\(name)!\"           // Read the conforming value's name.\n    }\n}\nstruct Learner: Named {                   // Promise to supply the required name.\n    let name: String                     // This stored property fulfills the promise.\n}\nlet learner = Learner(name: \"Neo\")        // Create a learner with a concrete name.\nprint(learner.sayHello())                 // Hello, Neo!.",
+            "explanation": [
+                "Think of Named as the checklist: “provide a name.” Think of its extension as a ready-made greeting tool that uses that name.",
+                "Try changing Neo to Trinity. The same shared method now returns Hello, Trinity! without adding another method to Learner.",
+                "Remove the name property and the conformance no longer compiles: the helper supplies behavior, but it does not supply the missing stored name."
+            ]
+        },
+        "highlight": "A protocol defines what callers can rely on. A concrete type supplies the data and behavior that fulfill that promise. An extension adds or shares useful implementations. Start with a clear capability, keep its requirements small, and make the implementation easy to find.",
+        "bonusLinks": [
+            {
+                "label": "Bonus: Apple’s Swift Protocols Reference",
+                "text": "Read The Swift Programming Language chapter on requirements, conformance, delegation, and protocol extensions.",
+                "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/",
+                "buttonText": "Open Swift protocols reference"
+            },
+            {
+                "label": "Bonus: Apple’s Swift Extensions Reference",
+                "text": "Explore what extensions can add, their limitations, and examples of extending existing types.",
+                "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/extensions/",
+                "buttonText": "Open Swift extensions reference"
+            },
+            {
+                "label": "Bonus: Protocols & POP in Swift Breakdown",
+                "text": "Continue with this companion breakdown of protocols and protocol-oriented programming.",
+                "href": "https://lnkd.in/p/g-3DstzH",
+                "buttonText": "Open Protocols & POP breakdown"
+            },
+            {
+                "label": "Bonus: Extensions in Swift Breakdown",
+                "text": "Continue with this companion breakdown of Swift extensions.",
+                "href": "https://lnkd.in/p/gXHN3Ftz",
+                "buttonText": "Open Extensions breakdown"
+            }
+        ]
     }
 ];
 
@@ -4564,7 +4675,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || window.location.hash === coreSwiftHash || window.location.hash === protocolsAndExtensionsHash || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4691,6 +4802,20 @@ function syncSwiftTalksWithHash() {
         openCoreSwiftQuiz();
     } else if (isSwiftQuizHash()) {
         openSwiftQuiz();
+    } else if (window.location.hash === protocolsAndExtensionsHash) {
+        openSwiftTalks();
+        showCoreSwiftTrack();
+        const section = coreSwiftAccordion?.querySelector('[data-talk-id="core-swift-part10"]');
+        if (section) {
+            section.classList.add("is-expanded");
+            const trigger = section.querySelector(".talk-accordion-trigger");
+            trigger?.setAttribute("aria-expanded", "true");
+            requestAnimationFrame(() => {
+                if (window.location.hash !== protocolsAndExtensionsHash) return;
+                trigger?.focus({ preventScroll: true });
+                section.scrollIntoView({ block: "start", behavior: "instant" });
+            });
+        }
     } else if (window.location.hash === coreSwiftHash) {
         openSwiftTalks();
         showCoreSwiftTrack();
@@ -4851,7 +4976,7 @@ function renderCoreSwiftParts() {
     }
 
     coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 8;
+        const isLocked = index > 9;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
         article.dataset.talkId = `core-swift-part${index + 1}`;
@@ -4982,6 +5107,11 @@ function renderCoreSwiftParts() {
             trigger.addEventListener("click", () => {
                 const isExpanded = article.classList.toggle("is-expanded");
                 trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+                if (index === 9 && (isExpanded || window.location.hash === protocolsAndExtensionsHash)) {
+                    const hash = isExpanded ? protocolsAndExtensionsHash : coreSwiftHash;
+                    // Update the shareable address without re-opening or scrolling the accordion.
+                    history.replaceState(null, document.title, window.location.pathname + window.location.search + hash);
+                }
             });
         }
 
