@@ -4721,6 +4721,10 @@ openToolboxTrackButton?.addEventListener("click", () => {
     showToolboxTrack();
 });
 openPortfolioTrackButton?.addEventListener("click", () => {
+    if (window.location.hash !== "#portfolio-website") {
+        window.location.hash = "portfolio-website";
+    }
+
     showPortfolioTrack();
 });
 function returnToAllTopics() {
