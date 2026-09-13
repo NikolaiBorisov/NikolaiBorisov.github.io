@@ -81,7 +81,7 @@ const languageLabels = {
 
 const swiftTalkPosts = {
     part1: `🔶 Swift Code
-What is Swift? Why Swift? What for?
+What Is Swift? Why Swift? What Is It Used For?
 
 Swift is Apple’s modern programming language for building apps across:
 • iOS
@@ -4711,6 +4711,10 @@ openCoreSwiftTrackButton?.addEventListener("click", () => {
     showCoreSwiftTrack();
 });
 openSwiftIntroTrackButton?.addEventListener("click", () => {
+    if (window.location.hash !== "#swift-intro") {
+        window.location.hash = "swift-intro";
+    }
+
     showSwiftIntroTrack();
 });
 openToolboxTrackButton?.addEventListener("click", () => {
