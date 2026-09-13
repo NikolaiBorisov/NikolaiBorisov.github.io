@@ -4718,6 +4718,10 @@ openSwiftIntroTrackButton?.addEventListener("click", () => {
     showSwiftIntroTrack();
 });
 openToolboxTrackButton?.addEventListener("click", () => {
+    if (window.location.hash !== "#ios-dev-toolbox") {
+        window.location.hash = "ios-dev-toolbox";
+    }
+
     showToolboxTrack();
 });
 openPortfolioTrackButton?.addEventListener("click", () => {

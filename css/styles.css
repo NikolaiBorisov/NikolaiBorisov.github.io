@@ -1075,7 +1075,11 @@ h2 {
 .core-swift-track .talk-quiz-button,
 .core-swift-track .isolid-quiz-link,
 .swift-intro-track .talk-quiz-button,
-.swift-intro-track .isolid-quiz-link {
+.swift-intro-track .isolid-quiz-link,
+.portfolio-track .talk-quiz-button,
+.portfolio-track .isolid-quiz-link,
+.toolbox-track .talk-quiz-button,
+.toolbox-track .isolid-quiz-link {
     flex-shrink: 0;
     width: 224px;
     min-width: 0;
@@ -1120,6 +1124,8 @@ h2 {
 @media (max-width: 700px) {
     .core-swift-track .talk-quiz-cta,
     .swift-intro-track .talk-quiz-cta,
+    .portfolio-track .talk-quiz-cta,
+    .toolbox-track .talk-quiz-cta,
     .isolid-quiz-bonus {
         align-items: stretch;
         flex-direction: column;
@@ -1128,7 +1134,11 @@ h2 {
     .core-swift-track .talk-quiz-button,
     .core-swift-track .isolid-quiz-link,
     .swift-intro-track .talk-quiz-button,
-    .swift-intro-track .isolid-quiz-link {
+    .swift-intro-track .isolid-quiz-link,
+    .portfolio-track .talk-quiz-button,
+    .portfolio-track .isolid-quiz-link,
+    .toolbox-track .talk-quiz-button,
+    .toolbox-track .isolid-quiz-link {
         width: 100%;
     }
 }
