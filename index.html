@@ -141,6 +141,52 @@
                 </span>
                 <span class="talk-topic-action" aria-hidden="true">Open</span>
             </button>
+            <button type="button" class="talk-topic-card" id="open-algorithms-track" aria-controls="algorithms-track">
+                <span class="talk-topic-copy">
+                    <span class="talks-kicker">Problem-Solving Track</span>
+                    <span class="talk-topic-title">Algorithms in Swift</span>
+                    <span class="talk-topic-description">Learn to solve problems step by step with arrays, strings, searching, sorting, recursion, and essential algorithm patterns.</span>
+                    <span class="talk-topic-meta"><span>10 topics</span><span>Quiz</span><span>Coding challenges</span></span>
+                </span>
+                <span class="talk-topic-action" aria-hidden="true">Open</span>
+            </button>
+        </div>
+
+        <div class="algorithms-track" id="algorithms-track">
+            <div class="talks-track-header">
+                <button type="button" class="talks-button back-to-talk-topics topics-back" aria-label="Back to all topics">← Back</button>
+                <div><h2>Algorithms in Swift</h2></div>
+            </div>
+            <template id="algorithms-introduction">
+                <h3>Small steps. Clear solutions.</h3>
+                <p>An algorithm is a clear sequence of steps that turns an input into a result.</p>
+                <p>A recipe is a simple example: <strong>follow the instructions step by step, and you end up with a meal.</strong> In an app, you might follow a series of steps to find all unread messages in a list. In both cases, the result comes from following a defined process.</p>
+                <p>We need algorithms because computers cannot guess what we mean. We decide what to do, in what order, and when to stop. Different approaches can produce the same result, but some require much less work as the amount of data grows.</p>
+                <p>Learning algorithms helps you write apps that are <strong>correct, efficient, responsive, and easier to understand and explain</strong>.</p>
+                <p>Start with a small problem, describe the solution in plain language, and then translate those steps into Swift. You do not need advanced mathematics — Core Swift basics such as variables, conditions, loops, functions, and collections are enough to get started.</p>
+                <p>Each lesson follows a simple structure:<br><strong>Visual walkthrough → Swift solution → Complexity explanation → Practice task</strong></p>
+                <p>The goal is not to memorize algorithms. It is to learn how to <strong>break a problem into steps, choose an efficient approach, and express that approach clearly in Swift</strong>.</p>
+            </template>
+            <div id="algorithms-lessons" class="talks-accordion"></div>
+            <div class="talk-card talk-quiz-cta">
+                <div>
+                    <span class="talks-kicker">Algorithms Quiz</span>
+                    <p>30 questions with instant scoring, correct-answer highlights, and reset.</p>
+                </div>
+                <button type="button" class="talks-button primary talk-quiz-button" id="open-algorithms-quiz">Quiz</button>
+            </div>
+            <section class="talk-card algorithms-quiz-panel" id="algorithms-quiz-panel" aria-labelledby="algorithms-quiz-title" hidden>
+                <h3 id="algorithms-quiz-title">Algorithms Quiz</h3>
+                <form id="algorithms-quiz-form" class="swift-quiz-form"></form>
+                <p id="algorithms-quiz-score" aria-live="polite"></p>
+                <button type="button" class="talks-button primary" id="grade-algorithms-quiz">Finish Quiz</button>
+                <button type="button" class="talks-button" id="reset-algorithms-quiz">Reset</button>
+            </section>
+            <section class="talk-card algorithms-challenges-hidden" aria-labelledby="algorithms-challenges-title">
+                <h3 id="algorithms-challenges-title">Coding challenges</h3>
+                <p>Write your own solutions below before opening the reference solutions. Run your code in an Xcode Playground; this page does not execute Swift. Drafts stay in this browser when local storage is available.</p>
+                <div id="algorithms-challenges"></div>
+            </section>
         </div>
 
         <div class="core-swift-track" id="core-swift-track">
@@ -1802,6 +1848,7 @@
 <!-- 💬 Floating Contact -->
 <a href="mailto:andersonnikko1@gmail.com" class="contact-btn" aria-label="Send email"><span class="contact-icon">✉</span></a>
 
+<script src="js/algorithms.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>

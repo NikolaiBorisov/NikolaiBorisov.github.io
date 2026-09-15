@@ -4499,6 +4499,7 @@ function showSwiftIntroTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
     swiftTalksScreen.classList.remove("is-viewing-portfolio");
@@ -4510,6 +4511,7 @@ function showCoreSwiftTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     renderCoreSwiftParts();
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
@@ -4523,6 +4525,7 @@ function showToolboxTrack() {
     }
 
     renderToolboxParts();
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-portfolio");
@@ -4535,6 +4538,7 @@ function showPortfolioTrack() {
     }
 
     renderPortfolioParts();
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
@@ -4550,6 +4554,7 @@ function showSwiftTalkTopics() {
     closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
@@ -4680,6 +4685,7 @@ function closeSwiftTalks(options = {}) {
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
+    swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
@@ -4687,7 +4693,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4858,12 +4864,13 @@ function syncSwiftTalksWithHash() {
                 section.scrollIntoView({ block: "start", behavior: "instant" });
             });
         }
-    } else if (["#swift-intro", "#ios-dev-toolbox", "#portfolio-website"].includes(window.location.hash)) {
+    } else if (["#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift"].includes(window.location.hash)) {
         openSwiftTalks();
         const showTrack = {
             "#swift-intro": showSwiftIntroTrack,
             "#ios-dev-toolbox": showToolboxTrack,
-            "#portfolio-website": showPortfolioTrack
+            "#portfolio-website": showPortfolioTrack,
+            "#algorithms-in-swift": showAlgorithmsTrack
         }[window.location.hash];
         showTrack();
     } else if (window.location.hash === coreSwiftHash) {
