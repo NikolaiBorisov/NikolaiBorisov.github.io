@@ -4805,6 +4805,10 @@ closeToolboxQuizButton?.addEventListener("click", closeToolboxQuiz);
 closePortfolioQuizButton?.addEventListener("click", closePortfolioQuiz);
 
 document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && document.querySelector(".algorithms-quiz-screen")) {
+        closeAlgorithmsQuiz();
+        return;
+    }
     if (event.key === "Escape") {
         closeLanguageMenu();
     }
@@ -4835,6 +4839,11 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    if (window.location.hash === "#algorithms-in-swift-quiz") {
+        openAlgorithmsQuiz();
+        return;
+    }
+    closeAlgorithmsQuiz({ keepHash: true });
     // Preserve previously shared links without adding a browser history entry.
     if (window.location.hash === legacySwiftTalksHash) {
         history.replaceState(null, document.title, window.location.pathname + window.location.search + swiftTalksHash);

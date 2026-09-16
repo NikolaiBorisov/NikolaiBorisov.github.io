@@ -193,6 +193,22 @@ function showAlgorithmsTrack() {
     swiftTalksScreen.classList.add("is-viewing-algorithms");
 }
 
+function openAlgorithmsQuiz() {
+    openSwiftTalks();
+    showAlgorithmsTrack();
+    renderAlgorithmsQuizScreen();
+}
+
+let renderAlgorithmsQuizScreen;
+
+function closeAlgorithmsQuiz(options = {}) {
+    document.querySelector(".algorithms-quiz-screen")?.remove();
+    document.body.classList.remove("quiz-open");
+    if (!options.keepHash && window.location.hash === "#algorithms-in-swift-quiz") {
+        window.location.hash = "swift-code";
+    }
+}
+
 function renderAlgorithms() {
     const lessons = document.querySelector("#algorithms-lessons");
     if (lessons.dataset.rendered) return;
@@ -388,7 +404,11 @@ function renderAlgorithms() {
     form.querySelectorAll("input").forEach(input => { input.type = "radio"; });
     const score = document.querySelector("#algorithms-quiz-score");
     document.querySelector("#open-algorithms-quiz").addEventListener("click", () => {
-        const sourcePanel = document.querySelector("#algorithms-quiz-panel");
+        if (window.location.hash === "#algorithms-in-swift-quiz") openAlgorithmsQuiz();
+        else window.location.hash = "algorithms-in-swift-quiz";
+    });
+    renderAlgorithmsQuizScreen = () => {
+        if (document.querySelector(".algorithms-quiz-screen")) return;
         const screen = document.createElement("section");
         screen.className = "swift-quiz-screen is-open algorithms-quiz-screen";
         screen.setAttribute("aria-hidden", "false");
@@ -401,11 +421,14 @@ function renderAlgorithms() {
         form.querySelectorAll("input").forEach(input => { input.type = "checkbox"; });
         screen.querySelector(".algorithms-screen-finish").addEventListener("click", () => gradeQuiz(questions, "algorithms-screen-quiz", screen.querySelector(".algorithms-screen-score"), screen.querySelector(".algorithms-screen-legend")));
         screen.querySelector(".algorithms-screen-reset").addEventListener("click", () => resetQuiz(form, questions, screen.querySelector(".algorithms-screen-score"), null, null));
-        const close = () => { screen.remove(); sourcePanel.hidden = true; document.body.classList.remove("talks-open"); };
-        screen.querySelector(".algorithms-quiz-close").addEventListener("click", close);
-        screen.querySelector(".algorithms-quiz-back").addEventListener("click", close);
-        document.body.classList.add("talks-open");
-    });
+        screen.querySelector(".algorithms-quiz-close").addEventListener("click", () => closeAlgorithmsQuiz());
+        screen.querySelector(".algorithms-quiz-back").addEventListener("click", () => {
+            closeAlgorithmsQuiz({ keepHash: true });
+            window.location.hash = "algorithms-in-swift";
+        });
+        document.body.classList.add("quiz-open");
+        screen.querySelector(".algorithms-quiz-close").focus();
+    };
     document.querySelector("#grade-algorithms-quiz").addEventListener("click", () => gradeQuiz(questions, "algorithms-quiz", score, null));
     document.querySelector("#reset-algorithms-quiz").addEventListener("click", () => resetQuiz(form, questions, score, null, null));
 }

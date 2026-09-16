@@ -1080,6 +1080,7 @@ h2 {
 .portfolio-track .isolid-quiz-link,
 .toolbox-track .talk-quiz-button,
 .algorithms-track .talk-quiz-button,
+.algorithms-track .isolid-quiz-link,
 .toolbox-track .isolid-quiz-link {
     flex-shrink: 0;
     width: 224px;
@@ -1141,6 +1142,7 @@ h2 {
     .portfolio-track .isolid-quiz-link,
     .toolbox-track .talk-quiz-button,
     .algorithms-track .talk-quiz-button,
+    .algorithms-track .isolid-quiz-link,
     .toolbox-track .isolid-quiz-link {
         width: 100%;
     }
