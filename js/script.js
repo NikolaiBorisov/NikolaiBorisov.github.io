@@ -4499,6 +4499,7 @@ function showSwiftIntroTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-toolbox");
@@ -4511,6 +4512,7 @@ function showCoreSwiftTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     renderCoreSwiftParts();
     swiftTalksScreen.classList.remove("is-viewing-intro");
@@ -4525,6 +4527,7 @@ function showToolboxTrack() {
     }
 
     renderToolboxParts();
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
@@ -4538,6 +4541,7 @@ function showPortfolioTrack() {
     }
 
     renderPortfolioParts();
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
@@ -4554,6 +4558,7 @@ function showSwiftTalkTopics() {
     closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
@@ -4676,6 +4681,7 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
+    closePrinciplesQuiz();
     if (!swiftTalksScreen) {
         return;
     }
@@ -4685,6 +4691,7 @@ function closeSwiftTalks(options = {}) {
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
+    swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
     swiftTalksScreen.classList.remove("is-viewing-intro");
@@ -4693,7 +4700,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift", "#programming-principles", "#programming-principles-quiz"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4833,12 +4840,25 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#programming-principles-quiz") {
+        window.location.hash = "programming-principles";
+        return;
+    }
+
     if (event.key === "Escape" && swiftTalksScreen?.classList.contains("is-open")) {
         closeSwiftTalks();
     }
 });
 
 function syncSwiftTalksWithHash() {
+    closePrinciplesQuiz();
+    if (window.location.hash === "#programming-principles" || window.location.hash === "#programming-principles-quiz") {
+        closeAlgorithmsQuiz({ keepHash: true });
+        openSwiftTalks();
+        showPrinciplesTrack();
+        if (window.location.hash === "#programming-principles-quiz") openPrinciplesQuiz();
+        return;
+    }
     if (window.location.hash === "#algorithms-in-swift-quiz") {
         openAlgorithmsQuiz();
         return;
@@ -5037,15 +5057,19 @@ finishSwiftQuizButton?.addEventListener("click", gradeSwiftQuiz);
 resetSwiftQuizButton?.addEventListener("click", resetSwiftQuiz);
 
 function renderCoreSwiftParts() {
-    if (!coreSwiftAccordion || coreSwiftAccordion.dataset.rendered === "true") {
+    renderLearningParts(coreSwiftAccordion, coreSwiftParts, "core-swift", "Core Swift", coreSwiftHash, coreSwiftSectionHashes, 10);
+}
+
+function renderLearningParts(accordion, parts, prefix, trackTitle, trackHash, sectionHashes = [], unlockedCount = Infinity) {
+    if (!accordion || accordion.dataset.rendered === "true") {
         return;
     }
 
-    coreSwiftParts.forEach((part, index) => {
-        const isLocked = index > 9;
+    parts.forEach((part, index) => {
+        const isLocked = index >= unlockedCount;
         const article = document.createElement("article");
         article.className = `talk-card talk-accordion-item${index === 0 ? " is-expanded" : ""}${isLocked ? " is-locked" : ""}`;
-        article.dataset.talkId = `core-swift-part${index + 1}`;
+        article.dataset.talkId = `${prefix}-part${index + 1}`;
 
         const trigger = document.createElement("button");
         trigger.type = "button";
@@ -5072,11 +5096,15 @@ function renderCoreSwiftParts() {
 
         const panel = document.createElement("div");
         panel.className = "talk-accordion-panel";
+        panel.id = `${prefix}-panel${index + 1}`;
+        trigger.setAttribute("aria-controls", panel.id);
 
-        const intro = document.createElement("p");
-        intro.className = "talk-intro";
-        appendFormattedText(intro, part.intro);
-        panel.appendChild(intro);
+        part.intro.split("\n\n").forEach(paragraph => {
+            const intro = document.createElement("p");
+            intro.className = "talk-intro";
+            appendFormattedText(intro, paragraph);
+            panel.appendChild(intro);
+        });
 
         part.examples.forEach(example => {
             const block = document.createElement("div");
@@ -5162,7 +5190,7 @@ function renderCoreSwiftParts() {
             });
         }
 
-        panel.appendChild(createTalkFooter(`core-swift-part${index + 1}`, `Feedback on Core Swift ${part.part}`));
+        panel.appendChild(createTalkFooter(`${prefix}-part${index + 1}`, `Feedback on ${trackTitle} ${part.part}`));
 
         if (isLocked) {
             const overlay = document.createElement("span");
@@ -5173,9 +5201,9 @@ function renderCoreSwiftParts() {
             trigger.addEventListener("click", () => {
                 const isExpanded = article.classList.toggle("is-expanded");
                 trigger.setAttribute("aria-expanded", isExpanded ? "true" : "false");
-                const sectionHash = coreSwiftSectionHashes[index];
+                const sectionHash = sectionHashes[index];
                 if (sectionHash && (isExpanded || window.location.hash === sectionHash)) {
-                    const hash = isExpanded ? sectionHash : coreSwiftHash;
+                    const hash = isExpanded ? sectionHash : trackHash;
                     // Update the shareable address without re-opening or scrolling the accordion.
                     history.replaceState(null, document.title, window.location.pathname + window.location.search + hash);
                 }
@@ -5183,10 +5211,10 @@ function renderCoreSwiftParts() {
         }
 
         article.append(trigger, panel);
-        coreSwiftAccordion.appendChild(article);
+        accordion.appendChild(article);
     });
 
-    coreSwiftAccordion.dataset.rendered = "true";
+    accordion.dataset.rendered = "true";
 }
 
 function renderToolboxParts() {
@@ -5906,3 +5934,52 @@ function bindTranslateButton(button) {
 
 copyTalkButtons.forEach(bindCopyButton);
 translateTalkButtons.forEach(bindTranslateButton);
+
+
+// Programming Principles uses the same lesson renderer and quiz engine as Core Swift.
+function showPrinciplesTrack() {
+    showSwiftTalkTopics();
+    swiftTalksScreen.classList.add("is-viewing-programming-principles");
+    principlesParts.forEach((part, index) => {
+        swiftTalkPosts[`programming-principles-part${index + 1}`] = buildTrackPost(part, "Programming Principles", "#Swift #SOLID #ProgrammingPrinciples");
+    });
+    renderLearningParts(document.querySelector("#programming-principles-accordion"), principlesParts, "programming-principles", "Programming Principles", "#programming-principles");
+}
+
+function openPrinciplesQuiz() {
+    const screen = document.querySelector("#programming-principles-quiz");
+    const form = document.querySelector("#programming-principles-quiz-form");
+    if (form.dataset.rendered !== "true") renderQuizQuestions(form, principlesQuizQuestions, "programming-principles-quiz");
+    screen.classList.add("is-open");
+    screen.setAttribute("aria-hidden", "false");
+    document.body.classList.add("quiz-open");
+    document.querySelector("#close-programming-principles-quiz").focus();
+}
+
+function closePrinciplesQuiz() {
+    const screen = document.querySelector("#programming-principles-quiz");
+    if (!screen?.classList.contains("is-open")) return;
+    screen.classList.remove("is-open");
+    screen.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("quiz-open");
+}
+
+document.querySelector("#open-programming-principles-track").addEventListener("click", () => {
+    window.location.hash = "programming-principles";
+});
+document.querySelector(".open-programming-principles-quiz").addEventListener("click", () => {
+    window.location.hash = "programming-principles-quiz";
+});
+document.querySelector("#back-to-programming-principles-topics").addEventListener("click", () => {
+    window.location.hash = "programming-principles";
+    requestAnimationFrame(() => document.querySelector(".open-programming-principles-quiz").focus());
+});
+document.querySelector("#close-programming-principles-quiz").addEventListener("click", () => {
+    window.location.hash = "swift-code";
+});
+document.querySelector("#finish-programming-principles-quiz").addEventListener("click", () => {
+    gradeQuiz(principlesQuizQuestions, "programming-principles-quiz", document.querySelector("#programming-principles-quiz-score"), document.querySelector("#programming-principles-quiz-legend"));
+});
+document.querySelector("#reset-programming-principles-quiz").addEventListener("click", () => {
+    resetQuiz(document.querySelector("#programming-principles-quiz-form"), principlesQuizQuestions, document.querySelector("#programming-principles-quiz-score"), document.querySelector("#programming-principles-quiz-legend"), document.querySelector("#programming-principles-quiz"));
+});

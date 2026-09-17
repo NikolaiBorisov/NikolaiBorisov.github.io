@@ -141,6 +141,18 @@
                 </span>
                 <span class="talk-topic-action" aria-hidden="true">Open</span>
             </button>
+            <button type="button" class="talk-topic-card" id="open-programming-principles-track" aria-controls="programming-principles-track">
+                <span class="talk-topic-copy">
+                    <span class="talks-kicker">Beginner Track</span>
+                    <span class="talk-topic-title">Programming Principles</span>
+                    <span class="talk-topic-description">Practical SOLID and programming principles with Swift examples, clear explanations, and interview cases.</span>
+                    <span class="talk-topic-meta">
+                        <span>16 principles lessons</span>
+                        <span>Quiz</span>
+                    </span>
+                </span>
+                <span class="talk-topic-action" aria-hidden="true">Open</span>
+            </button>
             <button type="button" class="talk-topic-card" id="open-algorithms-track" aria-controls="algorithms-track">
                 <span class="talk-topic-copy">
                     <span class="talks-kicker">Problem-Solving Track</span>
@@ -218,6 +230,31 @@
                     <p>90 Questions • 3 Levels (Beginner to Advanced) • Detailed Statistics</p>
                 </div>
                 <a class="talks-button isolid-quiz-link" href="https://apps.apple.com/th/app/isolid-learn-programming/id6752113008" target="_blank" rel="noopener noreferrer" aria-label="Download iSOLID Swift Quiz on the App Store (opens in a new tab)">Download on the App Store <span aria-hidden="true">↗</span></a>
+            </aside>
+        </div>
+
+        <div class="programming-principles-track" id="programming-principles-track">
+            <div class="talks-track-header">
+                <button type="button" class="talks-button back-to-talk-topics topics-back" aria-label="Back to all topics">← Back</button>
+                <div>
+                    <h2>Programming Principles</h2>
+                </div>
+            </div>
+
+            <div class="talks-accordion" id="programming-principles-accordion"></div>
+            <div class="talk-card talk-quiz-cta">
+                <div>
+                    <span class="talks-kicker">Programming Principles Quiz</span>
+                    <p>30 questions with instant scoring, correct-answer highlights, and reset.</p>
+                </div>
+                <button type="button" class="talks-button primary open-programming-principles-quiz talk-quiz-button">Quiz</button>
+            </div>
+            <aside class="talk-card isolid-quiz-bonus" aria-labelledby="isolid-principles-title">
+                <div>
+                    <h3 id="isolid-principles-title">Bonus — iSOLID Programming Principles</h3>
+                    <p>90 Principles • 300+ Code examples • Theory</p>
+                </div>
+                <a class="talks-button isolid-quiz-link" href="https://apps.apple.com/th/app/isolid-learn-programming/id6752113008" target="_blank" rel="noopener noreferrer" aria-label="Download iSOLID Programming Principles on the App Store (opens in a new tab)">Download on the App Store <span aria-hidden="true">↗</span></a>
             </aside>
         </div>
 
@@ -1535,6 +1572,45 @@
     </div>
 </section>
 
+<section id="programming-principles-quiz" class="swift-quiz-screen" aria-hidden="true">
+    <nav class="quiz-navigation" aria-label="Quiz navigation">
+        <button type="button" class="talks-button" id="back-to-programming-principles-topics" aria-label="Back to Programming Principles Topics">← Back</button>
+        <button type="button" id="close-programming-principles-quiz" class="talks-button talks-close" aria-label="Close Programming Principles Quiz">Close</button>
+    </nav>
+    <div class="swift-talks-content swift-quiz-content">
+        <div class="talks-header">
+            <div>
+                <h2>Programming Principles Quiz</h2>
+            </div>
+            <div class="quiz-score-pill" id="programming-principles-quiz-score" aria-live="polite"></div>
+        </div>
+
+        <div class="talk-card swift-quiz-card">
+            <p class="talk-intro">Select every correct answer.</p>
+            <div id="programming-principles-quiz-legend" class="swift-quiz-legend">
+                <span><i class="quiz-swatch correct"></i>Correct selection</span>
+                <span><i class="quiz-swatch wrong"></i>Wrong selection</span>
+                <span><i class="quiz-swatch missed"></i>Correct answer you missed</span>
+            </div>
+            <form id="programming-principles-quiz-form" class="swift-quiz-form"></form>
+            <footer class="swift-quiz-footer">
+                <div class="talk-like" data-talk-id="programming-principles-quiz">
+                    <button type="button" class="like-button" aria-label="Like this quiz" aria-pressed="false">
+                        <svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="swift-quiz-actions">
+                    <button type="button" class="talks-button primary" id="finish-programming-principles-quiz">Finish Quiz</button>
+                    <button type="button" class="talks-button" id="reset-programming-principles-quiz">Reset</button>
+                    <a class="talks-button primary swift-quiz-feedback-button" href="mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20Programming%20Principles%20Quiz&body=Hi%20Niko%2C%0A%0AI%20completed%20the%20Programming%20Principles%20Quiz%20and%20wanted%20to%20share%20this%20feedback%3A%0A%0A">Send feedback</a>
+                </div>
+            </footer>
+        </div>
+    </div>
+</section>
+
 <section id="swift-intro-quiz" class="swift-quiz-screen" aria-hidden="true">
     <nav class="quiz-navigation" aria-label="Quiz navigation">
         <button type="button" class="talks-button" id="back-to-swift-intro-topics" aria-label="Back to Swift &amp; iOS Intro Topics">← Back</button>
@@ -1856,6 +1932,7 @@
 <a href="mailto:andersonnikko1@gmail.com" class="contact-btn" aria-label="Send email"><span class="contact-icon">✉</span></a>
 
 <script src="js/algorithms.js"></script>
+<script src="js/principles.js"></script>
 <script src="js/script.js"></script>
 </body>
 </html>
