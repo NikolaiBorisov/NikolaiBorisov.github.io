@@ -1603,19 +1603,19 @@ let value: any Displayable? = nil        // Protocol type can store any matching
         },
         bonusLinks: [
             {
-                label: "Bonus: Type Inference in Swift",
+                label: "Further reading: Type Inference in Swift",
                 text: "Use this extra walkthrough after the type inference section to understand how Swift can figure out types while still keeping code strongly typed.",
                 href: "https://www.linkedin.com/posts/activity-7454843481740550144-eTy9?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open type inference guide"
             },
             {
-                label: "Bonus: Comments in Swift",
+                label: "Further reading: Comments in Swift",
                 text: "Use this extra walkthrough to understand how Swift comments work, when to use them, and how to keep comments helpful for beginners and teammates.",
                 href: "https://www.linkedin.com/posts/activity-7454383049049395200-JohD?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open comments guide"
             },
             {
-                label: "Bonus: How var & let work in Swift",
+                label: "Further reading: How var & let work in Swift",
                 text: "Use this extra walkthrough to reinforce how constants and variables behave in Swift, why mutability matters, and when to choose each one.",
                 href: "https://www.linkedin.com/posts/activity-7447844765586341888-aNFM?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open var & let guide"
@@ -1739,7 +1739,7 @@ let frame: CGRect = CGRect(origin: point, size: size) // CGRect stores position 
         ],
         bonusLinks: [
             {
-                label: "Bonus: Basic Data Types in Swift deep dive",
+                label: "Further reading: Basic Data Types in Swift deep dive",
                 text: "Use this extra walkthrough when you want a deeper explanation of Swift's basic data types.",
                 href: "https://lnkd.in/p/gRS5fwTG",
                 buttonText: "Open data types deep dive"
@@ -1982,13 +1982,13 @@ let profileTitle = "Profile: \\(displayName)"     // This expression produces a 
         ],
         bonusLinks: [
             {
-                label: "Bonus: Swift Operators",
+                label: "Further reading: Swift Operators",
                 text: "Use Apple's operator documentation as a reference when you want the complete list of Swift operators and their behavior.",
                 href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/basicoperators/",
                 buttonText: "Open operators guide"
             },
             {
-                label: "Bonus: 40+ Operators in Swift",
+                label: "Further reading: 40+ Operators in Swift",
                 text: "Use this bonus post as a practical overview of many Swift operators beginners will see in real code and interview prep.",
                 href: "https://www.linkedin.com/posts/niko-anderson-36269333b_swift-ios-iosinterviewprep-ugcPost-7449388423536082944-lK-F/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open 40+ operators post"
@@ -2357,13 +2357,13 @@ default:
         ],
         bonusLinks: [
             {
-                label: "Bonus: Swift Control Flow",
+                label: "Further reading: Swift Control Flow",
                 text: "Use Apple's control flow guide as a reference when you want the full details for branches, loops, switch patterns, and early exits.",
                 href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow/",
                 buttonText: "Open control flow guide"
             },
             {
-                label: "Bonus: A Deep Dive into Control Flow in Swift",
+                label: "Further reading: A Deep Dive into Control Flow in Swift",
                 text: "Use this 3-part series and PDF presentation for a deeper beginner-friendly walkthrough of Swift control flow.",
                 href: "https://www.linkedin.com/feed/update/urn:li:activity:7454344057922957312/",
                 buttonText: "Open control flow deep dive"
@@ -2568,7 +2568,7 @@ for name in names {                    // Cleaner than looping over 0..<names.co
         ],
         bonusLinks: [
             {
-                label: "Bonus: Swift Loops Tutorial",
+                label: "Further reading: Swift Loops Tutorial",
                 text: "Use Apple's Control Flow guide as the best reference for Swift loops, ranges, while loops, repeat-while, break, and continue.",
                 href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/controlflow/",
                 buttonText: "Open loops guide"
@@ -2899,13 +2899,13 @@ sendMessage("Hi", to: "Neo")                 // The call reads naturally
         },
         bonusLinks: [
             {
-                label: "Bonus: Swift Functions",
+                label: "Further reading: Swift Functions",
                 text: "Use Apple's Functions chapter when you want the full reference for parameters, return values, argument labels, default values, variadic parameters, inout, and function types.",
                 href: "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/functions/",
                 buttonText: "Open functions guide"
             },
             {
-                label: "Bonus: Swift Function Breakdown",
+                label: "Further reading: Swift Function Breakdown",
                 text: "Use this breakdown as a compact visual reference for reading a Swift function signature and understanding each part.",
                 href: "https://lnkd.in/p/gNtTXAyQ",
                 buttonText: "Open function breakdown"
@@ -3116,7 +3116,7 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
             }
         ],
         interviewCase: {"question": "An API returns [3, 1, 3, 2, 1]. How would you remove duplicates while preserving their first-seen order, and explain the complexity?", "answer": "Use a `Set` to track IDs that have already been seen and an `Array` to store the result in order. Scan the input from left to right and append an ID only when it is inserted into the set for the first time.", "code": "var seen = Set<Int>()\nvar result: [Int] = []\n\nfor id in ids {\n    if seen.insert(id).inserted {\n        result.append(id)\n    }\n}", "explanation": ["For `[3, 1, 3, 2, 1]`, the result is `[3, 1, 2]`.", "Do not use `Array(Set(ids))` because a `Set` does not guarantee the input's original order.", "With expected constant-time set insertion, the algorithm takes **O(n)** expected time and **O(k)** additional space, where **k** is the number of distinct IDs. A generic implementation requires the element type to conform to `Hashable`."]},
-        bonusLinks: [{"label": "Bonus: Apple’s Collections Documentation", "text": "Explore Apple’s reference for collection protocols, arrays, dictionaries, sets, and the operations available on them.", "href": "https://developer.apple.com/documentation/swift/collections", "buttonText": "Open Apple collections docs"}, {"label": "Bonus: Collection Types & Tuples in Swift", "text": "Use this breakdown as a compact visual reference for reading a Swift Collection Types & Tuples  and understanding each part.", "href": "https://lnkd.in/p/g-c4VhHu", "buttonText": "Open Collection Types & Tuples"}],
+        bonusLinks: [{"label": "Further reading: Apple’s Collections Documentation", "text": "Explore Apple’s reference for collection protocols, arrays, dictionaries, sets, and the operations available on them.", "href": "https://developer.apple.com/documentation/swift/collections", "buttonText": "Open Apple collections docs"}, {"label": "Further reading: Collection Types & Tuples in Swift", "text": "Use this breakdown as a compact visual reference for reading a Swift Collection Types & Tuples  and understanding each part.", "href": "https://lnkd.in/p/g-c4VhHu", "buttonText": "Open Collection Types & Tuples"}],
         highlight: "Choose by access pattern: Array for order, Dictionary for lookup, Set for uniqueness. Use safe access, understand value semantics, and make display order explicit."
     },
     {
@@ -3237,13 +3237,13 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         "highlight": "An optional asks two questions: is there a value, and what should happen if there is not? Unwrap to establish presence, validate to establish meaning, and make the missing path intentional. Use ! only when you can prove the value exists at that exact point.",
         "bonusLinks": [
             {
-                "label": "Bonus: Apple’s Optional Documentation",
+                "label": "Further reading: Apple’s Optional Documentation",
                 "text": "Explore the official Optional reference, including its enum cases, safe access patterns, and transformation methods. Revisit each example above and identify the payload type and the behavior for nil.",
                 "href": "https://developer.apple.com/documentation/swift/optional",
                 "buttonText": "Open Apple Optional docs"
             },
             {
-                "label": "Bonus: Optionals in Swift Breakdown",
+                "label": "Further reading: Optionals in Swift Breakdown",
                 "text": "Continue exploring optionals with this Swift breakdown.",
                 "href": "https://lnkd.in/p/dzK_v8AC",
                 "buttonText": "Open Optionals in Swift Breakdown"
@@ -3326,19 +3326,19 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         "highlight": "Choose a struct when you want an independent value. Choose a class when you intentionally need shared object identity. Before copying or changing anything, ask: who should see this change, and who owns this state?",
         "bonusLinks": [
             {
-                "label": "Bonus: Apple’s Structures and Classes Reference",
+                "label": "Further reading: Apple’s Structures and Classes Reference",
                 "text": "Read Apple’s guidance on choosing between structures and classes, and connect the choice to value semantics, identity, and your app’s needs.",
                 "href": "https://developer.apple.com/documentation/swift/choosing-between-structures-and-classes",
                 "buttonText": "Open Apple structures and classes guide"
             },
             {
-                "label": "Bonus: Struct breakdown",
+                "label": "Further reading: Struct breakdown",
                 "text": "Continue with the struct breakdown as a companion to the annotated example above.",
                 "href": "https://www.linkedin.com/posts/activity-7448639049579384832-fN0r?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 "buttonText": "Open Struct breakdown"
             },
             {
-                "label": "Bonus: Class breakdown",
+                "label": "Further reading: Class breakdown",
                 "text": "Continue with the class breakdown as a companion to the shared-reference example above.",
                 "href": "https://www.linkedin.com/posts/activity-7448977379143741440-94_j?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 "buttonText": "Open Class breakdown"
@@ -3456,25 +3456,25 @@ print(uniqueInOrder([7, 7, 7])) // Prints [7]; repeated input keeps a single ID.
         "highlight": "A protocol defines what callers can rely on. A concrete type supplies the data and behavior that fulfill that promise. An extension adds or shares useful implementations. Start with a clear capability, keep its requirements small, and make the implementation easy to find.",
         "bonusLinks": [
             {
-                "label": "Bonus: Apple’s Swift Protocols Reference",
+                "label": "Further reading: Apple’s Swift Protocols Reference",
                 "text": "Read The Swift Programming Language chapter on requirements, conformance, delegation, and protocol extensions.",
                 "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/",
                 "buttonText": "Open Swift protocols reference"
             },
             {
-                "label": "Bonus: Apple’s Swift Extensions Reference",
+                "label": "Further reading: Apple’s Swift Extensions Reference",
                 "text": "Explore what extensions can add, their limitations, and examples of extending existing types.",
                 "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/extensions/",
                 "buttonText": "Open Swift extensions reference"
             },
             {
-                "label": "Bonus: Protocols & POP in Swift Breakdown",
+                "label": "Further reading: Protocols & POP in Swift Breakdown",
                 "text": "Continue with this companion breakdown of protocols and protocol-oriented programming.",
                 "href": "https://lnkd.in/p/g-3DstzH",
                 "buttonText": "Open Protocols & POP breakdown"
             },
             {
-                "label": "Bonus: Extensions in Swift Breakdown",
+                "label": "Further reading: Extensions in Swift Breakdown",
                 "text": "Continue with this companion breakdown of Swift extensions.",
                 "href": "https://lnkd.in/p/gXHN3Ftz",
                 "buttonText": "Open Extensions breakdown"
@@ -3565,7 +3565,7 @@ const toolboxParts = [
         ],
         bonusLinks: [
             {
-                label: "Bonus: iOS Project + Git + GitHub Workflow",
+                label: "Further reading: iOS Project + Git + GitHub Workflow",
                 text: "Use this walkthrough after learning the basic Git commands. It shows how Git fits into a real iOS project workflow with GitHub.",
                 href: "https://www.linkedin.com/posts/activity-7463086735632019456-1dHI?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFVaJzoBP_ftp3NWiAy98T8AbWu3LjPJ5-Q",
                 buttonText: "Open workflow guide"
@@ -4063,7 +4063,7 @@ git push`
         ],
         bonusLinks: [
             {
-                label: "Bonus GitHub Pages Guide",
+                label: "Further reading — GitHub Pages Guide",
                 text: "Use this extra guide if you want a focused GitHub Pages walkthrough after finishing the terminal steps above.",
                 href: "https://lnkd.in/p/gVWsyQuF",
                 buttonText: "Open GitHub Pages guide"
@@ -4499,6 +4499,7 @@ function showSwiftIntroTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
@@ -4512,6 +4513,7 @@ function showCoreSwiftTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     renderCoreSwiftParts();
@@ -4527,6 +4529,7 @@ function showToolboxTrack() {
     }
 
     renderToolboxParts();
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
@@ -4541,6 +4544,7 @@ function showPortfolioTrack() {
     }
 
     renderPortfolioParts();
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
@@ -4558,6 +4562,7 @@ function showSwiftTalkTopics() {
     closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
@@ -4681,6 +4686,7 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
+    closeArchitectureQuiz();
     closePrinciplesQuiz();
     if (!swiftTalksScreen) {
         return;
@@ -4691,6 +4697,7 @@ function closeSwiftTalks(options = {}) {
     closeToolboxQuiz({ keepHash: true });
     closePortfolioQuiz({ keepHash: true });
     swiftTalksScreen.classList.remove("is-open");
+    swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
     swiftTalksScreen.classList.remove("is-viewing-core-swift");
@@ -4700,7 +4707,7 @@ function closeSwiftTalks(options = {}) {
     swiftTalksScreen.setAttribute("aria-hidden", "true");
     document.body.classList.remove("talks-open");
 
-    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift", "#programming-principles", "#programming-principles-quiz"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
+    if (!options.keepHash && (window.location.hash === swiftTalksHash || ["#app-architecture", "#app-architecture-quiz", "#swift-intro", "#ios-dev-toolbox", "#portfolio-website", "#algorithms-in-swift", "#programming-principles", "#programming-principles-quiz"].includes(window.location.hash) || window.location.hash === coreSwiftHash || coreSwiftSectionHashes.includes(window.location.hash) || isSwiftQuizHash() || window.location.hash === coreSwiftQuizHash || window.location.hash === toolboxQuizHash || window.location.hash === portfolioQuizHash)) {
         history.pushState("", document.title, window.location.pathname + window.location.search);
     }
 
@@ -4840,6 +4847,11 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#app-architecture-quiz") {
+        window.location.hash = "app-architecture";
+        return;
+    }
+
     if (event.key === "Escape" && window.location.hash === "#programming-principles-quiz") {
         window.location.hash = "programming-principles";
         return;
@@ -4851,7 +4863,15 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    closeArchitectureQuiz();
     closePrinciplesQuiz();
+    if (["#app-architecture", "#app-architecture-quiz"].includes(window.location.hash)) {
+        closeAlgorithmsQuiz({ keepHash: true });
+        openSwiftTalks();
+        showArchitectureTrack();
+        if (window.location.hash === "#app-architecture-quiz") openArchitectureQuiz();
+        return;
+    }
     if (window.location.hash === "#programming-principles" || window.location.hash === "#programming-principles-quiz") {
         closeAlgorithmsQuiz({ keepHash: true });
         openSwiftTalks();
@@ -5465,7 +5485,7 @@ function createBonusLinkBlock(link) {
     anchor.href = link.href;
     anchor.target = "_blank";
     anchor.rel = "noopener noreferrer";
-    anchor.textContent = link.buttonText || "Open bonus link";
+    anchor.textContent = link.buttonText || "Open further reading";
 
     block.append(label, text, anchor);
 
@@ -5504,7 +5524,7 @@ function buildTrackPost(part, trackTitle, hashtags) {
         .map(example => `Example: ${example.label}\n\n${example.code}`)
         .join("\n\n");
     const bonus = part.bonusLinks ? part.bonusLinks
-        .map(link => `Bonus: ${link.label}
+        .map(link => `${link.label}
 ${link.text}
 ${link.href}`)
         .join("\n\n") + "\n\n" : "";
@@ -5982,4 +6002,53 @@ document.querySelector("#finish-programming-principles-quiz").addEventListener("
 });
 document.querySelector("#reset-programming-principles-quiz").addEventListener("click", () => {
     resetQuiz(document.querySelector("#programming-principles-quiz-form"), principlesQuizQuestions, document.querySelector("#programming-principles-quiz-score"), document.querySelector("#programming-principles-quiz-legend"), document.querySelector("#programming-principles-quiz"));
+});
+
+
+// App Architecture in Swift uses the same lesson renderer and quiz engine as Core Swift.
+function showArchitectureTrack() {
+    showSwiftTalkTopics();
+    swiftTalksScreen.classList.add("is-viewing-app-architecture");
+    architectureParts.forEach((part, index) => {
+        swiftTalkPosts[`app-architecture-part${index + 1}`] = buildTrackPost(part, "App Architecture in Swift", "#Swift #AppArchitecture #LearnSwift");
+    });
+    renderLearningParts(document.querySelector("#app-architecture-accordion"), architectureParts, "app-architecture", "App Architecture in Swift", "#app-architecture");
+}
+
+function openArchitectureQuiz() {
+    const screen = document.querySelector("#app-architecture-quiz");
+    const form = document.querySelector("#app-architecture-quiz-form");
+    if (form.dataset.rendered !== "true") renderQuizQuestions(form, architectureQuizQuestions, "app-architecture-quiz");
+    screen.classList.add("is-open");
+    screen.setAttribute("aria-hidden", "false");
+    document.body.classList.add("quiz-open");
+    document.querySelector("#close-app-architecture-quiz").focus();
+}
+
+function closeArchitectureQuiz() {
+    const screen = document.querySelector("#app-architecture-quiz");
+    if (!screen?.classList.contains("is-open")) return;
+    screen.classList.remove("is-open");
+    screen.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("quiz-open");
+}
+
+document.querySelector("#open-app-architecture-track").addEventListener("click", () => {
+    window.location.hash = "app-architecture";
+});
+document.querySelector(".open-app-architecture-quiz").addEventListener("click", () => {
+    window.location.hash = "app-architecture-quiz";
+});
+document.querySelector("#back-to-app-architecture-topics").addEventListener("click", () => {
+    window.location.hash = "app-architecture";
+    requestAnimationFrame(() => document.querySelector(".open-app-architecture-quiz").focus());
+});
+document.querySelector("#close-app-architecture-quiz").addEventListener("click", () => {
+    window.location.hash = "swift-code";
+});
+document.querySelector("#finish-app-architecture-quiz").addEventListener("click", () => {
+    gradeQuiz(architectureQuizQuestions, "app-architecture-quiz", document.querySelector("#app-architecture-quiz-score"), document.querySelector("#app-architecture-quiz-legend"));
+});
+document.querySelector("#reset-app-architecture-quiz").addEventListener("click", () => {
+    resetQuiz(document.querySelector("#app-architecture-quiz-form"), architectureQuizQuestions, document.querySelector("#app-architecture-quiz-score"), document.querySelector("#app-architecture-quiz-legend"), document.querySelector("#app-architecture-quiz"));
 });

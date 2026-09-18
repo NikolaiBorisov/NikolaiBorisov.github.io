@@ -593,6 +593,7 @@ h2 {
     gap: 16px;
 }
 
+.app-architecture-track,
 .programming-principles-track,
 .core-swift-track,
 .swift-intro-track,
@@ -1073,6 +1074,8 @@ h2 {
     margin-top: 14px;
 }
 
+.app-architecture-track .talk-quiz-button,
+.app-architecture-track .isolid-quiz-link,
 .programming-principles-track .talk-quiz-button,
 .core-swift-track .talk-quiz-button,
 .programming-principles-track .isolid-quiz-link,
@@ -1127,6 +1130,7 @@ h2 {
 }
 
 @media (max-width: 700px) {
+    .app-architecture-track .talk-quiz-cta,
     .programming-principles-track .talk-quiz-cta,
     .core-swift-track .talk-quiz-cta,
     .swift-intro-track .talk-quiz-cta,
@@ -1138,6 +1142,8 @@ h2 {
         flex-direction: column;
     }
 
+    .app-architecture-track .talk-quiz-button,
+    .app-architecture-track .isolid-quiz-link,
     .programming-principles-track .talk-quiz-button,
     .core-swift-track .talk-quiz-button,
     .programming-principles-track .isolid-quiz-link,
@@ -1889,3 +1895,7 @@ h2 {
 .programming-principles-track { display: none; }
 .swift-talks-screen.is-viewing-programming-principles .talks-topic-hub { display: none; }
 .swift-talks-screen.is-viewing-programming-principles .programming-principles-track { display: block; }
+
+/* Architecture shares lesson cards, typography, colors, and responsive controls. */
+.swift-talks-screen.is-viewing-app-architecture .talks-topic-hub { display: none; }
+.swift-talks-screen.is-viewing-app-architecture .app-architecture-track { display: block; }

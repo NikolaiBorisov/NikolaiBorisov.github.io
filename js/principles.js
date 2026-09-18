@@ -35,13 +35,13 @@ const principlesParts = [
         "highlight": "Use SOLID to reduce the cost of change, one useful boundary at a time.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Robert C. Martin — SOLID relevance",
                 "href": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -83,13 +83,13 @@ const principlesParts = [
         "highlight": "Keep things that change together together; separate independent reasons to change.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Robert C. Martin — SRP and the SOLID principles",
                 "href": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -131,13 +131,13 @@ const principlesParts = [
         "highlight": "Extend known variations through a stable boundary.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Robert C. Martin — OCP and the SOLID principles",
                 "href": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -179,13 +179,13 @@ const principlesParts = [
         "highlight": "A replacement must keep the promises its caller relies on.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Liskov and Wing — A behavioral notion of subtyping (original research)",
                 "href": "https://www.cs.cmu.edu/~wing/publications/LiskovWing94.pdf",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -227,13 +227,13 @@ const principlesParts = [
         "highlight": "Give each client the smallest cohesive contract it needs.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Robert C. Martin — ISP and the SOLID principles",
                 "href": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -275,13 +275,13 @@ const principlesParts = [
         "highlight": "Let important rules depend on capabilities, not infrastructure details.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Robert C. Martin — DIP and the SOLID principles",
                 "href": "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -323,7 +323,7 @@ const principlesParts = [
         "highlight": "One business rule should have one authoritative definition.",
         "bonusLinks": [
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -365,13 +365,13 @@ const principlesParts = [
         "highlight": "Make the correct solution easy for the next reader to follow.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Swift API Design Guidelines — clarity over brevity (related guidance)",
                 "href": "https://www.swift.org/documentation/api-design-guidelines/",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -413,13 +413,13 @@ const principlesParts = [
         "highlight": "Build for real needs; keep future choices open through clear code.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Martin Fowler — YAGNI",
                 "href": "https://martinfowler.com/bliki/Yagni.html",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -461,7 +461,7 @@ const principlesParts = [
         "highlight": "Ask a collaborator for what you need without exploring its internals.",
         "bonusLinks": [
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -503,13 +503,13 @@ const principlesParts = [
         "highlight": "Build behavior by combining useful parts.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Swift language guide — protocols and delegation (composition mechanism)",
                 "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/protocols/",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -551,13 +551,13 @@ const principlesParts = [
         "highlight": "Protect valid state behind a clear public interface.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Swift language guide — access control",
                 "href": "https://docs.swift.org/swift-book/documentation/the-swift-programming-language/accesscontrol/",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -599,7 +599,7 @@ const principlesParts = [
         "highlight": "Give each concern a clear place in the system.",
         "bonusLinks": [
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -641,13 +641,13 @@ const principlesParts = [
         "highlight": "Reuse a proven solution when it fits the actual problem.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Apple — Sequence.sorted()",
                 "href": "https://developer.apple.com/documentation/swift/sequence/sorted()",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -689,7 +689,7 @@ const principlesParts = [
         "highlight": "Keep dependencies small, visible, and tied to stable behavior.",
         "bonusLinks": [
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
@@ -731,13 +731,13 @@ const principlesParts = [
         "highlight": "Own a fact once; derive or synchronize its representations deliberately.",
         "bonusLinks": [
             {
-                "label": "Bonus — Further reading",
+                "label": "Further reading",
                 "text": "Apple — Managing model data in your app",
                 "href": "https://developer.apple.com/documentation/swiftui/managing-model-data-in-your-app",
                 "buttonText": "Read the explanation"
             },
             {
-                "label": "Bonus — Explore Programming Principles in iSOLID",
+                "label": "Further reading — Explore Programming Principles in iSOLID",
                 "text": "Continue learning with theory and practical code examples.",
                 "href": "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008",
                 "buttonText": "Explore iSOLID ↗"
