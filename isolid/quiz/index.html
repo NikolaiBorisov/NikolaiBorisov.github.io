@@ -34,8 +34,25 @@
     <p id="status" role="status">Already installed? Tap Open iSOLID to go to the Quiz tab.</p>
     <noscript><p>Choose Open iSOLID if installed, or download it from the App Store.</p></noscript>
   </main>
-  <!-- iOS opens associated installed apps through the HTTPS universal link.
-       Browsers cannot reliably detect installation. Keep the explicit install
-       fallback instead of redirecting installed users to the Store on a timer. -->
+  <script>
+    // Universal links bypass this page when iOS opens the installed app.
+    // Allow time to choose Open iSOLID if a browser keeps the link on the web.
+    const status = document.getElementById('status');
+    let redirect;
+    function cancelRedirect() { window.clearTimeout(redirect); }
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+      status.textContent = 'Opening the App Store shortly. Already installed? Tap Open iSOLID.';
+      redirect = window.setTimeout(() => {
+        if (!document.hidden) window.location.replace('https://apps.apple.com/app/id6752113008');
+      }, 4500);
+    }
+    document.getElementById('open-app').addEventListener('click', () => {
+      cancelRedirect();
+      status.textContent = 'If iSOLID doesn’t open, use Download on the App Store.';
+    });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) cancelRedirect(); });
+    window.addEventListener('pagehide', cancelRedirect);
+  </script>
 </body>
 </html>
