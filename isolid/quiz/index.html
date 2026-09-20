@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-itunes-app" content="app-id=6752113008, app-argument=https://nikolaiborisov.github.io/isolid/quiz/">
+  <meta name="description" content="Challenge yourself with a programming quiz in iSOLID.">
+  <meta name="theme-color" content="#0a1428">
+  <title>Your next challenge · iSOLID</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; padding: 24px;
+      background: radial-gradient(ellipse at top right, #155b66, transparent 65%), #0a1428;
+      color: #f5f8ff; font: 17px/1.6 system-ui, sans-serif; }
+    main { width: min(100%, 480px); padding: 40px 28px; border: 1px solid #ffffff25;
+      border-radius: 28px; background: #101f34; box-shadow: 0 24px 80px #0004; text-align: center; }
+    .brand { color: #79ead4; font-weight: 750; letter-spacing: .12em; }
+    h1 { font-size: clamp(32px, 8vw, 44px); line-height: 1.15; margin: 24px 0; }
+    p { color: #bdcadd; }
+    a { display: block; padding: 14px 20px; border-radius: 14px; text-decoration: none;
+      font-weight: 650; margin-top: 16px; color: #0a1428; background: #79ead4; }
+    .secondary { background: transparent; color: #f5f8ff; border: 1px solid #ffffff50; }
+    a:focus-visible { outline: 3px solid white; outline-offset: 4px; }
+    #status { font-size: 14px; margin-top: 24px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">iSOLID</div>
+    <h1>Your next challenge starts here.</h1>
+    <p>Build your programming knowledge, take a quiz, and share your progress.</p>
+    <a id="open-app" href="isolid://quiz">Open iSOLID</a>
+    <a class="secondary" href="https://apps.apple.com/app/id6752113008">Download on the App Store</a>
+    <p id="status" role="status">Already installed? Tap Open iSOLID to go to the Quiz tab.</p>
+    <noscript><p>Choose Open iSOLID if installed, or download it from the App Store.</p></noscript>
+  </main>
+  <script>
+    // Universal links bypass this page when iOS opens the installed app.
+    // Allow time to choose Open iSOLID if a browser keeps the link on the web.
+    const status = document.getElementById('status');
+    let redirect;
+    function cancelRedirect() { window.clearTimeout(redirect); }
+    if (/iPad|iPhone|iPod/.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)) {
+      status.textContent = 'Opening the App Store shortly. Already installed? Tap Open iSOLID.';
+      redirect = window.setTimeout(() => {
+        if (!document.hidden) window.location.replace('https://apps.apple.com/app/id6752113008');
+      }, 4500);
+    }
+    document.getElementById('open-app').addEventListener('click', () => {
+      cancelRedirect();
+      status.textContent = 'If iSOLID doesn’t open, use Download on the App Store.';
+    });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) cancelRedirect(); });
+    window.addEventListener('pagehide', cancelRedirect);
+  </script>
+</body>
+</html>
