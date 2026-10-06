@@ -54,5 +54,16 @@
     document.addEventListener('visibilitychange', () => { if (document.hidden) cancelRedirect(); });
     window.addEventListener('pagehide', cancelRedirect);
   </script>
+  <script>
+    // Trophy links open the app without selecting the Quiz tab.
+    // Ordinary quiz links retain the existing behavior.
+    if (new URLSearchParams(window.location.search).get('open') === 'app') {
+      document.getElementById('open-app').href = 'isolid://app';
+      document.querySelector('meta[name="apple-itunes-app"]').content =
+        'app-id=6752113008, app-argument=' + window.location.href;
+      document.getElementById('status').textContent =
+        'Already installed? Tap Open iSOLID. Otherwise, download it on the App Store.';
+    }
+  </script>
 </body>
 </html>
