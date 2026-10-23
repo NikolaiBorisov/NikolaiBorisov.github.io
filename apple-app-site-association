@@ -2,10 +2,26 @@
   "applinks": {
     "details": [
       {
-        "appIDs": ["UVY4772NMU.com.mrAnderson.iSOLID.ios"],
+        "appIDs": [
+          "UVY4772NMU.com.mrAnderson.iSOLID.ios"
+        ],
         "components": [
-          { "/": "/isolid/quiz", "comment": "Open the Quiz tab" },
-          { "/": "/isolid/quiz/", "comment": "Canonical GitHub Pages quiz URL" }
+          {
+            "/": "/isolid/quiz",
+            "comment": "Open the Quiz tab"
+          },
+          {
+            "/": "/isolid/quiz/",
+            "comment": "Canonical GitHub Pages quiz URL"
+          },
+          {
+            "/": "/isolid/news",
+            "comment": "Open a Dev News article"
+          },
+          {
+            "/": "/isolid/news/",
+            "comment": "Open a Dev News article"
+          }
         ]
       }
     ]
