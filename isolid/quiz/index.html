@@ -65,5 +65,20 @@
         'Already installed? Tap Open iSOLID. Otherwise, download it on the App Store.';
     }
   </script>
+  <script>
+    // News shares reuse the established universal-link path with an article ID.
+    const newsID = new URLSearchParams(window.location.search).get('news');
+    if (newsID && newsID !== '.' && newsID !== '..' && !newsID.includes('/') &&
+        new TextEncoder().encode(newsID).length <= 1500) {
+      document.getElementById('open-app').href = 'isolid://news?id=' + encodeURIComponent(newsID);
+      document.title = 'Dev News · iSOLID';
+      document.querySelector('h1').textContent = 'Read this article in iSOLID.';
+      document.querySelector('main > p').textContent = 'Developer news, useful tools, and learning resources.';
+      document.querySelector('meta[name="apple-itunes-app"]').content =
+        'app-id=6752113008, app-argument=' + window.location.href;
+      document.getElementById('status').textContent =
+        'Already installed? Tap Open iSOLID to read the article. Otherwise, download it on the App Store.';
+    }
+  </script>
 </body>
 </html>
