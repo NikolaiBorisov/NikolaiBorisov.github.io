@@ -572,6 +572,24 @@ h2 {
     background: var(--surface-strong);
 }
 
+.talks-button.talks-icon-button {
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    padding: 0;
+    flex-shrink: 0;
+}
+
+.talks-icon-button svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .talks-button.primary {
     border-color: rgba(10, 132, 255, 0.44);
     background: var(--accent);

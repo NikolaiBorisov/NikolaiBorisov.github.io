@@ -5939,8 +5939,9 @@ function bindTranslateButton(button) {
         renderLinks();
         const close = document.createElement("button");
         close.type = "button";
-        close.className = "talks-button";
-        close.textContent = "Close";
+        close.className = "talks-button talks-icon-button";
+        close.setAttribute("aria-label", "Close translation dialog");
+        close.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"></path></svg>';
         close.addEventListener("click", () => dialog.close());
         dialog.addEventListener("close", () => {
             dialog.remove();
