@@ -37,7 +37,7 @@
 
 <!-- 🌐 Language Picker -->
 <div class="lang-switch" aria-label="Language selector">
-    <button type="button" class="lang-current" id="lang-current" aria-label="Choose language" aria-expanded="false" aria-controls="lang-options">🇬🇧</button>
+    <button type="button" class="lang-current round-control" id="lang-current" aria-label="Choose language" aria-expanded="false" aria-controls="lang-options">🇬🇧</button>
     <div class="lang-options" id="lang-options" role="menu" aria-label="Language options">
         <button type="button" data-lang="en" class="active" role="menuitemradio" aria-checked="true" aria-label="English">🇬🇧</button>
         <button type="button" data-lang="es" role="menuitemradio" aria-checked="false" aria-label="Spanish">🇪🇸</button>
@@ -47,12 +47,28 @@
 
 <!-- 🎨 Theme Toggle -->
 <div class="theme-switch" aria-label="Theme">
-    <button data-theme="light" aria-label="Light theme">☀️</button>
-    <button data-theme="dark" aria-label="Dark theme">🌙</button>
+    <button type="button" class="round-control" id="theme-toggle" aria-label="Dark theme. Switch to light theme" title="Switch to light theme"><span aria-hidden="true">🌙</span></button>
 </div>
 
 <!-- 👤 Hero -->
-<section class="hero">
+<div class="section-navigation">
+    <button type="button" class="round-control" id="section-menu-toggle" aria-label="Navigation menu" aria-expanded="false" aria-controls="section-menu">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+    </button>
+    <nav id="section-menu" aria-label="Page sections" hidden>
+        <a href="#home" data-i18n="navHome">Home</a>
+        <a href="#about" data-i18n="aboutTitle">About Me</a>
+        <a href="#soft-skills" data-i18n="softSkillsTitle">Soft Skills</a>
+        <a href="#hard-skills" data-i18n="hardSkillsTitle">Hard Skills</a>
+        <a href="#tools" data-i18n="toolsTitle">Tools</a>
+        <a href="#experience" data-i18n="experienceTitle">Experience</a>
+        <a href="#education" data-i18n="educationTitle">Education</a>
+        <a href="#projects" data-i18n="projectsTitle">Projects</a>
+        <a href="#connect" data-i18n="connectTitle">Connect</a>
+    </nav>
+</div>
+
+<section class="hero" id="home">
     <div class="avatar-wrapper">
         <img src="img/me.png" alt="avatar" class="avatar">
         <span class="status-badge" data-i18n="status">Open to work</span>
@@ -1900,17 +1916,28 @@
     <h2 id="experience-title" data-i18n="experienceTitle">Experience</h2>
 
     <div class="card">
-        <strong>iOS Dev (Mid)</strong> @ EduOnline
-        <div class="exp-meta" data-i18n="expEdu">4+ years • 2022 – Present</div>
-    </div>
-
-    <div class="card">
-        <strong>iOS Dev (Mid)</strong> @ iSOLID
+        <div class="experience-heading">
+            <span><strong>iOS Dev (Middle)</strong> @ iSOLID</span>
+            <span class="personal-project-badge" data-i18n="personalProjectBadge">Personal project</span>
+        </div>
         <div class="exp-meta" data-i18n="expIsolid">1+ year • 2025 – Present</div>
     </div>
 
     <div class="card">
-        <strong>iOS Dev (Jun)</strong> @ White & Fluffy
+        <div class="experience-heading">
+            <span><strong>iOS Dev (Middle)</strong> @ STRAYLO</span>
+            <span class="personal-project-badge" data-i18n="personalProjectBadge">Personal project</span>
+        </div>
+        <div class="exp-meta" data-i18n="expStraylo">1+ year • 2025 – Present</div>
+    </div>
+
+    <div class="card">
+        <strong>iOS Dev (Middle)</strong> @ EduOnline
+        <div class="exp-meta" data-i18n="expEdu">4+ years • 2022 – Present</div>
+    </div>
+
+    <div class="card">
+        <strong>iOS Dev (Junior)</strong> @ White & Fluffy
         <div class="exp-meta" data-i18n="expWf">4 months • 2021</div>
     </div>
 
@@ -1953,53 +1980,77 @@
 <!-- 📁 Projects -->
 <section id="projects" class="section">
     <h2 id="projects-title" data-i18n="projectsTitle">Projects</h2>
-    <div class="projects-grid">
-        <a class="project-card" href="https://apps.apple.com/th/app/straylo-helping-dogs-cats/id6789006676" target="_blank" rel="noopener noreferrer">
-            <span class="project-title">🐾 STRAYLO</span>
-            <small data-i18n="projectStrayloDescription">Report • Rescue • Reunite</small>
-            <small>Swift • SwiftUI • MVVM • Firebase • Firestore • Cloud Functions • MapKit • CoreLocation • StoreKit • SpriteKit</small>
-        </a>
+    <section class="project-group" aria-labelledby="apple-projects-title">
+        <h3 id="apple-projects-title">iOS, iPadOS, macOS</h3>
+        <div class="projects-grid">
+            <a class="project-card" href="https://apps.apple.com/th/app/straylo-helping-dogs-cats/id6789006676" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">🐾 STRAYLO</span>
+                <small data-i18n="projectStrayloDescription">Report • Rescue • Reunite</small>
+                <small>Swift • SwiftUI • MVVM • Firebase • Firestore • Cloud Functions • MapKit • CoreLocation • StoreKit • SpriteKit • Tuist</small>
+            </a>
 
-        <a class="project-card" href="https://apps.apple.com/th/app/isolid/id6752113008" target="_blank" rel="noopener noreferrer">
-            <span class="project-title">🎓 iSOLID</span>
-            <small data-i18n="projectIsolidDescription">Learn programming concepts</small>
-            <small>SwiftUI • MVVM • CoreData • SPM</small>
-        </a>
+            <a class="project-card" href="https://apps.apple.com/th/app/isolid/id6752113008" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">🎓 iSOLID</span>
+                <small data-i18n="projectIsolidDescription">Learn programming concepts</small>
+                <small>SwiftUI • MVVM • CoreData • SPM • Firebase • Firestore</small>
+            </a>
+        </div>
+    </section>
 
-        <a class="project-card" href="https://github.com/NikolaiBorisov/SolidDS" target="_blank" rel="noopener noreferrer">
-            <span class="project-title">🎛️ SolidDS</span>
-            <small data-i18n="projectSoliddsDescription">Reusable SwiftUI design system</small>
-            <small>SwiftUI • SPM</small>
-        </a>
+    <section class="project-group" aria-labelledby="swift-packages-title">
+        <h3 id="swift-packages-title">Swift SPM</h3>
+        <div class="projects-grid">
+            <a class="project-card" href="https://github.com/NikolaiBorisov/SolidDS" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">🎛️ SolidDS</span>
+                <small data-i18n="projectSoliddsDescription">Reusable SwiftUI design system</small>
+                <small>SwiftUI • SPM</small>
+            </a>
 
-          <a class="project-card" href="https://github.com/NikolaiBorisov/TextModeration" target="_blank" rel="noopener noreferrer">
-            <span class="project-title">📕 TextModeration</span>
-            <small data-i18n="projectTextModerationDescription">Native Swift Package for rule-based, on-device moderation of user-generated text</small>
-            <small>Swift • SPM • UGC</small>
-        </a>
+            <a class="project-card" href="https://github.com/NikolaiBorisov/TextModeration" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">📕 TextModeration</span>
+                <small data-i18n="projectTextModerationDescription">Native Swift Package for rule-based, on-device moderation of user-generated text</small>
+                <small>Swift • SPM • UGC</small>
+            </a>
+        </div>
+    </section>
 
-        <a class="project-card" href="https://github.com/NikolaiBorisov/SolidFolio" target="_blank" rel="noopener noreferrer">
-            <span class="project-title">🪪 SolidFolio</span>
-            <small data-i18n="projectSolidfolioDescription">Portfolio website builder</small>
-            <small>HTML • CSS • JavaScript</small>
-        </a>
+    <section class="project-group" aria-labelledby="web-projects-title">
+        <h3 id="web-projects-title">HTML, CSS, JS</h3>
+        <div class="projects-grid">
+            <a class="project-card" href="#swift-code">
+                <span class="project-title swift-code-brand">{ Swift Code }</span>
+                <small data-i18n="projectSwiftCodeDescription">Swift & iOS learning notes for beginners</small>
+                <small>HTML • CSS • JavaScript • Technical Writing</small>
+            </a>
 
-        <a class="project-card" href="#swift-code">
-            <span class="project-title swift-code-brand">{ Swift Code }</span>
-            <small data-i18n="projectSwiftCodeDescription">Swift & iOS learning notes for beginners</small>
-            <small>HTML • CSS • JavaScript • Technical Writing</small>
-        </a>
+            <a class="project-card" href="https://github.com/NikolaiBorisov/SolidFolio" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">🪪 SolidFolio</span>
+                <small data-i18n="projectSolidfolioDescription">Portfolio website builder</small>
+                <small>HTML • CSS • JavaScript</small>
+            </a>
 
-        <a class="project-card">
-            <span class="project-title" data-i18n="privateAppsTitle">3 Private Apps by request*</span>
-            <small data-i18n="privateAppsDescription">Educational & Corporate Apps</small>
-            <small>SwiftUI • UIKit</small>
-        </a>
-    </div>
+            <a class="project-card" href="https://newlanguage-school.github.io/" target="_blank" rel="noopener noreferrer">
+                <span class="project-title">🌐 New Language School</span>
+                <small data-i18n="projectNlsDescription">Language school website</small>
+                <small>HTML • CSS • JavaScript</small>
+            </a>
+        </div>
+    </section>
+
+    <section class="project-group" aria-labelledby="other-projects-title">
+        <h3 id="other-projects-title" data-i18n="projectsOtherTitle">Other</h3>
+        <div class="projects-grid">
+            <a class="project-card">
+                <span class="project-title" data-i18n="privateAppsTitle">3 Private Apps by request*</span>
+                <small data-i18n="privateAppsDescription">Educational & Corporate Apps</small>
+                <small>SwiftUI • UIKit</small>
+            </a>
+        </div>
+    </section>
 </section>
 
 <!-- 🌐 Connect-->
-<section class="connect-section">
+<section class="connect-section" id="connect">
     <h2 id="connect-title" data-i18n="connectTitle">Connect</h2>
     <div class="links">
         <a href="mailto:andersonnikko1@gmail.com">Email</a>
@@ -2009,7 +2060,7 @@
 </section>
 
 <!-- 💬 Floating Contact -->
-<a href="mailto:andersonnikko1@gmail.com" class="contact-btn" aria-label="Send email"><span class="contact-icon">✉</span></a>
+<a href="mailto:andersonnikko1@gmail.com" class="contact-btn round-control" aria-label="Send email"><svg class="contact-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 6 9 7 9-7"></path></svg></a>
 
 <script src="js/algorithms.js"></script>
 <script src="js/principles.js"></script>

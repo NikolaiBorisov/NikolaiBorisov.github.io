@@ -1,4 +1,4 @@
-const themeButtons = document.querySelectorAll(".theme-switch button");
+const themeToggle = document.querySelector("#theme-toggle");
 const languageSwitch = document.querySelector(".lang-switch");
 const languageCurrentButton = document.querySelector("#lang-current");
 const languageButtons = document.querySelectorAll(".lang-options button");
@@ -4251,12 +4251,17 @@ const translations = {
         hardPush: "Push Notifications (OneSignal, Firebase)",
         toolsTitle: "Tools",
         experienceTitle: "Experience",
+        navHome: "Home",
+        personalProjectBadge: "Personal project",
         expEdu: "4+ years • 2022 – Present",
         expIsolid: "1+ year • 2025 – Present",
+        expStraylo: "1+ year • 2025 – Present",
         expWf: "4 months • 2021",
         expSimbir: "3 months • 2021",
         educationTitle: "Education",
         projectsTitle: "Projects",
+        projectsOtherTitle: "Other",
+        projectNlsDescription: "Language school website",
         projectIsolidDescription: "Learn programming concepts",
         projectSoliddsDescription: "Reusable SwiftUI design system",
         projectTextModerationDescription: "Native Swift Package for rule-based, on-device moderation of user-generated text",
@@ -4296,12 +4301,17 @@ const translations = {
         hardPush: "Notificaciones push (OneSignal, Firebase)",
         toolsTitle: "Herramientas",
         experienceTitle: "Experiencia",
+        navHome: "Inicio",
+        personalProjectBadge: "Proyecto personal",
         expEdu: "4+ años • 2022 – Presente",
         expIsolid: "1+ año • 2025 – Presente",
+        expStraylo: "1+ año • 2025 – Presente",
         expWf: "4 meses • 2021",
         expSimbir: "3 meses • 2021",
         educationTitle: "Educación",
         projectsTitle: "Proyectos",
+        projectsOtherTitle: "Otros",
+        projectNlsDescription: "Sitio web de una escuela de idiomas",
         projectIsolidDescription: "Aprendizaje de conceptos de programación",
         projectSoliddsDescription: "Sistema de diseño reutilizable en SwiftUI",
         projectTextModerationDescription: "Paquete nativo de Swift para la moderación de texto generado por usuarios, basada en reglas y realizada en el dispositivo",
@@ -4341,12 +4351,17 @@ const translations = {
         hardPush: "Push Notifications (OneSignal, Firebase)",
         toolsTitle: "เครื่องมือ",
         experienceTitle: "ประสบการณ์",
+        navHome: "หน้าแรก",
+        personalProjectBadge: "โปรเจกต์ส่วนตัว",
         expEdu: "มากกว่า 4 ปี • 2022 – ปัจจุบัน",
         expIsolid: "มากกว่า 1 ปี • 2025 – ปัจจุบัน",
+        expStraylo: "มากกว่า 1 ปี • 2025 – ปัจจุบัน",
         expWf: "4 เดือน • 2021",
         expSimbir: "3 เดือน • 2021",
         educationTitle: "การศึกษา",
         projectsTitle: "โปรเจกต์",
+        projectsOtherTitle: "อื่น ๆ",
+        projectNlsDescription: "เว็บไซต์โรงเรียนสอนภาษา",
         projectIsolidDescription: "เรียนรู้แนวคิดด้านการเขียนโปรแกรม",
         projectSoliddsDescription: "ระบบดีไซน์ SwiftUI ที่นำกลับมาใช้ซ้ำได้",
         projectTextModerationDescription: "Swift Package แบบเนทีฟสำหรับการตรวจสอบข้อความที่ผู้ใช้สร้างขึ้นตามกฎ โดยประมวลผลบนอุปกรณ์",
@@ -4367,7 +4382,12 @@ function setTheme(theme) {
 
     applyTheme(nextTheme);
     localStorage.setItem("theme", nextTheme);
-    themeButtons.forEach(btn => btn.classList.toggle("active", btn.dataset.theme === nextTheme));
+    const isDark = nextTheme === "dark";
+    themeToggle.querySelector("span").textContent = isDark ? "🌙" : "☀️";
+    themeToggle.setAttribute("aria-label", isDark
+        ? "Dark theme. Switch to light theme"
+        : "Light theme. Switch to dark theme");
+    themeToggle.title = isDark ? "Switch to light theme" : "Switch to dark theme";
 }
 
 function setLanguage(language) {
@@ -4459,10 +4479,8 @@ function setupLikes() {
 
 setupLikes();
 
-themeButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        setTheme(btn.dataset.theme);
-    });
+themeToggle.addEventListener("click", () => {
+    setTheme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
 });
 
 languageButtons.forEach(btn => {
@@ -6052,4 +6070,47 @@ document.querySelector("#finish-app-architecture-quiz").addEventListener("click"
 });
 document.querySelector("#reset-app-architecture-quiz").addEventListener("click", () => {
     resetQuiz(document.querySelector("#app-architecture-quiz-form"), architectureQuizQuestions, document.querySelector("#app-architecture-quiz-score"), document.querySelector("#app-architecture-quiz-legend"), document.querySelector("#app-architecture-quiz"));
+});
+
+
+// Section navigation uses explicit smooth scrolling on desktop and mobile.
+const sectionMenuToggle = document.querySelector("#section-menu-toggle");
+const sectionMenu = document.querySelector("#section-menu");
+
+function closeSectionMenu(restoreFocus = false) {
+    sectionMenu.hidden = true;
+    sectionMenuToggle.setAttribute("aria-expanded", "false");
+    if (restoreFocus) sectionMenuToggle.focus({ preventScroll: true });
+}
+
+sectionMenuToggle.addEventListener("click", () => {
+    const opening = sectionMenu.hidden;
+    sectionMenu.hidden = !opening;
+    sectionMenuToggle.setAttribute("aria-expanded", String(opening));
+    if (opening) closeLanguageMenu();
+});
+
+sectionMenu.addEventListener("click", event => {
+    const link = event.target.closest("a");
+    if (!link) return;
+    const target = document.querySelector(link.getAttribute("href"));
+    if (!target) return;
+    event.preventDefault();
+    closeSectionMenu();
+    target.setAttribute("tabindex", "-1");
+    target.focus({ preventScroll: true });
+    target.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        block: "start"
+    });
+});
+
+document.addEventListener("click", event => {
+    if (!event.target.closest(".section-navigation")) closeSectionMenu();
+});
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !sectionMenu.hidden) closeSectionMenu(true);
+});
+document.addEventListener("focusin", event => {
+    if (!event.target.closest(".section-navigation")) closeSectionMenu();
 });
