@@ -6080,6 +6080,7 @@ const sectionMenu = document.querySelector("#section-menu");
 function closeSectionMenu(restoreFocus = false) {
     sectionMenu.hidden = true;
     sectionMenuToggle.setAttribute("aria-expanded", "false");
+    sectionMenuToggle.setAttribute("aria-label", "Open navigation menu");
     if (restoreFocus) sectionMenuToggle.focus({ preventScroll: true });
 }
 
@@ -6087,6 +6088,7 @@ sectionMenuToggle.addEventListener("click", () => {
     const opening = sectionMenu.hidden;
     sectionMenu.hidden = !opening;
     sectionMenuToggle.setAttribute("aria-expanded", String(opening));
+    sectionMenuToggle.setAttribute("aria-label", opening ? "Close navigation menu" : "Open navigation menu");
     if (opening) closeLanguageMenu();
 });
 

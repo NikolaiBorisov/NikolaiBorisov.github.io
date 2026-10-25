@@ -358,6 +358,10 @@ h2 {
 
 .apple {
     margin-left: 6px;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
+    fill: currentColor;
 }
 
 .work-setup {
@@ -2021,5 +2025,28 @@ h2 {
     #home, #about, #soft-skills, #hard-skills, #tools,
     #experience, #education, #projects, #connect {
         scroll-margin-top: calc(max(14px, env(safe-area-inset-top)) + 108px);
+    }
+}
+
+#section-menu-toggle .menu-line {
+    transform-origin: 12px 12px;
+    transition: transform 200ms ease, opacity 150ms ease;
+}
+
+#section-menu-toggle[aria-expanded="true"] .menu-line-top {
+    transform: rotate(45deg) translateY(6px);
+}
+
+#section-menu-toggle[aria-expanded="true"] .menu-line-middle {
+    opacity: 0;
+}
+
+#section-menu-toggle[aria-expanded="true"] .menu-line-bottom {
+    transform: rotate(-45deg) translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #section-menu-toggle .menu-line {
+        transition: none;
     }
 }
