@@ -2078,3 +2078,52 @@ body.project-story-open { overflow: hidden; }
 .project-story-content h3 { margin: 28px 0 10px; font-size: 19px; }
 .project-story-content p { color: var(--muted); font-size: 17px; line-height: 1.75; overflow-wrap: anywhere; }
 .project-story-content .talks-button { margin-top: 24px; }
+
+.avatar-frame {
+    position: relative;
+    width: clamp(126px, 18vw, 164px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    background: linear-gradient(135deg, #132a47, #302149);
+    box-shadow: var(--shadow);
+}
+.avatar-frame .avatar {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    opacity: 1;
+    transition: opacity 400ms ease;
+}
+.avatar-frame.is-loading .avatar { opacity: 0; }
+.avatar-frame.is-loading::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(110deg, transparent 20%, rgba(94, 166, 255, 0.3) 40%, rgba(196, 159, 255, 0.48) 50%, transparent 80%);
+    transform: translateX(-100%);
+    animation: avatar-shimmer 1.8s ease-in-out infinite;
+}
+:root[data-theme="light"] .avatar-frame {
+    background: linear-gradient(135deg, #dbeaff, #e9dcf8);
+}
+.avatar-frame.has-error .avatar { opacity: 0; }
+.avatar-frame.has-error::after {
+    content: "NA";
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text);
+}
+@keyframes avatar-shimmer {
+    to { transform: translateX(100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+    .avatar-frame.is-loading::before { animation: none; transform: none; }
+    .avatar-frame .avatar { transition: none; }
+}
