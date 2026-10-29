@@ -378,6 +378,8 @@ h2 {
 }
 
 .stat {
+    min-width: 0;
+    padding: 12px 8px;
     min-height: 96px;
     display: grid;
     place-items: center;
@@ -396,12 +398,21 @@ h2 {
 }
 
 .stat-value {
+    font-family: Arial, Helvetica, sans-serif;
+    min-width: 1.5em;
+    text-align: center;
+    overflow: visible;
     font-size: 26px;
-    line-height: 1;
-    font-weight: 750;
+    line-height: 1.2;
+    font-weight: 700;
+    padding-inline: 0.12em;
+    font-variant-numeric: lining-nums tabular-nums;
 }
 
 .stat span {
+    text-align: center;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
     color: var(--quiet);
     font-size: 12px;
     font-weight: 600;
@@ -1449,14 +1460,14 @@ h2 {
 
 @media (max-width: 480px) {
     .experience-heading { grid-template-columns: minmax(0, 1fr); }
-    .experience-heading .personal-project-badge {
+    .experience-heading .experience-badge {
         grid-row: 1;
         justify-self: end;
     }
     .experience-heading .experience-role { grid-row: 2; }
 }
 
-.personal-project-badge {
+.experience-badge {
     flex-shrink: 0;
     margin-left: auto;
     padding: 5px 10px;
@@ -1506,7 +1517,15 @@ h2 {
 }
 
 .education-card {
+    position: relative;
     min-height: 150px;
+}
+
+.education-card > small:last-child {
+    padding-right: 48px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
 }
 
 .project-title {
@@ -2138,3 +2157,51 @@ body.project-story-open { overflow: hidden; }
     .avatar-frame.is-loading::before { animation: none; transform: none; }
     .avatar-frame .avatar { transition: none; }
 }
+
+.employment-badge {
+    border-color: rgba(10, 132, 255, 0.4);
+    background: rgba(10, 132, 255, 0.14);
+    color: #a8d4ff;
+}
+.traineeship-badge {
+    border-color: rgba(48, 190, 176, 0.4);
+    background: rgba(48, 190, 176, 0.14);
+    color: #8de0d5;
+}
+:root[data-theme="light"] .employment-badge { color: #005aab; }
+:root[data-theme="light"] .traineeship-badge { color: #00695f; }
+
+.education-icon-badge {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid;
+    border-radius: 50%;
+}
+.education-icon-school {
+    color: #a8d4ff;
+    background: rgba(10, 132, 255, 0.14);
+    border-color: rgba(10, 132, 255, 0.4);
+}
+.education-icon-university {
+    color: #d8b8ff;
+    background: rgba(164, 92, 255, 0.14);
+    border-color: rgba(164, 92, 255, 0.4);
+}
+.education-icon-bootcamp {
+    color: #8de0d5;
+    background: rgba(48, 190, 176, 0.14);
+    border-color: rgba(48, 190, 176, 0.4);
+}
+:root[data-theme="light"] .education-icon-school { color: #005aab; }
+:root[data-theme="light"] .education-icon-university { color: #7133a6; }
+:root[data-theme="light"] .education-icon-bootcamp { color: #00695f; }
+
+.project-title-with-icon { display: flex; align-items: flex-start; gap: 10px; }
+.project-symbol { flex: 0 0 24px; margin-top: 2px; color: var(--accent); }
+#swift-packages-title + .projects-grid .project-symbol { color: #f05138; }
+:root[data-theme="light"] #swift-packages-title + .projects-grid .project-symbol { color: #bf3823; }
