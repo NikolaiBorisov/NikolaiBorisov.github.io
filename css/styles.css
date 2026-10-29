@@ -1438,11 +1438,22 @@ h2 {
 }
 
 .experience-heading {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
     gap: 10px 16px;
+}
+
+.experience-role { min-width: 0; }
+.experience-company { display: block; margin-top: 4px; }
+
+@media (max-width: 480px) {
+    .experience-heading { grid-template-columns: minmax(0, 1fr); }
+    .experience-heading .personal-project-badge {
+        grid-row: 1;
+        justify-self: end;
+    }
+    .experience-heading .experience-role { grid-row: 2; }
 }
 
 .personal-project-badge {
