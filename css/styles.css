@@ -543,6 +543,10 @@ h2 {
     text-align: center;
 }
 
+.swift-talks-screen:is(.is-viewing-oop, .is-viewing-app-architecture, .is-viewing-programming-principles, .is-viewing-algorithms, .is-viewing-core-swift, .is-viewing-intro, .is-viewing-toolbox, .is-viewing-portfolio) > .swift-talks-content > .talks-header {
+    display: none;
+}
+
 .talks-header {
     display: flex;
     justify-content: center;
