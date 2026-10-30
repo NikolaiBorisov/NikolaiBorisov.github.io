@@ -112,9 +112,6 @@ const oopQuizQuestions = [
     { part: "Core definitions", question: "What is dependency injection?", options: ["A component always constructing all its dependencies internally", "Supplying a component's dependencies from outside, for example through its initializer", "A feature that requires a third-party framework"], answers: [1] },
     { part: "Objects and identity", question: "Two variables refer to the same Pet instance. What is true?", options: ["Changing a var property through one is visible through the other", "Assignment always creates an independent copy", "=== can check whether they refer to the same instance"], answers: [0, 2] },
     { part: "Encapsulation", question: "What does private(set) var completed allow outside the type?", options: ["Reading completed", "Assigning any new value", "Automatically synchronizing concurrent writes"], answers: [0] },
-    { part: "Inheritance", question: "Which statements about the Animal/Dog example are correct?", options: ["Dog can inherit from several classes", "override specializes the superclass method", "Calling sound() on an Animal reference holding a Dog runs the Dog override"], answers: [1, 2] },
-    { part: "Protocols", question: "Why can EmailNotifier and PushNotifier share an interface?", options: ["They both conform to Notifier", "All Swift protocols require class inheritance", "Both implement the required message() method"], answers: [0, 2] },
-    { part: "Composition", question: "Which choices describe initializer injection in LessonSummary?", options: ["The caller passes in the progress collaborator", "The summary must inherit from the progress store", "A test can supply a different conforming implementation"], answers: [0, 2] }
 ];
 
 const oopCard = document.querySelector("#open-app-architecture-track").cloneNode(true);
@@ -163,7 +160,9 @@ function closeOopQuiz() {
 
 function openOopQuiz() {
     const form = document.querySelector("#oop-quiz-form");
-    if (form.dataset.rendered !== "true") renderQuizQuestions(form, oopQuizQuestions, "oop-quiz");
+    if (form.dataset.rendered !== "true") {
+        renderQuizQuestions(form, oopQuizQuestions, "oop-quiz");
+    }
     oopQuiz.classList.add("is-open");
     oopQuiz.setAttribute("aria-hidden", "false");
     document.body.classList.add("quiz-open");
