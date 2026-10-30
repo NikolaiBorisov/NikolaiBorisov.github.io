@@ -1448,26 +1448,26 @@ h2 {
     box-shadow: var(--shadow);
 }
 
-.experience-heading {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: start;
+#experience > .card {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     gap: 10px 16px;
 }
 
-.experience-role { min-width: 0; }
+.experience-heading { display: contents; }
+
+.experience-role { min-width: 0; flex-basis: 100%; }
 .experience-company { display: block; margin-top: 4px; }
 
-@media (max-width: 480px) {
-    .experience-heading { grid-template-columns: minmax(0, 1fr); }
-    .experience-heading .experience-badge {
-        grid-row: 1;
-        justify-self: end;
-    }
-    .experience-heading .experience-role { grid-row: 2; }
+#experience .exp-meta {
+    order: 1;
+    margin-top: 0;
+    flex: 1 1 auto;
 }
 
 .experience-badge {
+    order: 2;
     flex-shrink: 0;
     margin-left: auto;
     padding: 5px 10px;
