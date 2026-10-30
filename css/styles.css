@@ -1146,6 +1146,7 @@ h2 {
 
 .app-architecture-track .talk-quiz-button,
 .oop-track .talk-quiz-button,
+.oop-track .isolid-quiz-link,
 .app-architecture-track .isolid-quiz-link,
 .programming-principles-track .talk-quiz-button,
 .core-swift-track .talk-quiz-button,
@@ -1202,7 +1203,8 @@ h2 {
 
 @media (max-width: 700px) {
     .oop-track .talk-quiz-cta { align-items: stretch; flex-direction: column; }
-    .oop-track .talk-quiz-button { width: 100%; }
+    .oop-track .talk-quiz-button,
+    .oop-track .isolid-quiz-link { width: 100%; }
     .app-architecture-track .talk-quiz-cta,
     .programming-principles-track .talk-quiz-cta,
     .core-swift-track .talk-quiz-cta,

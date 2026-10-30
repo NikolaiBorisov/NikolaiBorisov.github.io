@@ -132,6 +132,11 @@ oopTrack.className = "oop-track";
 oopTrack.innerHTML = `<div class="talks-track-header"><button type="button" class="talks-button talks-icon-button back-to-talk-topics topics-back" aria-label="Back to all topics"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div><h2>OOP in Swift</h2></div></div><div class="talks-accordion" id="oop-accordion"></div><div class="talk-card talk-quiz-cta"><div><span class="talks-kicker">OOP in Swift Quiz</span><p>5 questions to check your understanding. Select every correct answer.</p></div><button type="button" class="talks-button primary open-oop-quiz talk-quiz-button">Quiz</button></div>`;
 document.querySelector("#swift-talks > .swift-talks-content").append(oopTrack);
 oopTrack.querySelector(".talk-quiz-cta p").textContent = `${oopQuizQuestions.length} questions covering core definitions and practical Swift examples. Select every correct answer.`;
+const oopReading = document.createElement("aside");
+oopReading.className = "talk-card isolid-quiz-bonus";
+oopReading.setAttribute("aria-labelledby", "oop-reading-title");
+oopReading.innerHTML = `<div><h3 id="oop-reading-title">Further reading — Object-Oriented Programming (OOP) in Swift breakdown</h3></div><a class="talks-button isolid-quiz-link" href="https://lnkd.in/p/guZD9Htp" target="_blank" rel="noopener noreferrer">Read on LinkedIn ↗</a>`;
+oopTrack.append(oopReading);
 
 const oopQuiz = document.querySelector("#app-architecture-quiz").cloneNode(true);
 oopQuiz.id = "oop-quiz";
