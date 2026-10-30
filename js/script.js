@@ -4231,6 +4231,7 @@ const translations = {
         roleDescription: "Building scalable iOS apps with SwiftUI & UIKit",
         workSetup: "Remote • On-site • Hybrid",
         statYears: "Years of exp.",
+        swiftCodeIntro: "Learn Swift and iOS development through clear explanations, code examples, and quizzes. Explore developer tools, practice problem-solving, and build your own projects—all at your own pace.",
         statProjects: "Projects",
         statApps: "Apps shipped",
         aboutTitle: "About Me",
@@ -4290,6 +4291,7 @@ const translations = {
         roleDescription: "Creo apps iOS escalables con SwiftUI y UIKit",
         workSetup: "Remoto • Presencial • Híbrido",
         statYears: "Años de exp.",
+        swiftCodeIntro: "Aprende Swift y desarrollo iOS con explicaciones claras, ejemplos de código y cuestionarios. Explora herramientas de desarrollo, practica la resolución de problemas y crea tus propios proyectos, a tu ritmo.",
         statProjects: "Proyectos",
         statApps: "Apps publicadas",
         aboutTitle: "Sobre mí",
@@ -4349,6 +4351,7 @@ const translations = {
         roleDescription: "สร้างแอป iOS ที่ขยายระบบได้ด้วย SwiftUI และ UIKit",
         workSetup: "ทำงานทางไกล • ที่ออฟฟิศ • ไฮบริด",
         statYears: "ปีประสบการณ์",
+        swiftCodeIntro: "เรียนรู้ Swift และการพัฒนา iOS ผ่านคำอธิบายที่เข้าใจง่าย ตัวอย่างโค้ด และแบบทดสอบ สำรวจเครื่องมือสำหรับนักพัฒนา ฝึกแก้ปัญหา และสร้างโปรเจกต์ของคุณเองตามจังหวะที่เหมาะกับคุณ",
         statProjects: "โปรเจกต์",
         statApps: "แอปที่เผยแพร่",
         aboutTitle: "เกี่ยวกับฉัน",
@@ -5485,7 +5488,7 @@ function createTalkFooter(talkId, subject) {
     like.innerHTML = '<button type="button" class="like-button" aria-label="Like this post" aria-pressed="false"><svg class="like-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z"></path></svg></button>';
     setupLikeControl(like);
 
-    meta.appendChild(follow);
+    meta.append(like, follow);
 
     const actions = document.createElement("div");
     actions.className = "talks-actions";
@@ -5510,7 +5513,7 @@ function createTalkFooter(talkId, subject) {
     feedback.textContent = "Send feedback";
 
     actions.append(copy, translate, feedback);
-    footer.append(meta, like, actions);
+    footer.append(meta, actions);
 
     return footer;
 }
@@ -6129,6 +6132,12 @@ document.querySelector("#reset-app-architecture-quiz").addEventListener("click",
         window.setTimeout(advance, delay);
     });
 })();
+
+document.querySelectorAll(".talk-footer").forEach(footer => {
+    const meta = footer.querySelector(".talk-footer-meta");
+    const like = footer.querySelector(":scope > .talk-like");
+    if (meta && like) meta.prepend(like);
+});
 
 // Section navigation uses explicit smooth scrolling on desktop and mobile.
 const sectionMenuToggle = document.querySelector("#section-menu-toggle");

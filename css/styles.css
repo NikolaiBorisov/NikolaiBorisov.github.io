@@ -534,6 +534,15 @@ h2 {
     padding: clamp(18px, 4vw, 42px) 0 clamp(42px, 8vw, 86px);
 }
 
+.swift-code-intro {
+    max-width: 640px;
+    margin: 16px auto 0;
+    color: var(--muted);
+    font-size: clamp(15px, 2vw, 18px);
+    line-height: 1.65;
+    text-align: center;
+}
+
 .talks-header {
     display: flex;
     justify-content: center;
@@ -1046,8 +1055,10 @@ h2 {
 
 .talk-footer {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
     gap: 16px;
     margin-top: 26px;
     padding-top: 18px;
@@ -1059,7 +1070,7 @@ h2 {
 
 .talk-footer-meta {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
     gap: 16px;
 }
@@ -1070,6 +1081,18 @@ h2 {
 
 .talk-footer .talks-actions {
     justify-content: flex-end;
+    margin-left: auto;
+}
+
+@media (max-width: 600px) {
+    .talk-footer > .talk-footer-meta,
+    .talk-footer > .talks-actions { width: 100%; }
+    .talk-footer .talks-actions { justify-content: flex-start; }
+    .talk-footer .talks-actions > * {
+        flex: 1 1 auto;
+        min-height: 44px;
+        text-align: center;
+    }
 }
 
 .talk-footer .talks-button.primary {
@@ -1922,6 +1945,7 @@ h2 {
 }
 
 .translation-dialog {
+    position: fixed;
     width: min(520px, calc(100% - 32px));
     max-height: 80dvh;
     margin: auto;
@@ -1933,7 +1957,13 @@ h2 {
     overflow-y: auto;
 }
 .translation-dialog::backdrop { background: rgba(0, 0, 0, 0.65); }
-.translation-dialog h2 { font-size: 26px; }
+.translation-dialog h2 { font-size: 26px; padding-right: 52px; }
+.translation-dialog > .talks-icon-button {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    margin: 0;
+}
 .translation-dialog p { margin: 16px 0; }
 .translation-dialog select { font: inherit; padding: 8px; max-width: 100%; }
 .translation-parts { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
