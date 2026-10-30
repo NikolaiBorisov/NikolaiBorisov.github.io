@@ -639,6 +639,7 @@ h2 {
     gap: 16px;
 }
 
+.oop-track,
 .app-architecture-track,
 .programming-principles-track,
 .core-swift-track,
@@ -1140,6 +1141,7 @@ h2 {
 }
 
 .app-architecture-track .talk-quiz-button,
+.oop-track .talk-quiz-button,
 .app-architecture-track .isolid-quiz-link,
 .programming-principles-track .talk-quiz-button,
 .core-swift-track .talk-quiz-button,
@@ -1195,6 +1197,8 @@ h2 {
 }
 
 @media (max-width: 700px) {
+    .oop-track .talk-quiz-cta { align-items: stretch; flex-direction: column; }
+    .oop-track .talk-quiz-button { width: 100%; }
     .app-architecture-track .talk-quiz-cta,
     .programming-principles-track .talk-quiz-cta,
     .core-swift-track .talk-quiz-cta,
@@ -2039,6 +2043,8 @@ h2 {
 
 /* Architecture shares lesson cards, typography, colors, and responsive controls. */
 .swift-talks-screen.is-viewing-app-architecture .talks-topic-hub { display: none; }
+.swift-talks-screen.is-viewing-oop .talks-topic-hub { display: none; }
+.swift-talks-screen.is-viewing-oop .oop-track { display: block; }
 .swift-talks-screen.is-viewing-app-architecture .app-architecture-track { display: block; }
 
 .section-navigation {

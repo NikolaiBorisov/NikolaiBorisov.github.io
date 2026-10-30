@@ -4547,6 +4547,7 @@ function showSwiftIntroTrack() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-oop");
     swiftTalksScreen.classList.remove("is-viewing-app-architecture");
     swiftTalksScreen.classList.remove("is-viewing-programming-principles");
     swiftTalksScreen.classList.remove("is-viewing-algorithms");
@@ -4606,6 +4607,7 @@ function showSwiftTalkTopics() {
         return;
     }
 
+    swiftTalksScreen.classList.remove("is-viewing-oop");
     closeSwiftQuiz({ keepHash: true });
     closeCoreSwiftQuiz({ keepHash: true });
     closeToolboxQuiz({ keepHash: true });
@@ -4734,6 +4736,11 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
+    closeOopQuiz();
+    swiftTalksScreen?.classList.remove("is-viewing-oop");
+    if (!options.keepHash && ["#oop-in-swift", "#oop-in-swift-quiz"].includes(window.location.hash)) {
+        history.pushState("", document.title, window.location.pathname + window.location.search);
+    }
     closeArchitectureQuiz();
     closePrinciplesQuiz();
     if (!swiftTalksScreen) {
@@ -4895,6 +4902,10 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#oop-in-swift-quiz") {
+        window.location.hash = "oop-in-swift";
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#app-architecture-quiz") {
         window.location.hash = "app-architecture";
         return;
@@ -4911,8 +4922,16 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    closeOopQuiz();
     closeArchitectureQuiz();
     closePrinciplesQuiz();
+    if (["#oop-in-swift", "#oop-in-swift-quiz"].includes(window.location.hash)) {
+        closeAlgorithmsQuiz({ keepHash: true });
+        openSwiftTalks();
+        showOopTrack();
+        if (window.location.hash === "#oop-in-swift-quiz") openOopQuiz();
+        return;
+    }
     if (["#app-architecture", "#app-architecture-quiz"].includes(window.location.hash)) {
         closeAlgorithmsQuiz({ keepHash: true });
         openSwiftTalks();
