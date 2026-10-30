@@ -4230,7 +4230,7 @@ const translations = {
         roleTitle: "iOS Developer",
         roleDescription: "Building scalable iOS apps with SwiftUI & UIKit",
         workSetup: "Remote • On-site • Hybrid",
-        statYears: "Years of experience",
+        statYears: "Years of exp.",
         statProjects: "Projects",
         statApps: "Apps shipped",
         aboutTitle: "About Me",
@@ -4289,7 +4289,7 @@ const translations = {
         roleTitle: "Desarrollador iOS",
         roleDescription: "Creo apps iOS escalables con SwiftUI y UIKit",
         workSetup: "Remoto • Presencial • Híbrido",
-        statYears: "Años de experiencia",
+        statYears: "Años de exp.",
         statProjects: "Proyectos",
         statApps: "Apps publicadas",
         aboutTitle: "Sobre mí",
@@ -4348,7 +4348,7 @@ const translations = {
         roleTitle: "นักพัฒนา iOS",
         roleDescription: "สร้างแอป iOS ที่ขยายระบบได้ด้วย SwiftUI และ UIKit",
         workSetup: "ทำงานทางไกล • ที่ออฟฟิศ • ไฮบริด",
-        statYears: "ปีของประสบการณ์",
+        statYears: "ปีประสบการณ์",
         statProjects: "โปรเจกต์",
         statApps: "แอปที่เผยแพร่",
         aboutTitle: "เกี่ยวกับฉัน",
@@ -6099,6 +6099,36 @@ document.querySelector("#reset-app-architecture-quiz").addEventListener("click",
     resetQuiz(document.querySelector("#app-architecture-quiz-form"), architectureQuizQuestions, document.querySelector("#app-architecture-quiz-score"), document.querySelector("#app-architecture-quiz-legend"), document.querySelector("#app-architecture-quiz"));
 });
 
+
+(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.querySelectorAll(".stats .stat-value").forEach(element => {
+        const total = Number(element.textContent.trim());
+        if (!Number.isInteger(total) || total <= 0) return;
+        let current = 0;
+        element.textContent = "0";
+        const delay = Math.max(30, Math.min(180, 1400 / total));
+        const advance = () => {
+            const previous = document.createElement("div");
+            previous.textContent = String(current);
+            previous.setAttribute("aria-hidden", "true");
+            previous.style.cssText = "position:absolute;inset:0;display:grid;place-items:center;pointer-events:none";
+            current += 1;
+            element.textContent = String(current);
+            const incoming = document.createElement("div");
+            incoming.textContent = String(current);
+            incoming.style.cssText = "position:absolute;inset:0;display:grid;place-items:center;pointer-events:none";
+            element.replaceChildren(previous, incoming);
+            const duration = delay * 0.95;
+            previous.animate([{ opacity: 1 }, { opacity: 0 }], { duration, fill: "forwards", easing: "ease-in-out" });
+            incoming.animate([{ opacity: 0 }, { opacity: 1 }], { duration, fill: "forwards", easing: "ease-in-out" }).finished.then(() => {
+                if (incoming.parentNode === element) element.textContent = String(current);
+            });
+            if (current < total) window.setTimeout(advance, delay);
+        };
+        window.setTimeout(advance, delay);
+    });
+})();
 
 // Section navigation uses explicit smooth scrolling on desktop and mobile.
 const sectionMenuToggle = document.querySelector("#section-menu-toggle");
