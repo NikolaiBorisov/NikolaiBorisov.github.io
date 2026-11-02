@@ -313,6 +313,9 @@ body.quiz-open {
 }
 
 .status-badge {
+    text-decoration: none;
+    min-height: 44px;
+    transition: background 180ms ease, transform 180ms ease;
     display: inline-flex;
     align-items: center;
     gap: 7px;
@@ -326,8 +329,13 @@ body.quiz-open {
     letter-spacing: 0.01em;
 }
 
+.status-badge:hover { background: rgba(48, 209, 88, 0.18); }
+.status-badge:active { transform: scale(0.97); }
+.status-badge:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.cv-download-label { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
 .status-badge::before {
-    content: "";
+    content: none;
     width: 7px;
     height: 7px;
     border-radius: 999px;
@@ -2324,6 +2332,5 @@ body.project-story-open { overflow: hidden; }
 :root[data-theme="light"] .education-icon-bootcamp { color: #00695f; }
 
 .project-title-with-icon { display: flex; align-items: flex-start; gap: 10px; }
-.project-symbol { flex: 0 0 24px; margin-top: 2px; color: var(--accent); }
-#swift-packages-title + .projects-grid .project-symbol { color: #f05138; }
-:root[data-theme="light"] #swift-packages-title + .projects-grid .project-symbol { color: #bf3823; }
+.project-symbol { flex: 0 0 24px; margin-top: 2px; color: #f05138; }
+:root[data-theme="light"] .project-symbol { color: #bf3823; }
