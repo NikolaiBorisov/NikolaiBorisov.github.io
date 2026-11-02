@@ -4606,6 +4606,7 @@ function showPortfolioTrack() {
 }
 
 function showSwiftTalkTopics() {
+    swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!swiftTalksScreen) {
         return;
     }
@@ -4739,6 +4740,9 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
+    closePopQuiz();
+    swiftTalksScreen?.classList.remove("is-viewing-pop");
+    if (!options.keepHash && ["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
     closeOopQuiz();
     swiftTalksScreen?.classList.remove("is-viewing-oop");
     if (!options.keepHash && ["#oop-in-swift", "#oop-in-swift-quiz"].includes(window.location.hash)) {
@@ -4905,6 +4909,10 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#pop-in-swift-quiz") {
+        window.location.hash = "pop-in-swift";
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#oop-in-swift-quiz") {
         window.location.hash = "oop-in-swift";
         return;
@@ -4925,6 +4933,17 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    closePopQuiz();
+    if (["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) {
+        closeOopQuiz();
+        closeArchitectureQuiz();
+        closePrinciplesQuiz();
+        closeAlgorithmsQuiz({ keepHash: true });
+        openSwiftTalks();
+        showPopTrack();
+        if (window.location.hash === "#pop-in-swift-quiz") openPopQuiz();
+        return;
+    }
     closeOopQuiz();
     closeArchitectureQuiz();
     closePrinciplesQuiz();
