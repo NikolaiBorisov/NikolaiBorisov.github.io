@@ -220,8 +220,6 @@ function renderAlgorithms() {
         return node;
     };
     const codeBlock = code => {
-        const pre = element("pre", "", "talk-code-block");
-        const highlighted = element("code", "", "language-swift");
         const annotatedCode = code.split("\n").map(line => {
             if (!line.trim()) return line;
             if (line.includes("//")) {
@@ -235,13 +233,7 @@ function renderAlgorithms() {
             const explanation = explainSwiftLine(line);
             return explanation ? `${line} // ${explanation}` : line;
         }).join("\n");
-        if (typeof highlightSwiftCode === "function") {
-            highlighted.innerHTML = highlightSwiftCode(annotatedCode);
-        } else {
-            highlighted.textContent = annotatedCode;
-        }
-        pre.append(highlighted);
-        return pre;
+        return createCodeExample({ label: "Swift solution", code: annotatedCode });
     };
     const explainSwiftLine = line => {
         const trimmed = line.trim();
@@ -346,7 +338,7 @@ function renderAlgorithms() {
         details.append(element("h3", index === 0 ? "Visual walkthrough: finding the maximum" : "Visual walkthrough"));
         const steps = element("ol", "", "algorithm-steps");
         lesson.steps.forEach(step => steps.append(element("li", step)));
-        details.append(steps, element("h3", "Swift solution"), codeBlock(lesson.code), element("h3", "Complexity explanation"), element("p", lesson.complexity));
+        details.append(steps, codeBlock(lesson.code), element("h3", "Complexity explanation"), element("p", lesson.complexity));
         article.append(trigger, details);
         lessons.append(article);
 

@@ -284,6 +284,28 @@ body.quiz-open {
     text-align: center;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+    .hero > :is(.avatar-wrapper, h1, .role, .work-setup, .stats) {
+        animation: hero-appear 560ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .hero > h1 { animation-delay: 70ms; }
+    .hero > .role { animation-delay: 140ms; }
+    .hero > .work-setup { animation-delay: 210ms; }
+    .hero > .stats { animation-delay: 280ms; }
+}
+
+@keyframes hero-appear {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .avatar-wrapper {
     position: relative;
     display: inline-flex;
@@ -651,6 +673,36 @@ h2 {
     gap: 16px;
 }
 
+/* Reveal the heading first, then flow down through the topic cards. */
+@media (prefers-reduced-motion: no-preference) {
+    .swift-talks-screen.is-open > .swift-talks-content > .talks-header,
+    .swift-talks-screen.is-open .talks-topic-hub > .talk-topic-card {
+        animation: swift-code-reveal 560ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .swift-talks-screen.is-open .talks-topic-hub > .talk-topic-card {
+        animation-delay: 120ms;
+    }
+
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(2) { animation-delay: 165ms; }
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(3) { animation-delay: 210ms; }
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(4) { animation-delay: 255ms; }
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(5) { animation-delay: 300ms; }
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(6) { animation-delay: 345ms; }
+    .swift-talks-screen.is-open .talk-topic-card:nth-child(n + 7) { animation-delay: 390ms; }
+}
+
+@keyframes swift-code-reveal {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .pop-track,
 .oop-track,
 .app-architecture-track,
@@ -954,6 +1006,64 @@ h2 {
     font-size: 0.92em;
 }
 
+.code-example-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+}
+
+.code-example-header > span {
+    flex: 1 1 140px;
+    margin-bottom: 0;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 760;
+}
+
+.code-zoom-controls {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.code-zoom-controls button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--accent);
+    font: 500 24px/1 system-ui, sans-serif;
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.code-zoom-controls button:hover:not(:disabled) {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+}
+
+.code-zoom-controls button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+.code-zoom-controls button:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.code-example {
+    min-width: 0;
+    margin: 26px 0 clamp(24px, 3vw, 32px);
+    padding: 18px 20px;
+    border: 1px solid rgba(10, 132, 255, 0.34);
+    border-radius: var(--radius);
+    background: var(--accent-soft);
+}
+
 .talk-code-block {
     margin: 18px 0 0;
     overflow-x: auto;
@@ -971,7 +1081,7 @@ h2 {
     background: transparent;
     color: #d6deeb;
     font-family: "SF Mono", "Menlo", "Monaco", "Consolas", monospace;
-    font-size: 15px;
+    font-size: var(--code-font-size, 15px);
     line-height: 1.7;
     white-space: pre;
     tab-size: 4;
@@ -980,6 +1090,7 @@ h2 {
 .talk-code-block code span {
     display: inline;
     margin: 0;
+    font: inherit;
 }
 
 .talk-code-block .syntax-keyword {

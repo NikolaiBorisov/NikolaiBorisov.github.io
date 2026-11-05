@@ -5169,6 +5169,54 @@ function renderCoreSwiftParts() {
     renderLearningParts(coreSwiftAccordion, coreSwiftParts, "core-swift", "Core Swift", coreSwiftHash, coreSwiftSectionHashes, 10);
 }
 
+// Shared by lesson examples, interview cases, and algorithm solutions.
+function createCodeExample({ label = "Code example", code: source, language = "swift" }) {
+    const block = document.createElement("div");
+    block.className = "code-example";
+    const title = document.createElement("span");
+    title.textContent = label;
+    const pre = document.createElement("pre");
+    pre.className = "talk-code-block";
+    const code = document.createElement("code");
+    code.className = `language-${language}`;
+    if (language === "swift") {
+        code.innerHTML = highlightSwiftCode(source);
+    } else {
+        code.textContent = source;
+    }
+    pre.appendChild(code);
+    block.append(createCodeExampleHeader(pre, title), pre);
+    return block;
+}
+
+function createCodeExampleHeader(pre, label) {
+    const header = document.createElement("div");
+    header.className = "code-example-header";
+    const controls = document.createElement("div");
+    controls.className = "code-zoom-controls";
+    controls.setAttribute("role", "group");
+    controls.setAttribute("aria-label", "Code font size");
+    let size = 15;
+    const buttons = [-1, 1].map(step => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = step < 0 ? "−" : "+";
+        button.setAttribute("aria-label", step < 0 ? "Decrease code font size" : "Increase code font size");
+        button.title = button.getAttribute("aria-label");
+        button.addEventListener("click", () => {
+            size = Math.max(10, Math.min(24, size + step));
+            pre.style.setProperty("--code-font-size", `${size}px`);
+            buttons[0].disabled = size === 10;
+            buttons[1].disabled = size === 24;
+        });
+        controls.appendChild(button);
+        return button;
+    });
+    if (label) header.appendChild(label);
+    header.appendChild(controls);
+    return header;
+}
+
 function renderLearningParts(accordion, parts, prefix, trackTitle, trackHash, sectionHashes = [], unlockedCount = Infinity) {
     if (!accordion || accordion.dataset.rendered === "true") {
         return;
@@ -5216,22 +5264,7 @@ function renderLearningParts(accordion, parts, prefix, trackTitle, trackHash, se
         });
 
         part.examples.forEach(example => {
-            const block = document.createElement("div");
-            block.className = "talk-highlight talk-highlight-rich";
-            const label = document.createElement("span");
-            label.textContent = example.label;
-            const pre = document.createElement("pre");
-            pre.className = "talk-code-block";
-            const code = document.createElement("code");
-            code.className = `language-${example.language}`;
-            if (example.language === "swift") {
-                code.innerHTML = highlightSwiftCode(example.code);
-            } else {
-                code.textContent = example.code;
-            }
-            pre.appendChild(code);
-            block.append(label, pre);
-            panel.appendChild(block);
+            panel.appendChild(createCodeExample(example));
         });
 
         if (part.sections.length > 0) {
@@ -5266,13 +5299,10 @@ function renderLearningParts(accordion, parts, prefix, trackTitle, trackHash, se
             appendFormattedText(answer, `A: ${part.interviewCase.answer}`);
             interview.append(label, question, answer);
             if (part.interviewCase.code) {
-                const pre = document.createElement("pre");
-                pre.className = "talk-code-block";
-                const code = document.createElement("code");
-                code.className = "language-swift";
-                code.innerHTML = highlightSwiftCode(part.interviewCase.code);
-                pre.appendChild(code);
-                interview.appendChild(pre);
+                interview.appendChild(createCodeExample({
+                    label: "Swift example",
+                    code: part.interviewCase.code
+                }));
             }
             (part.interviewCase.explanation || []).forEach(text => {
                 const paragraph = document.createElement("p");
@@ -5466,18 +5496,7 @@ function renderPortfolioParts() {
         panel.appendChild(grid);
 
         part.examples.forEach(example => {
-            const block = document.createElement("div");
-            block.className = "talk-highlight talk-highlight-rich";
-            const label = document.createElement("span");
-            label.textContent = example.label;
-            const pre = document.createElement("pre");
-            pre.className = "talk-code-block";
-            const code = document.createElement("code");
-            code.className = `language-${example.language}`;
-            code.textContent = example.code;
-            pre.appendChild(code);
-            block.append(label, pre);
-            panel.appendChild(block);
+            panel.appendChild(createCodeExample(example));
         });
 
         const highlight = document.createElement("div");
