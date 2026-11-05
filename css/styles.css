@@ -1066,7 +1066,12 @@ h2 {
 
 .talk-code-block {
     margin: 18px 0 0;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
+    /* Keep mobile text autosizing from overriding each example's zoom level. */
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
     border: 1px solid var(--line);
     border-radius: var(--radius);
     background: #0b0f14;
