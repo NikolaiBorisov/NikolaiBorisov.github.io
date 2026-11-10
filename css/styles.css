@@ -2463,3 +2463,31 @@ body.project-story-open { overflow: hidden; }
 .project-title-with-icon { display: flex; align-items: flex-start; gap: 10px; }
 .project-symbol { flex: 0 0 24px; margin-top: 2px; color: #f05138; }
 :root[data-theme="light"] .project-symbol { color: #bf3823; }
+
+.track-search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+#track-search-input {
+    box-sizing: border-box;
+    width: min(260px, 60vw);
+    min-height: 44px;
+    padding: 0 14px;
+    border: 1px solid currentColor;
+    border-radius: 12px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+}
+
+.talks-topic-hub > .talk-topic-card[hidden] {
+    display: none;
+}
+
+#track-search-status:not(:empty) {
+    margin-top: 12px;
+}

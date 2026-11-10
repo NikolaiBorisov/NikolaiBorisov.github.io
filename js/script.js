@@ -6264,3 +6264,41 @@ document.addEventListener("keydown", event => {
 document.addEventListener("focusin", event => {
     if (!event.target.closest(".section-navigation")) closeSectionMenu();
 });
+
+const trackSearchToggle = document.querySelector("#track-search-toggle");
+const trackSearchInput = document.querySelector("#track-search-input");
+const trackSearchStatus = document.querySelector("#track-search-status");
+
+function filterSwiftTracks() {
+    const terms = trackSearchInput.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    let matches = 0;
+    for (const card of document.querySelectorAll(".talks-topic-hub > .talk-topic-card")) {
+        const copy = card.querySelector(".talk-topic-copy").textContent.toLowerCase();
+        card.hidden = !terms.every(term => copy.includes(term));
+        if (!card.hidden) matches++;
+    }
+    trackSearchStatus.textContent = terms.length && !matches ? "No matching tracks." : "";
+}
+
+function toggleTrackSearch() {
+    const opening = trackSearchInput.hidden;
+    trackSearchInput.hidden = !opening;
+    trackSearchToggle.setAttribute("aria-expanded", String(opening));
+    if (opening) {
+        trackSearchInput.focus();
+    } else {
+        trackSearchInput.value = "";
+        filterSwiftTracks();
+        trackSearchToggle.focus();
+    }
+}
+
+trackSearchToggle.addEventListener("click", toggleTrackSearch);
+trackSearchInput.addEventListener("input", filterSwiftTracks);
+trackSearchInput.closest(".track-search").addEventListener("keydown", event => {
+    if (event.key === "Escape" && !trackSearchInput.hidden) {
+        event.preventDefault();
+        event.stopPropagation();
+        toggleTrackSearch();
+    }
+});
