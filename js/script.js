@@ -4606,6 +4606,8 @@ function showPortfolioTrack() {
 }
 
 function showSwiftTalkTopics() {
+    uikitTrack.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit");
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!swiftTalksScreen) {
         return;
@@ -4740,6 +4742,10 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
+    uikitTrack.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit");
+    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
+    closeUikitQuiz();
     closePopQuiz();
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!options.keepHash && ["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
@@ -4909,6 +4915,10 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#uikit-essentials-quiz") {
+        returnToUikitTopics();
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#pop-in-swift-quiz") {
         window.location.hash = "pop-in-swift";
         return;
@@ -4933,6 +4943,9 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
+    uikitTrack.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit");
+    closeUikitQuiz();
     closePopQuiz();
     if (["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) {
         closeOopQuiz();
@@ -4952,6 +4965,13 @@ function syncSwiftTalksWithHash() {
         openSwiftTalks();
         showOopTrack();
         if (window.location.hash === "#oop-in-swift-quiz") openOopQuiz();
+        return;
+    }
+    if (["#uikit-essentials", "#uikit-essentials-quiz"].includes(window.location.hash)) {
+        closeAlgorithmsQuiz({ keepHash: true });
+        openSwiftTalks();
+        showUikitTrack();
+        if (window.location.hash === "#uikit-essentials-quiz") openUikitQuiz();
         return;
     }
     if (["#app-architecture", "#app-architecture-quiz"].includes(window.location.hash)) {
@@ -5745,10 +5765,12 @@ function highlightSwiftCode(source) {
             return key;
         });
 
-        let highlightedCode = escapeHTML(protectedCode)
-            .replace(/(@[A-Za-z_][A-Za-z0-9_]*)/g, '<span class="syntax-attribute">$1</span>')
-            .replace(keywords, '<span class="syntax-keyword">$1</span>')
-            .replace(types, '<span class="syntax-type">$1</span>');
+        // Highlight source tokens once so generated HTML is never highlighted again.
+        const tokens = new RegExp(`(@[A-Za-z_][A-Za-z0-9_]*)|${keywords.source}|${types.source}`, "g");
+        let highlightedCode = escapeHTML(protectedCode).replace(tokens, (token, attribute, keyword) => {
+            const kind = attribute ? "attribute" : keyword ? "keyword" : "type";
+            return `<span class="syntax-${kind}">${token}</span>`;
+        });
 
         strings.forEach((stringHTML, index) => {
             highlightedCode = highlightedCode.replace(`__SWIFT_STRING_${index}__`, stringHTML);
