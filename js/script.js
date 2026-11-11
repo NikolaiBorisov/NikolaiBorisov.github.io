@@ -4232,7 +4232,7 @@ const translations = {
         roleDescription: "Building scalable iOS apps with SwiftUI & UIKit",
         workSetup: "Remote • On-site • Hybrid",
         statYears: "Years of exp.",
-        swiftCodeIntro: "Learn Swift and iOS development through clear explanations, code examples, and quizzes. Explore developer tools, practice problem-solving, and build your own projects—all at your own pace.",
+        swiftCodeIntro: "Learn Swift and iOS development through clear explanations, code examples, and quizzes. Explore developer tools & practice problem-solving.",
         statProjects: "Projects",
         statApps: "Apps shipped",
         aboutTitle: "About Me",
