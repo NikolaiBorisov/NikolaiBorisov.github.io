@@ -4606,8 +4606,9 @@ function showPortfolioTrack() {
 }
 
 function showSwiftTalkTopics() {
-    uikitTrack.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit");
+    uikit.track.hidden = true;
+    swiftui.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!swiftTalksScreen) {
         return;
@@ -4742,10 +4743,12 @@ function closePortfolioQuiz(options = {}) {
 }
 
 function closeSwiftTalks(options = {}) {
-    uikitTrack.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit");
-    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
-    closeUikitQuiz();
+    uikit.track.hidden = true;
+    swiftui.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
+    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
+    uikit.closeQuiz();
+    swiftui.closeQuiz();
     closePopQuiz();
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!options.keepHash && ["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
@@ -4915,8 +4918,12 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#swiftui-essentials-quiz") {
+        swiftui.returnToTopics();
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#uikit-essentials-quiz") {
-        returnToUikitTopics();
+        uikit.returnToTopics();
         return;
     }
     if (event.key === "Escape" && window.location.hash === "#pop-in-swift-quiz") {
@@ -4943,9 +4950,11 @@ document.addEventListener("keydown", event => {
 });
 
 function syncSwiftTalksWithHash() {
-    uikitTrack.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit");
-    closeUikitQuiz();
+    uikit.track.hidden = true;
+    swiftui.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
+    uikit.closeQuiz();
+    swiftui.closeQuiz();
     closePopQuiz();
     if (["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) {
         closeOopQuiz();
@@ -4967,11 +4976,12 @@ function syncSwiftTalksWithHash() {
         if (window.location.hash === "#oop-in-swift-quiz") openOopQuiz();
         return;
     }
-    if (["#uikit-essentials", "#uikit-essentials-quiz"].includes(window.location.hash)) {
+    if (["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz"].includes(window.location.hash)) {
         closeAlgorithmsQuiz({ keepHash: true });
         openSwiftTalks();
-        showUikitTrack();
-        if (window.location.hash === "#uikit-essentials-quiz") openUikitQuiz();
+        const frameworkTrack = window.location.hash.startsWith("#swiftui-") ? swiftui : uikit;
+        frameworkTrack.showTrack();
+        if (window.location.hash.endsWith("-quiz")) frameworkTrack.openQuiz();
         return;
     }
     if (["#app-architecture", "#app-architecture-quiz"].includes(window.location.hash)) {

@@ -1272,8 +1272,8 @@ h2 {
 .app-architecture-track .talk-quiz-button,
 .oop-track .talk-quiz-button,
 .oop-track .isolid-quiz-link,
-:is(.pop-track, [id="uikit-track"]) .talk-quiz-button,
-:is(.pop-track, [id="uikit-track"]) .isolid-quiz-link,
+:is(.pop-track, [id="uikit-track"], [id="swiftui-track"]) .talk-quiz-button,
+:is(.pop-track, [id="uikit-track"], [id="swiftui-track"]) .isolid-quiz-link,
 .app-architecture-track .isolid-quiz-link,
 .programming-principles-track .talk-quiz-button,
 .core-swift-track .talk-quiz-button,
@@ -2213,17 +2213,17 @@ h2 {
 
 /* Architecture shares lesson cards, typography, colors, and responsive controls. */
 .swift-talks-screen.is-viewing-app-architecture .talks-topic-hub { display: none; }
-.swift-talks-screen.is-viewing-uikit .talks-topic-hub,
-.swift-talks-screen.is-viewing-uikit > .swift-talks-content > .talks-header,
+.swift-talks-screen:is(.is-viewing-uikit, .is-viewing-swiftui) .talks-topic-hub,
+.swift-talks-screen:is(.is-viewing-uikit, .is-viewing-swiftui) > .swift-talks-content > .talks-header,
 .swift-talks-screen.is-viewing-oop .talks-topic-hub { display: none; }
 .swift-talks-screen.is-viewing-oop .oop-track { display: block; }
 .swift-talks-screen.is-viewing-pop .talks-topic-hub,
 .swift-talks-screen.is-viewing-pop > .swift-talks-content > .talks-header { display: none; }
 .swift-talks-screen.is-viewing-pop .pop-track { display: block; }
 @media (max-width: 700px) {
-    :is(.pop-track, [id="uikit-track"]) .talk-quiz-cta { flex-direction: column; align-items: stretch; }
-    :is(.pop-track, [id="uikit-track"]) .talk-quiz-button,
-    :is(.pop-track, [id="uikit-track"]) .isolid-quiz-link { width: 100%; min-width: 0; }
+    :is(.pop-track, [id="uikit-track"], [id="swiftui-track"]) .talk-quiz-cta { flex-direction: column; align-items: stretch; }
+    :is(.pop-track, [id="uikit-track"], [id="swiftui-track"]) .talk-quiz-button,
+    :is(.pop-track, [id="uikit-track"], [id="swiftui-track"]) .isolid-quiz-link { width: 100%; min-width: 0; }
 }
 .swift-talks-screen.is-viewing-app-architecture .app-architecture-track { display: block; }
 

@@ -387,39 +387,6 @@ form.directionalLayoutMargins = .init(top: 8, leading: 8, bottom: 8, trailing: 8
     highlight: "Check that a person can identify, reach, and operate every control as text size, appearance, and window size change."
 }];
 
-const uikitDescription = "Build iOS interfaces with UIKit. Start with views, controls, and Auto Layout, then build navigable screens, reusable lists, and accessible interfaces that respond to changing data.";
-const uikitCard = popCard.cloneNode(true);
-uikitCard.id = "open-uikit-track";
-uikitCard.setAttribute("aria-controls", "uikit-track");
-uikitCard.querySelector(".talks-kicker").textContent = "UI Development Track";
-uikitCard.querySelector(".talk-topic-title").textContent = "UIKit Essentials";
-uikitCard.querySelector(".talk-topic-description").textContent = uikitDescription;
-uikitCard.querySelector(".talk-topic-meta").innerHTML = `<span>${uikitParts.length} topics</span><span>Quiz</span>`;
-popCard.after(uikitCard);
-
-const uikitTrack = document.createElement("div");
-uikitTrack.id = "uikit-track";
-uikitTrack.hidden = true;
-const uikitHeader = popTrack.querySelector(".talks-track-header").cloneNode(true);
-uikitHeader.querySelector("h2").textContent = "UIKit Essentials";
-uikitHeader.querySelector(".topics-back").addEventListener("click", () => { window.location.hash = "swift-code"; });
-const uikitAccordion = document.createElement("div");
-uikitAccordion.id = "uikit-accordion";
-uikitAccordion.className = "talks-accordion";
-uikitTrack.append(uikitHeader, uikitAccordion);
-popTrack.after(uikitTrack);
-uikitCard.addEventListener("click", () => { window.location.hash = "uikit-essentials"; });
-
-function showUikitTrack() {
-    showSwiftTalkTopics();
-    swiftTalksScreen.classList.add("is-viewing-uikit");
-    uikitTrack.hidden = false;
-    uikitParts.forEach((part, index) => {
-        swiftTalkPosts[`uikit-part${index + 1}`] = buildTrackPost(part, "UIKit Essentials", "#Swift #UIKit #LearnSwift");
-    });
-    renderLearningParts(uikitAccordion, uikitParts, "uikit", "UIKit Essentials", "#uikit-essentials");
-}
-
 const uikitQuizQuestions = [
     { question: "In the scene-based app from Part 1, what does the window’s rootViewController provide?", options: ["The entry point for the app process", "The initial screen and its view hierarchy", "A separate scene for every button tap"], answers: [1] },
     { question: "Which control lets someone enter a single-line display name?", options: ["UILabel", "UIImageView", "UITextField"], answers: [2] },
@@ -433,60 +400,8 @@ const uikitQuizQuestions = [
     { question: "Which changes help a profile form adapt to its users?", options: ["Use a preferred text style and enable Dynamic Type adjustments", "Give an icon-only button a VoiceOver label describing its action", "Use semantic foreground and background colors for light and dark appearance"], answers: [0, 1, 2] }
 ].map((question, index) => ({ ...question, part: uikitParts[index].title }));
 
-const uikitQuizCard = popTrack.querySelector(".talk-quiz-cta").cloneNode(true);
-uikitQuizCard.querySelector(".talks-kicker").textContent = "UIKit Essentials Quiz";
-uikitQuizCard.querySelector("p").textContent = `${uikitQuizQuestions.length} questions with instant scoring, correct-answer highlights, and reset.`;
-const uikitQuizButton = uikitQuizCard.querySelector("button");
-uikitQuizButton.classList.remove("open-pop-quiz");
-uikitQuizButton.addEventListener("click", () => { window.location.hash = "uikit-essentials-quiz"; });
-
-const uikitReading = document.querySelector("#isolid-mobile-quiz-title").closest("aside").cloneNode(true);
-const uikitReadingTitle = uikitReading.querySelector("h3");
-uikitReadingTitle.id = "uikit-reading-title";
-uikitReadingTitle.textContent = "Further reading — UIKit framework breakdown in the iSOLID app";
-uikitReading.setAttribute("aria-labelledby", uikitReadingTitle.id);
-uikitReading.querySelector("p").remove();
-const uikitReadingLink = uikitReading.querySelector("a");
-uikitReadingLink.href = "https://apps.apple.com/th/app/isolid-learn-programming/id6752113008";
-uikitReadingLink.setAttribute("aria-label", "Download iSOLID on the App Store (opens in a new tab)");
-uikitTrack.append(uikitQuizCard, uikitReading);
-
-const uikitQuiz = popQuiz.cloneNode(true);
-uikitQuiz.id = "uikit-quiz";
-uikitQuiz.querySelectorAll("[id]").forEach(element => { element.id = element.id.replaceAll("pop", "uikit"); });
-uikitQuiz.querySelectorAll("[aria-label]").forEach(element => {
-    element.setAttribute("aria-label", element.getAttribute("aria-label").replaceAll("POP in Swift", "UIKit Essentials"));
+const uikit = createFrameworkTrack({
+    id: "uikit", framework: "UIKit", title: "UIKit Essentials",
+    description: "Build iOS interfaces with UIKit. Start with views, controls, and Auto Layout, then build navigable screens, reusable lists, and accessible interfaces that respond to changing data.",
+    parts: uikitParts, quizQuestions: uikitQuizQuestions, hashtags: "#Swift #UIKit #LearnSwift", afterCard: popCard
 });
-uikitQuiz.querySelector("h2").textContent = "UIKit Essentials Quiz";
-uikitQuiz.querySelector(".talk-like").dataset.talkId = "uikit-quiz";
-uikitQuiz.querySelector(".swift-quiz-feedback-button").href = "mailto:andersonnikko1@gmail.com?subject=Feedback%20on%20UIKit%20Essentials%20Quiz";
-document.body.append(uikitQuiz);
-
-const uikitQuizForm = uikitQuiz.querySelector("form");
-const uikitScore = uikitQuiz.querySelector(".quiz-score-pill");
-const uikitLegend = uikitQuiz.querySelector(".swift-quiz-legend");
-
-function openUikitQuiz() {
-    if (uikitQuizForm.dataset.rendered !== "true") renderQuizQuestions(uikitQuizForm, uikitQuizQuestions, "uikit-quiz");
-    uikitQuiz.classList.add("is-open");
-    uikitQuiz.setAttribute("aria-hidden", "false");
-    document.body.classList.add("quiz-open");
-    uikitQuiz.querySelector("#close-uikit-quiz").focus();
-}
-
-function closeUikitQuiz() {
-    if (!uikitQuiz.classList.contains("is-open")) return;
-    uikitQuiz.classList.remove("is-open");
-    uikitQuiz.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("quiz-open");
-}
-
-function returnToUikitTopics() {
-    window.location.hash = "uikit-essentials";
-    requestAnimationFrame(() => uikitQuizButton.focus());
-}
-
-uikitQuiz.querySelector("#back-to-uikit-topics").addEventListener("click", returnToUikitTopics);
-uikitQuiz.querySelector("#close-uikit-quiz").addEventListener("click", () => { window.location.hash = "swift-code"; });
-uikitQuiz.querySelector("#finish-uikit-quiz").addEventListener("click", () => gradeQuiz(uikitQuizQuestions, "uikit-quiz", uikitScore, uikitLegend));
-uikitQuiz.querySelector("#reset-uikit-quiz").addEventListener("click", () => resetQuiz(uikitQuizForm, uikitQuizQuestions, uikitScore, uikitLegend, uikitQuiz));
