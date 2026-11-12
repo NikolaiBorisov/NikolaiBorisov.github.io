@@ -1,8 +1,8 @@
-function createFrameworkTrack({ id, framework, title, description, parts, quizQuestions, hashtags, afterCard }) {
+function createFrameworkTrack({ id, framework, title, description, parts, quizQuestions, hashtags, afterCard, category = "UI Development Track" }) {
     const card = popCard.cloneNode(true);
     card.id = `open-${id}-track`;
     card.setAttribute("aria-controls", `${id}-track`);
-    card.querySelector(".talks-kicker").textContent = "UI Development Track";
+    card.querySelector(".talks-kicker").textContent = category;
     card.querySelector(".talk-topic-title").textContent = title;
     card.querySelector(".talk-topic-description").textContent = description;
     card.querySelector(".talk-topic-meta").innerHTML = `<span>${parts.length} topics</span><span>Quiz</span>`;

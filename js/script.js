@@ -4608,7 +4608,8 @@ function showPortfolioTrack() {
 function showSwiftTalkTopics() {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
+    networking.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!swiftTalksScreen) {
         return;
@@ -4745,10 +4746,12 @@ function closePortfolioQuiz(options = {}) {
 function closeSwiftTalks(options = {}) {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
-    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
+    networking.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
+    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
     uikit.closeQuiz();
     swiftui.closeQuiz();
+    networking.closeQuiz();
     closePopQuiz();
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!options.keepHash && ["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
@@ -4918,6 +4921,10 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#networking-essentials-quiz") {
+        networking.returnToTopics();
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#swiftui-essentials-quiz") {
         swiftui.returnToTopics();
         return;
@@ -4952,9 +4959,11 @@ document.addEventListener("keydown", event => {
 function syncSwiftTalksWithHash() {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui");
+    networking.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
     uikit.closeQuiz();
     swiftui.closeQuiz();
+    networking.closeQuiz();
     closePopQuiz();
     if (["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) {
         closeOopQuiz();
@@ -4976,10 +4985,10 @@ function syncSwiftTalksWithHash() {
         if (window.location.hash === "#oop-in-swift-quiz") openOopQuiz();
         return;
     }
-    if (["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz"].includes(window.location.hash)) {
+    if (["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz"].includes(window.location.hash)) {
         closeAlgorithmsQuiz({ keepHash: true });
         openSwiftTalks();
-        const frameworkTrack = window.location.hash.startsWith("#swiftui-") ? swiftui : uikit;
+        const frameworkTrack = ({ uikit, swiftui, networking })[window.location.hash.slice(1).split("-")[0]];
         frameworkTrack.showTrack();
         if (window.location.hash.endsWith("-quiz")) frameworkTrack.openQuiz();
         return;
