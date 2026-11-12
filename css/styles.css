@@ -2361,6 +2361,7 @@ body.project-story-open { overflow: hidden; }
 .project-story-content { width: min(100% - 40px, 760px); margin: 0 auto; padding: max(88px, calc(env(safe-area-inset-top) + 72px)) 0 max(48px, env(safe-area-inset-bottom)); }
 .project-story-content h2 { margin: 0 0 32px; }
 .project-story-content h3 { margin: 28px 0 10px; font-size: 19px; }
+.experience-story-content p a { color: var(--accent); text-decoration: underline; text-underline-offset: 0.15em; }
 .project-story-content p { color: var(--muted); font-size: 17px; line-height: 1.75; overflow-wrap: anywhere; }
 .project-story-content .talks-button { margin-top: 24px; }
 
