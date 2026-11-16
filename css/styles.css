@@ -63,6 +63,10 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", system-ui, sans-serif;
     line-height: 1.55;
     color: var(--text);
+}
+
+body,
+#section-menu {
     background:
         linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px),
@@ -72,7 +76,8 @@ body {
     background-size: 72px 72px, 72px 72px, auto, auto, auto;
 }
 
-:root[data-theme="light"] body {
+:root[data-theme="light"] body,
+:root[data-theme="light"] #section-menu {
     background:
         linear-gradient(rgba(29, 29, 31, 0.035) 1px, transparent 1px),
         linear-gradient(90deg, rgba(29, 29, 31, 0.035) 1px, transparent 1px),
@@ -2245,7 +2250,6 @@ h2 {
     padding: 8px;
     border: 1px solid var(--line);
     border-radius: 20px;
-    background: var(--bg);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
 }
 
