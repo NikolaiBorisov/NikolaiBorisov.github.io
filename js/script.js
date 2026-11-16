@@ -4609,7 +4609,8 @@ function showSwiftTalkTopics() {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
     networking.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
+    persistence.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking", "is-viewing-persistence");
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!swiftTalksScreen) {
         return;
@@ -4747,11 +4748,13 @@ function closeSwiftTalks(options = {}) {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
     networking.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
-    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
+    persistence.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking", "is-viewing-persistence");
+    if (!options.keepHash && ["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz", "#persistence-essentials", "#persistence-essentials-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
     uikit.closeQuiz();
     swiftui.closeQuiz();
     networking.closeQuiz();
+    persistence.closeQuiz();
     closePopQuiz();
     swiftTalksScreen?.classList.remove("is-viewing-pop");
     if (!options.keepHash && ["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) history.pushState("", document.title, window.location.pathname + window.location.search);
@@ -4921,6 +4924,10 @@ document.addEventListener("keydown", event => {
         return;
     }
 
+    if (event.key === "Escape" && window.location.hash === "#persistence-essentials-quiz") {
+        persistence.returnToTopics();
+        return;
+    }
     if (event.key === "Escape" && window.location.hash === "#networking-essentials-quiz") {
         networking.returnToTopics();
         return;
@@ -4960,10 +4967,12 @@ function syncSwiftTalksWithHash() {
     uikit.track.hidden = true;
     swiftui.track.hidden = true;
     networking.track.hidden = true;
-    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking");
+    persistence.track.hidden = true;
+    swiftTalksScreen?.classList.remove("is-viewing-uikit", "is-viewing-swiftui", "is-viewing-networking", "is-viewing-persistence");
     uikit.closeQuiz();
     swiftui.closeQuiz();
     networking.closeQuiz();
+    persistence.closeQuiz();
     closePopQuiz();
     if (["#pop-in-swift", "#pop-in-swift-quiz"].includes(window.location.hash)) {
         closeOopQuiz();
@@ -4985,10 +4994,10 @@ function syncSwiftTalksWithHash() {
         if (window.location.hash === "#oop-in-swift-quiz") openOopQuiz();
         return;
     }
-    if (["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz"].includes(window.location.hash)) {
+    if (["#uikit-essentials", "#uikit-essentials-quiz", "#swiftui-essentials", "#swiftui-essentials-quiz", "#networking-essentials", "#networking-essentials-quiz", "#persistence-essentials", "#persistence-essentials-quiz"].includes(window.location.hash)) {
         closeAlgorithmsQuiz({ keepHash: true });
         openSwiftTalks();
-        const frameworkTrack = ({ uikit, swiftui, networking })[window.location.hash.slice(1).split("-")[0]];
+        const frameworkTrack = ({ uikit, swiftui, networking, persistence })[window.location.hash.slice(1).split("-")[0]];
         frameworkTrack.showTrack();
         if (window.location.hash.endsWith("-quiz")) frameworkTrack.openQuiz();
         return;
