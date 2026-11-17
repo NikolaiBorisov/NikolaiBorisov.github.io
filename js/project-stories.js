@@ -76,22 +76,29 @@ function openProjectStory(card, index, trigger) {
         title.classList.add('swift-code-brand');
     }
     content.append(title);
-    const paragraphs = [...locale.stories[index], card.querySelector('small:last-child').textContent];
-    paragraphs.forEach((text, i) => {
-        const heading = document.createElement('h3');
-        heading.textContent = i === 0 && index < 4 ? locale.introHeading : locale.headings[i];
-        const paragraph = document.createElement('p');
-        paragraph.textContent = text;
-        content.append(heading, paragraph);
-    });
-    if (card.hasAttribute('href')) {
-        const link = document.createElement('a');
-        link.className = 'talks-button primary';
-        link.href = card.getAttribute('href');
-        link.textContent = locale.open;
-        if (card.target) { link.target = card.target; link.rel = 'noopener noreferrer'; }
-        link.addEventListener('click', () => storyDialog.close());
-        content.append(link);
+    if (card.dataset.storyTemplate) {
+        const templateId = card.dataset.storyTemplate;
+        const template = document.getElementById(templateId + "-" + document.documentElement.lang)
+            || document.getElementById(templateId);
+        content.append(template.content.cloneNode(true));
+    } else {
+        const paragraphs = [...locale.stories[index], card.querySelector('small:last-child').textContent];
+        paragraphs.forEach((text, i) => {
+            const heading = document.createElement('h3');
+            heading.textContent = i === 0 && index < 4 ? locale.introHeading : locale.headings[i];
+            const paragraph = document.createElement('p');
+            paragraph.textContent = text;
+            content.append(heading, paragraph);
+        });
+        if (card.hasAttribute('href')) {
+            const link = document.createElement('a');
+            link.className = 'talks-button primary';
+            link.href = card.getAttribute('href');
+            link.textContent = locale.open;
+            if (card.target) { link.target = card.target; link.rel = 'noopener noreferrer'; }
+            link.addEventListener('click', () => storyDialog.close());
+            content.append(link);
+        }
     }
     storyDialog.append(close, content);
     storyDialog.showModal();
@@ -106,7 +113,9 @@ storyDialog.addEventListener('close', () => {
 });
 
 const projectInfoButtons = [];
-document.querySelectorAll('#projects .project-card').forEach((card, index) => {
+let storyIndex = 0;
+document.querySelectorAll('#projects .project-card').forEach(card => {
+    const index = card.dataset.storyTemplate ? null : storyIndex++;
     // Keep the external link and info button as siblings, never nested controls.
     const wrapper = document.createElement('div');
     wrapper.className = 'project-card-container';
