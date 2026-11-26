@@ -1790,6 +1790,13 @@ a.stat { color: inherit; text-decoration: none; }
     color: var(--quiet);
 }
 
+.project-action {
+    margin-top: 12px;
+    color: var(--accent);
+    font-size: 14px;
+    font-weight: 620;
+}
+
 .links a {
     color: var(--accent);
     font-weight: 620;
