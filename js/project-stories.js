@@ -97,7 +97,7 @@ function openProjectStory(card, index, trigger) {
             const link = document.createElement('a');
             link.className = 'talks-button primary';
             link.href = card.getAttribute('href');
-            link.textContent = card.querySelector('.project-action')?.textContent || `${locale.open} ↗`;
+            link.textContent = `${locale.open} ↗`;
             if (card.target) { link.target = card.target; link.rel = 'noopener noreferrer'; }
             link.addEventListener('click', () => storyDialog.close());
             content.append(link);
